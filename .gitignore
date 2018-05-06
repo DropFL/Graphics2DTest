@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
+/out/
 
 # Log file
 *.log
@@ -23,5 +24,5 @@ hs_err_pid*
 
 
 
-# External Libraries
-!src/libs/*
+# Every files in src should be included...
+!/src/**
