@@ -3,20 +3,21 @@ package res;
 import javax.swing.*;
 import java.io.File;
 import java.net.URI;
+import java.net.URL;
 
 public enum ImageResource implements IResource{
 	
 	DROP_IMAGE("DR.jpg");
 	
-	private String path;
+	private URL url;
 	
 	ImageResource (String name) {
-		path = "src/res/images/" + name;
+		url = getClass().getResource("images/" + name);
 	}
 	
 	@Override
 	public File getFile () {
-		return new File(path);
+		return new File(url.getPath());
 	}
 	
 	@Override

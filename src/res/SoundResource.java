@@ -6,21 +6,22 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
+import java.net.URL;
 
 public enum SoundResource implements IResource {
 	
 	THE_GHOST("NIVIRO_The_Ghost.mp3"),
 	LOOP_TEST("Loop_Test.mp3");
 	
-	private String path;
+	private URL url;
 	
 	SoundResource (String name) {
-		path = "src/res/sounds/" + name;
+		url = getClass().getResource("sounds/" + name);
 	}
 	
 	@Override
 	public File getFile () {
-		return new File(path);
+		return new File(url.getPath());
 	}
 	
 	@Override
