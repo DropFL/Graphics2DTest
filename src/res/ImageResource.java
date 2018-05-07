@@ -1,13 +1,11 @@
 package res;
 
 import javax.swing.*;
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
 
 public enum ImageResource {
 	
 	DROP_IMAGE("DR.jpg"),
+	WP_720p("720p_wp.jpg"),
 	WIN_IMAGE("wp.jpg");
 	
 	private ImageIcon imageIcon;
