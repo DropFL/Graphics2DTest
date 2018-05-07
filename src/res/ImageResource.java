@@ -7,7 +7,8 @@ import java.net.URL;
 
 public enum ImageResource {
 	
-	DROP_IMAGE("DR.jpg");
+	DROP_IMAGE("DR.jpg"),
+	WIN_IMAGE("wp.jpg");
 	
 	private ImageIcon imageIcon;
 	

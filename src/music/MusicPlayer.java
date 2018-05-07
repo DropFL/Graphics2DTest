@@ -1,3 +1,5 @@
+package music;
+
 import javazoom.jl.player.Player;
 import res.SoundResource;
 
@@ -18,8 +20,8 @@ public class MusicPlayer extends Thread {
 	}
 	
 	public int getTime () {
-		if(player == null) return 0;
-		else return player.getPosition();
+		if (player != null) return player.getPosition();
+		else return 0;
 	}
 	
 	public void finish () {
@@ -36,7 +38,6 @@ public class MusicPlayer extends Thread {
 				player = resource.getPlayer();
 				player.play();
 			} while (isLoop);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
