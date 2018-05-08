@@ -1,15 +1,14 @@
 package res;
 
 import javax.swing.*;
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
 
 public enum ImageResource {
 	
 	DROP_IMAGE("DR.jpg"),
-	WIN_IMAGE("wp.jpg"),
-	UNIT_IMAGE("TmpUnit.jpg");
+	UNIT_IMAGE("TmpUnit.jpg"),
+	WP_720p("720p_wp.jpg"),
+	WIN_IMAGE("wp.jpg");
+	
 	private ImageIcon imageIcon;
 	
 	ImageResource (String name) {
