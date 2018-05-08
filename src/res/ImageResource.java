@@ -8,8 +8,8 @@ import java.net.URL;
 public enum ImageResource {
 	
 	DROP_IMAGE("DR.jpg"),
-	WIN_IMAGE("wp.jpg");
-	
+	WIN_IMAGE("wp.jpg"),
+	UNIT_IMAGE("TmpUnit.jpg");
 	private ImageIcon imageIcon;
 	
 	ImageResource (String name) {

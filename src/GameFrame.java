@@ -15,7 +15,8 @@ public class GameFrame extends JFrame {
 	private int offset;
 	private int deg;
 	private MusicPlayer musicPlayer;
-	
+	Unit u = new Unit();
+
 	// there will be "Activity", to modularize each screen.
 	// private Activity activity;
 	
@@ -33,7 +34,7 @@ public class GameFrame extends JFrame {
 		
 		offset = deg = 0;
 		musicPlayer.start();
-		
+
 		/*
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		setResizable(false);
@@ -51,6 +52,7 @@ public class GameFrame extends JFrame {
 		screenGraphics = screenImage.getGraphics();
 		screenDraw(screenGraphics);
 		g.drawImage(screenImage, 0, 0, null);
+		g.drawImage(u.unit, u.x, u.y, null);
 	}
 	
 	public void screenDraw (Graphics g) {
