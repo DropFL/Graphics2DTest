@@ -16,7 +16,7 @@ public final class MainActivity extends Activity{
 	
 	public MainActivity () {
 		title = "Main Activity";
-		bgm = new MusicPlayer(SoundResource.THE_FLOOR_IS_LAVA, true);
+		bgm = new MusicPlayer(SoundResource.THE_GHOST, true);
 		image = new BufferedImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		bgImage = ImageResource.WP_720p.getImageIcon().getImage();
 		scale = 1;
@@ -34,13 +34,23 @@ public final class MainActivity extends Activity{
 		Graphics2D g2d = image.createGraphics();
 		
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		
 		g2d.drawImage(bgImage, 0, 0, null);
+		
+		g2d.setStroke(new BasicStroke(4));
+		g2d.drawOval(Main.SCREEN_WIDTH / 2 + 100, Main.SCREEN_HEIGHT / 2 - 50, 100, 100);
+		g2d.drawOval(Main.SCREEN_WIDTH / 2 - 200, Main.SCREEN_HEIGHT / 2 - 50, 100, 100);
+		
+		g2d.setFont(new Font("Arial", Font.PLAIN, 24));
+		g2d.drawString("Progress", Main.SCREEN_WIDTH / 2 - 200, Main.SCREEN_HEIGHT / 2 - 60);
+		g2d.drawString("BPM", Main.SCREEN_WIDTH / 2 + 125, Main.SCREEN_HEIGHT / 2 - 60);
+		
+		g2d.setColor(new Color(255, 255, 255,128));
 		g2d.fillArc(Main.SCREEN_WIDTH / 2 + 100, Main.SCREEN_HEIGHT / 2 - 50, 100, 100,
 				90, deg);
 		g2d.fillArc(Main.SCREEN_WIDTH / 2 - 200, Main.SCREEN_HEIGHT / 2 - 50, 100, 100,
 				90, time * 360 / bgm.getLength());
-		
 		g2d.dispose();
 		
 		g.drawImage(image, (int) (Main.SCREEN_WIDTH * (1 - scale) / 2), (int) (Main.SCREEN_HEIGHT * (1 - scale) / 2),

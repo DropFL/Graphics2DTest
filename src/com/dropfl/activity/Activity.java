@@ -12,7 +12,7 @@ public abstract class Activity {
 	protected BufferedImage image = new BufferedImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 	protected MusicPlayer bgm;
 	
-	public abstract void render (Graphics2D g);
+	public abstract void render (Graphics2D g);		// How about returning Graphics2D or BufferedImage?
 	public abstract void start ();
 	public abstract void close ();
 	

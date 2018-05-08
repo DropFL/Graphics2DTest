@@ -5,6 +5,7 @@ import javax.swing.*;
 public enum ImageResource {
 	
 	DROP_IMAGE("DR.jpg"),
+	UNIT_IMAGE("TmpUnit.jpg"),
 	WP_720p("720p_wp.jpg"),
 	WIN_IMAGE("wp.jpg");
 	
