@@ -3,7 +3,6 @@ package com.rshtiger.platformer;
 import java.awt.*;
 
 public class Entity {
-    //(Top, Left) (Top, Right) (Bottom, Left) (Bottom, Right)
     private int x, y, width, height;
 
 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Map {
     ArrayList<Block> BlList= new ArrayList<Block>();
 
-    Map(){    }
+    Map(){}
 
     public void AddBlock(Block newB) {
         BlList.add(newB);
