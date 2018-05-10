@@ -1,5 +1,5 @@
 //Map Size = 1280 * 720( 0 to 1279, -0 to 719)
-//Make Block : Block(Top, Bottom, Left, Right)
+//Make Block : Block::X::Y::Width::Height
 @MapData
-Block(1260, 1279, 0, 719)
-Block(1250, 1255, 300, 500)
+Block::0::1::1279::1
+Block::300::1250::200::5

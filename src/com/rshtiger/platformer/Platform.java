@@ -1,5 +1,6 @@
 package com.rshtiger.platformer;
 
-public class Platform {
+import java.util.ArrayList;
 
+public class Platform {
 }
