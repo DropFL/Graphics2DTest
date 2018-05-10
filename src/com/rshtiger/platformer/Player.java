@@ -13,7 +13,11 @@ public final class Player {
 	private Image image;
 	private boolean enabled;
 	private Point position; // top-left vertex.
-	
+	private int SquareSize;
+	private boolean jumped;
+	private int speed_x;
+	private int speed_y;
+
 	public Player () {
 		image = ImageResource.UNIT_IMAGE.getImageIcon().getImage();
 		enabled = true;
@@ -29,12 +33,17 @@ public final class Player {
 	public int getPositionX () {
 		return position.x;
 	}
-	public int getPositionY () {
-		return position.y;
-	}
-	public boolean isEnabled () {
-		return enabled;
-	}
+	public int getPositionY () { return position.y; }
+	public void movPositionX(int mx) { position.x += mx; }
+	public void movPositionY(int my) { position.y += my; }
+	public boolean isEnabled () { return enabled; }
+	public void setSpeedX(int newsx) { speed_x = newsx; }
+	public void setSpeedY(int newsy) { speed_y = newsy; }
+	public int getSpeedX() { return speed_x; }
+	public int getSpeedY() { return speed_y; }
+	public int getSqrSize() { return SquareSize; }
+	public void SetUnitJump(boolean tf){ jumped = tf; }
+	public boolean isJumped() { return jumped; }
 	//	public Area getArea () { /* return proper area */ }
 
 //	public void hit () { ...; }
