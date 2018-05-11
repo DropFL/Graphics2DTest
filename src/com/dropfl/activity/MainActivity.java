@@ -16,7 +16,7 @@ public final class MainActivity extends Activity{
 	
 	public MainActivity () {
 		title = "Main Activity";
-		bgm = new MusicPlayer(SoundResource.THE_GHOST, true);
+		bgm = new MusicPlayer(SoundResource.THE_FLOOR_IS_LAVA, true);
 		image = new BufferedImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		bgImage = ImageResource.WP_720p.getImageIcon().getImage();
 		scale = 1;
