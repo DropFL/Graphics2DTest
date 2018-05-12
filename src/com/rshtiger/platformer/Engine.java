@@ -38,8 +38,8 @@ public final class Engine {
 		for (IPlayerInteractive e : entities) {
 			if (e.isTouched(player))
 				e.interact(player);
-			else
-				player.movPositionY(player.getSpeedY() * 2);
+			//else
+				//player.movPositionY(player.getSpeedY() * 2);
 		}
 	}
 
