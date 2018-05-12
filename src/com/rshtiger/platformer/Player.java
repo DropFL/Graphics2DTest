@@ -13,11 +13,11 @@ public final class Player {
 	private Image image;
 	private boolean enabled;
 	private Point position; // top-left vertex.
-	private int SquareSize;
+	private int SquareSize = 100;
 	private boolean jumped;
-	private int speed_x;
-	private int speed_y;
-
+	private int speed_x, save_speed_x;
+	private int speed_y, save_speed_y;
+	private int JmpTime = 0;
 	public Player () {
 		image = ImageResource.UNIT_IMAGE.getImageIcon().getImage();
 		enabled = true;
@@ -30,10 +30,14 @@ public final class Player {
 	public Point getPosition () {
 		return (Point) position.clone();
 	}
-	public int getPositionX () {
+	public int getLeftX () {
 		return position.x;
 	}
-	public int getPositionY () { return position.y; }
+	public int getTopY () { return position.y; }
+	public int getRightX () {
+		return position.x + SquareSize;
+	}
+	public int getBottomY () { return position.y + SquareSize; }
 	public void movPositionX(int mx) { position.x += mx; }
 	public void movPositionY(int my) { position.y += my; }
 	public boolean isEnabled () { return enabled; }
@@ -42,8 +46,10 @@ public final class Player {
 	public int getSpeedX() { return speed_x; }
 	public int getSpeedY() { return speed_y; }
 	public int getSqrSize() { return SquareSize; }
-	public void SetUnitJump(boolean tf){ jumped = tf; }
+	public void SetUnitJump(boolean TrueFalse){ jumped = TrueFalse; }
 	public boolean isJumped() { return jumped; }
+	public int getJmpTime() { return JmpTime; }
+	public void setJmpTime(int newJmpT) { JmpTime = newJmpT; }
 	//	public Area getArea () { /* return proper area */ }
 
 //	public void hit () { ...; }
