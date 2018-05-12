@@ -18,9 +18,15 @@ public final class Player {
 	private int speed_x, save_speed_x;
 	private int speed_y, save_speed_y;
 	private int JmpTime = 0;
+	private int MaxHP = 100;
+	private int NowHP;
+
 	public Player () {
 		image = ImageResource.UNIT_IMAGE.getImageIcon().getImage();
 		enabled = true;
+		setSpeedX(5);
+		setSpeedY(5);
+		NowHP = MaxHP;
 		position = new Point(100, 100);
 	}
 	
@@ -51,7 +57,7 @@ public final class Player {
 	public int getJmpTime() { return JmpTime; }
 	public void setJmpTime(int newJmpT) { JmpTime = newJmpT; }
 	//	public Area getArea () { /* return proper area */ }
-
-//	public void hit () { ...; }
+	public void hit(int Damage) {NowHP -= Damage;}
+	public void heal(int h){NowHP += h;}
 //	etc.
 }
