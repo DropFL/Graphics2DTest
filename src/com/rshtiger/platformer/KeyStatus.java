@@ -75,7 +75,7 @@ public final class KeyStatus {
 				keyRight = isPressed;
 				break;
 			case KeyEvent.VK_SPACE:
-				keyRight = isPressed;
+				keySpace = isPressed;
 				break;
 		}
 	}

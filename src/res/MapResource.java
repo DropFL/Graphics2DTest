@@ -3,46 +3,43 @@ package res;
 import com.rshtiger.platformer.Block;
 import com.rshtiger.platformer.Map;
 
-import javax.swing.*;
 import java.io.*;
 
 public enum MapResource {
-
+	
 	TestMap("TestMap.jmap");
-
-	private Map mapdata;
-
-	MapResource(String name) {
+	
+	private Map mapData;
+	
+	MapResource (String name) {
 		String tmpSplit[];
+		mapData = new Map();
 		try {
-			try{
-				File file = new File("maps/" + name);
-
-				FileReader filereader = new FileReader(file);
-
-				BufferedReader bufReader = new BufferedReader(filereader);
-				String line = "";
-				while((line = bufReader.readLine()) != null){
-					if(line.charAt(0) == '/' || line.charAt(0) == '@') continue;
-					tmpSplit = line.split("::");
-					if(tmpSplit[0] == "Block"){
-						mapdata.AddBlock(new Block(Integer.parseInt(tmpSplit[1]), Integer.parseInt(tmpSplit[2]), Integer.parseInt(tmpSplit[3]), Integer.parseInt(tmpSplit[4])));
-					}
-				}
-
-				bufReader.close();
-			}catch (FileNotFoundException e) {
-				// TODO: handle exception
-			}catch(IOException e){
-				System.out.println(e);
+			File file = new File(getClass().getResource("maps/" + name).toURI());
+			FileReader filereader = new FileReader(file);
+			BufferedReader bufReader = new BufferedReader(filereader);
+			String line;
+			
+			while ((line = bufReader.readLine()) != null) {
+				if (line.charAt(0) == '/' || line.charAt(0) == '@') continue;
+				
+				tmpSplit = line.split("::");
+				if (tmpSplit[0].equals("Block"))
+					mapData.AddBlock( new Block( Integer.parseInt(tmpSplit[1]),
+												 Integer.parseInt(tmpSplit[2]),
+												 Integer.parseInt(tmpSplit[3]),
+												 Integer.parseInt(tmpSplit[4])));
 			}
+			
+			bufReader.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			mapdata = null;
+			mapData = null;
 		}
 	}
 	
-	public Map getMapdata () {
-		return mapdata;
+	public Map getMapData () {
+		return mapData;
 	}
 }

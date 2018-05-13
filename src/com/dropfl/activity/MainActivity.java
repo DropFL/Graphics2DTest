@@ -13,6 +13,7 @@ public final class MainActivity extends Activity{
 	private Image bgImage;
 	private int deg;
 	private float scale;
+	private BufferedImage image;
 	
 	public MainActivity () {
 		title = "Main Activity";
