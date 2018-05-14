@@ -1,46 +1,70 @@
 package com.rshtiger.platformer;
 
+import res.MapResource;
+
+import java.awt.*;
 import java.util.ArrayList;
 
-public final class Engine {
-	Player player;
-	Map map;
-	ArrayList<IPlayerInteractive> entities;
-
-	// whole platformer engine process will be defined here, like:
-
-
-	public void tick () {
-		if (KeyStatus.isKeyUp()){
-		    if(!player.isJumped()){
-		    	player.SetUnitJump(true);
-				player.setJmpTime(1);
-            }
-        }
-        if(player.getJmpTime() > 0 && player.getJmpTime() < 6) {
-			player.movPositionY(-1 *player.getSpeedY());
-			player.setJmpTime(player.getJmpTime() + 1);
-		}
-		else if(player.getJmpTime() >= 6) {
-			player.setJmpTime(0);
-		}
-
-		if (KeyStatus.isKeyDown()) player.setJmpTime(0);
-
-		if (KeyStatus.isKeyLeft()) player.movPositionX(-1 * player.getSpeedX());
-		if (KeyStatus.isKeyRight()) player.movPositionX(player.getSpeedX());
-
-		if (player.isJumped() && player.getJmpTime() == 0) player.movPositionY(player.getSpeedY());
-		//player.setEnabled(true);
-
+public final class Engine extends Thread{
+	
+	private int gravity = 1;
+	private Player player;
+	private Map map;
+	private ArrayList<IPlayerInteractive> entities;
+	
+	public Engine () {
+		map = MapResource.TestMap.getMapData();
 		entities = map.getBlocks();
+		player = new Player();
+		
+		for (IPlayerInteractive entity : map.getBlocks())
+			System.out.println( entity.getPositionX() + ", " +
+								entity.getPositionY());
+	}
+	
+	public void tick () {
+		if (KeyStatus.isKeySpace()) {
+		    if(!player.getJumped()){
+		    	player.setJumped(true);
+		    	player.setSpeedY(-10);
+            }
+        } else if (player.getSpeedY() < 0)
+        	player.setSpeedY(0);
+        
+        if(KeyStatus.isKeyLeft() ^ KeyStatus.isKeyRight())
+        	player.setSpeedX(KeyStatus.isKeyLeft() ? -5 : 5);
+        else
+        	player.setSpeedX(0);
+		
+		player.addPositionX(player.getSpeedX());
+		player.addPositionY(player.getSpeedY());
+		
+		player.addSpeedY(gravity);
 
 		for (IPlayerInteractive e : entities) {
-			if (e.isTouched(player))
+			if (e.isTouched(player)) {
+//				System.out.println("Player is touched to an entity at (" + e.getPositionX() + ", " + e.getPositionY() + ")");
 				e.interact(player);
-			//else
-				//player.movPositionY(player.getSpeedY() * 2);
+			}
 		}
 	}
-
+	
+	public void render (Graphics2D g) {
+		for (IPlayerInteractive entity : entities)
+			g.drawImage(entity.getImage(), entity.getPositionX(), entity.getPositionY(), null);
+		
+		g.drawImage(player.getImage(), player.getLeftX(), player.getTopY(), null);
+	}
+	
+	@Override
+	public void run () {
+		try {
+			while (true) {
+				this.tick();
+				Thread.sleep(16);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -19,7 +19,7 @@ public class GameFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		activity = new MainActivity();
+		activity = new PlatformerActivity();
 		setTitle(activity.getTitle());
 		activity.start();
 		
