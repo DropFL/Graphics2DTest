@@ -1,6 +1,6 @@
 package com.rshtiger.key;
 
-import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -14,16 +14,17 @@ public final class KeyStatus {
 		// none
 	}
 	
-	public static void init (JFrame frame) {
-		
+	public static void init () {
 		if (isInitialized) throw new IllegalStateException("KeyStatus already initialized");
 		
 		isInitialized = true;
 		status = new HashMap<>();
 		for (Key k : Key.values())
 			status.put(k, 0);
-		
-		frame.addKeyListener(new KeyListener() {
+	}
+	
+	public static void register (Component component) {
+		component.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped (KeyEvent e) {
 				//

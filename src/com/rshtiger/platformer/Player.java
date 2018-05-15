@@ -1,6 +1,7 @@
 package com.rshtiger.platformer;
 
 import com.dropfl.Main;
+import com.dropfl.component.IDrawable;
 import res.ImageResource;
 
 import java.awt.*;
@@ -62,12 +63,6 @@ public final class Player implements IDrawable {
 		return enabled;
 	}
 	
-	public void		addPositionX (int deltaX) {
-		position.x += deltaX;
-	}
-	public void		addPositionY (int deltaY) {
-		position.y += deltaY;
-	}
 	public void		setPositionX (int positionX) {
 		position.x = positionX;
 	}
@@ -96,6 +91,12 @@ public final class Player implements IDrawable {
 	public void		addSpeedY (int deltaSpeedY) {
 		speedY += deltaSpeedY;
 		if (speedY > MAX_SPEED_Y) speedY = MAX_SPEED_Y;
+	}
+	public void		addPositionX (int deltaX) {
+		position.x += deltaX;
+	}
+	public void		addPositionY (int deltaY) {
+		position.y += deltaY;
 	}
 	
 	@Override

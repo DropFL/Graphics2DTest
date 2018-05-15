@@ -1,5 +1,6 @@
 package com.rshtiger.platformer;
 
+import com.dropfl.component.IDrawable;
 import com.rshtiger.key.Key;
 import com.rshtiger.key.KeyStatus;
 import res.MapResource;
@@ -7,7 +8,7 @@ import res.MapResource;
 import java.awt.*;
 import java.util.ArrayList;
 
-public final class Engine extends Thread{
+public final class Engine extends Thread implements IDrawable {
 	
 	private int gravity = 1;
 	private Player player;

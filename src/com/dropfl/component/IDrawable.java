@@ -1,4 +1,4 @@
-package com.rshtiger.platformer;
+package com.dropfl.component;
 
 import java.awt.*;
 

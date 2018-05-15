@@ -12,10 +12,13 @@ public class Main {
 	
 	public static void main (String[] args) {
 		
+		// Initialize KeyStatus
+		KeyStatus.init();
+		
 		// Create a JFrame
 		GameFrame frame = new GameFrame();
 		
-		// Link KeyListener to the JFrame object
-		KeyStatus.init(frame);
+		// Link KeyStatus to the JFrame object
+		KeyStatus.register(frame);
 	}
 }
