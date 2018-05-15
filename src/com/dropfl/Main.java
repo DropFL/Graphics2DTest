@@ -1,6 +1,6 @@
 package com.dropfl;
 
-import com.rshtiger.platformer.KeyStatus;
+import com.rshtiger.key.KeyStatus;
 
 public class Main {
 	

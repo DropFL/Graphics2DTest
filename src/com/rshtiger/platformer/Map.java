@@ -3,17 +3,17 @@ package com.rshtiger.platformer;
 import java.util.ArrayList;
 
 public class Map {
-	private ArrayList<IPlayerInteractive> BlList;
+	private ArrayList<IPlayerInteractive> blocks;
 	
 	public Map () {
-		BlList = new ArrayList<IPlayerInteractive>();
+		blocks = new ArrayList<>();
 	}
 	
-	public void AddBlock (Block newB) {
-		BlList.add(newB);
+	public void AddBlock (Block newBlock) {
+		blocks.add(newBlock);
 	}
 	
 	public ArrayList<IPlayerInteractive> getBlocks () {
-		return BlList;
+		return blocks;
 	}
 }

@@ -14,7 +14,6 @@ public class MusicPlayer extends Thread {
 		this.isLoop = isLoop;
 		this.player = null;
 	}
-	
 	public MusicPlayer (SoundResource resource) {
 		this(resource, false);
 	}
@@ -23,11 +22,9 @@ public class MusicPlayer extends Thread {
 		if (player != null) return player.getPosition();
 		else return 0;
 	}
-	
 	public int getLength () {
 		return resource.getLength();
 	}
-	
 	public void finish () {
 		if(isAlive()) {
 			isLoop = false;
@@ -36,6 +33,7 @@ public class MusicPlayer extends Thread {
 		}
 	}
 	
+	@Override
 	public void run () {
 		try {
 			do {

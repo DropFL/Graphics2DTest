@@ -1,5 +1,7 @@
 package com.rshtiger.platformer;
 
+import com.rshtiger.key.Key;
+import com.rshtiger.key.KeyStatus;
 import res.MapResource;
 
 import java.awt.*;
@@ -12,23 +14,30 @@ public final class Engine extends Thread{
 	private Map map;
 	private ArrayList<IPlayerInteractive> entities;
 	
-	public Engine () {
-		map = MapResource.TestMap.getMapData();
+	public Engine (MapResource mapResource) {
+		map = mapResource.getMapData();
 		entities = map.getBlocks();
 		player = new Player();
 	}
 	
-	public void tick () {
-		if (KeyStatus.isKeySpace()) {
+	public Engine () {
+		this(MapResource.TestMap);
+	}
+	
+	public void	tick () {
+		
+		if (KeyStatus.isKeyJustPressed(Key.SPACE)) {
 		    if(!player.getJumped()){
 		    	player.setJumped(true);
-		    	player.setSpeedY(-10);
+		    	player.setSpeedY(-Player.MAX_SPEED_Y);
             }
-        } else if (player.getSpeedY() < 0)
+            
+            KeyStatus.setKeyProcessed(Key.SPACE);
+        } else if (!KeyStatus.isKeyPressed(Key.SPACE) && player.getSpeedY() < 0)
         	player.setSpeedY(0);
         
-        if(KeyStatus.isKeyLeft() ^ KeyStatus.isKeyRight())
-        	player.setSpeedX(KeyStatus.isKeyLeft() ? -5 : 5);
+        if(KeyStatus.isKeyPressed(Key.LEFT) ^ KeyStatus.isKeyPressed(Key.RIGHT))
+        	player.setSpeedX(KeyStatus.isKeyPressed(Key.LEFT) ? -8 : 8);
         else
         	player.setSpeedX(0);
 		
@@ -43,7 +52,7 @@ public final class Engine extends Thread{
 		}
 	}
 	
-	public void render (Graphics2D g) {
+	public void	render (Graphics2D g) {
 		for (IPlayerInteractive entity : entities)
 			entity.render(g);
 		
@@ -51,7 +60,7 @@ public final class Engine extends Thread{
 	}
 	
 	@Override
-	public void run () {
+	public void	run () {
 		try {
 			while (true) {
 				this.tick();

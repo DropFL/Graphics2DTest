@@ -27,7 +27,8 @@ public class GameFrame extends JFrame {
 							// so it must be called AFTER all members are initialized.
 	}
 	
-	public void paint (Graphics g) {
+	@Override
+	public void	paint (Graphics g) {
 		BufferedImage screenImage = (BufferedImage) createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		Graphics2D screenGraphics = (Graphics2D) screenImage.getGraphics();
 		

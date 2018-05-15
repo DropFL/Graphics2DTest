@@ -65,7 +65,6 @@ public class Block implements IPlayerInteractive {
 		}
 		
 	}
-	
 	@Override
 	public boolean isTouched (Player p) {
 		int pivotLeft = (p.getLeftX() > x) ? p.getLeftX() : x,
@@ -76,7 +75,6 @@ public class Block implements IPlayerInteractive {
 		
 		return pivotLeft < pivotRight && pivotTop < pivotBottom;
 	}
-	
 	@Override
 	public void render (Graphics2D g) {
 		g.drawImage(blockImg, x, y, null);
