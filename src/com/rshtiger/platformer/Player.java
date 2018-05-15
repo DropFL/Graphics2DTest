@@ -4,7 +4,7 @@ import res.ImageResource;
 
 import java.awt.*;
 
-public final class Player {
+public final class Player implements IDrawable {
 	
 	private Image image;
 	private boolean enabled;
@@ -24,9 +24,6 @@ public final class Player {
 		position = new Point(100, 100);
 	}
 	
-	public Image getImage () {
-		return image;
-	}
 	public int getSize () {
 		return size;
 	}
@@ -81,10 +78,16 @@ public final class Player {
 		if (speedY > MAX_SPEED_Y) this.speedY = MAX_SPEED_Y;
 		else this.speedY = speedY;
 	}
+	
 	public void setJumped (boolean jumped){
 		this.jumped = jumped;
 	}
-
-//	public void hit () { ...; }
+	
+	@Override
+	public void render (Graphics2D g) {
+		g.drawImage(image, position.x, position.y, null);
+	}
+	
+	//	public void hit () { ...; }
 //	etc.
 }

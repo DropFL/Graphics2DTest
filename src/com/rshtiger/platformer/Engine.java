@@ -16,10 +16,6 @@ public final class Engine extends Thread{
 		map = MapResource.TestMap.getMapData();
 		entities = map.getBlocks();
 		player = new Player();
-		
-		for (IPlayerInteractive entity : map.getBlocks())
-			System.out.println( entity.getPositionX() + ", " +
-								entity.getPositionY());
 	}
 	
 	public void tick () {
@@ -42,18 +38,16 @@ public final class Engine extends Thread{
 		player.addSpeedY(gravity);
 
 		for (IPlayerInteractive e : entities) {
-			if (e.isTouched(player)) {
-//				System.out.println("Player is touched to an entity at (" + e.getPositionX() + ", " + e.getPositionY() + ")");
+			if (e.isTouched(player))
 				e.interact(player);
-			}
 		}
 	}
 	
 	public void render (Graphics2D g) {
 		for (IPlayerInteractive entity : entities)
-			g.drawImage(entity.getImage(), entity.getPositionX(), entity.getPositionY(), null);
+			entity.render(g);
 		
-		g.drawImage(player.getImage(), player.getLeftX(), player.getTopY(), null);
+		player.render(g);
 	}
 	
 	@Override

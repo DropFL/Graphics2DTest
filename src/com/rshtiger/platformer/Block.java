@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 public class Block implements IPlayerInteractive {
 	
 	private int x, y, width, height;
-	private BufferedImage img;
 	private Image blockImg;
 	public Block (int x, int y, int width, int height) {
 		this.x = x;
@@ -79,17 +78,7 @@ public class Block implements IPlayerInteractive {
 	}
 	
 	@Override
-	public Image getImage () {
-		return blockImg;
-	}
-	
-	@Override
-	public int getPositionX () {
-		return x;
-	}
-	
-	@Override
-	public int getPositionY () {
-		return y;
+	public void render (Graphics2D g) {
+		g.drawImage(blockImg, x, y, null);
 	}
 }
