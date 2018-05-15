@@ -14,7 +14,7 @@ public final class Player {
 	private int speedY;
 	private final int size;
 	
-	private static int MAX_SPEED_Y = 10;
+	private static int MAX_SPEED_Y = 20;
 	
 	public Player () {
 		size = 50;
