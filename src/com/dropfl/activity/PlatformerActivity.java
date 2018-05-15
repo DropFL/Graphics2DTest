@@ -1,13 +1,11 @@
 package com.dropfl.activity;
 
-import com.dropfl.Main;
 import com.dropfl.music.MusicPlayer;
 import com.rshtiger.platformer.Engine;
 import res.ImageResource;
 import res.SoundResource;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class PlatformerActivity extends Activity {
 	

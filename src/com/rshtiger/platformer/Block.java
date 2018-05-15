@@ -35,49 +35,50 @@ public class Block implements IPlayerInteractive {
 				p.setPositionY(y + height);
 				p.setSpeedY(0);
 			}
-			
-			System.out.println("X Range");
+
+//			System.out.println("X Range");
 			return;
 		}
 		
 		// If the player is moved only horizontally or vertical area of this block covers the player's one,
-		// it must be top-to-bottom collision.
+		// it must be left-to-right collision.
 		if ((y < p.getTopY() && p.getBottomY() < y + height) || spY == 0) {
 			if (spX > 0) p.setPositionX(x - p.getSize());
 			else p.setPositionX(x + width);
-			
-			System.out.println("Y Range");
+
+//			System.out.println("Y Range");
 			return;
 		}
 		
-		int pivotX = (spX > 0) ? (x - p.getRightX() + spX) : (x + width - p.getLeftX() + spX),
-			pivotY = (spY > 0) ? (y - p.getBottomY() + spY) : (y + height - p.getTopY() + spY);
+		double deltaX = (spX > 0) ? (x - p.getRightX() + spX) : (x + width - p.getLeftX() + spX),
+				deltaY = (spY > 0) ? (y - p.getBottomY() + spY) : (y + height - p.getTopY() + spY);
 		
-		if (pivotY * spX < spY * pivotX) {
+		if (deltaX / spX > deltaY / spY) {
 			// left-to-right collision.
 			if (spX > 0) p.setPositionX(x - p.getSize());
 			else p.setPositionX(x + width);
 		} else {
 			// top-to-bottom collision.
-			p.setSpeedY(0);
-			
 			if (spY > 0) {
 				p.setPositionY(y - p.getSize());
 				p.setJumped(false);
 			}
 			else p.setPositionY(y + height);
+			
+			p.setSpeedY(0);
 		}
 		
 	}
 	
 	@Override
 	public boolean isTouched (Player p) {
-		if ( ( (p.getLeftX() > x && p.getLeftX() < x + width) ||
-			   (p.getRightX() > x && p.getRightX() < x + width) ) &&
-		     ( (p.getTopY() > y && p.getTopY() < y + height) ||
-			   (p.getBottomY() > y && p.getBottomY() < y + height) ) )
-			return true;
-		return false;
+		int pivotLeft = (p.getLeftX() > x) ? p.getLeftX() : x,
+				pivotRight = (p.getRightX() < x + width) ? p.getRightX() : (x + width),
+				pivotTop = (p.getTopY() > y) ? p.getTopY() : y,
+				pivotBottom = (p.getBottomY() < y + height) ? p.getBottomY() : (y + height);
+		
+		
+		return pivotLeft < pivotRight && pivotTop < pivotBottom;
 	}
 	
 	@Override
