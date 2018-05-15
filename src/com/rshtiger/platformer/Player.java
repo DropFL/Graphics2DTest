@@ -17,9 +17,10 @@ public final class Player {
 	private static int MAX_SPEED_Y = 10;
 	
 	public Player () {
-		image = ImageResource.UNIT_IMAGE.getImageIcon().getImage();
+		size = 50;
+		image = ImageResource.UNIT_IMAGE.getImageIcon().getImage().getScaledInstance(size, size, Image.SCALE_FAST);
 		enabled = true;
-		size = image.getWidth(null);
+		//size = image.getWidth(null);
 		position = new Point(100, 100);
 	}
 	

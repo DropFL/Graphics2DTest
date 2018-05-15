@@ -1,5 +1,7 @@
 package com.rshtiger.platformer;
 
+import res.ImageResource;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -7,18 +9,13 @@ public class Block implements IPlayerInteractive {
 	
 	private int x, y, width, height;
 	private BufferedImage img;
-	
+	private Image blockImg;
 	public Block (int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		
-		Graphics2D g = (Graphics2D) img.getGraphics();
-		
-		g.setColor(new Color(92, 64, 51));
-		g.fillRect(0, 0, width, height);
+		blockImg = ImageResource.Block1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
 	}
 	
 	@Override
@@ -83,7 +80,7 @@ public class Block implements IPlayerInteractive {
 	
 	@Override
 	public Image getImage () {
-		return img;
+		return blockImg;
 	}
 	
 	@Override
