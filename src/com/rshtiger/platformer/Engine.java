@@ -54,7 +54,7 @@ public final class Engine extends Thread{
 	
 	public void	render (Graphics2D g) {
 		for (IPlayerInteractive entity : entities)
-			entity.render(g);
+			if(entity.isEnabled()) entity.render(g);
 		
 		player.render(g);
 	}

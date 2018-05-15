@@ -9,11 +9,13 @@ public class Block implements IPlayerInteractive {
 	
 	private int x, y, width, height;
 	private Image blockImg;
+	private boolean enabled;
 	public Block (int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		enabled = true;
 		blockImg = ImageResource.Block1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
 	}
 	
@@ -79,4 +81,6 @@ public class Block implements IPlayerInteractive {
 	public void render (Graphics2D g) {
 		g.drawImage(blockImg, x, y, null);
 	}
+
+	public boolean isEnabled() { return enabled; }
 }
