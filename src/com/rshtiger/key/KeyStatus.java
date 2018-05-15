@@ -33,7 +33,7 @@ public final class KeyStatus {
 			public void keyPressed (KeyEvent e) {
 				Key k = Key.getKey(e.getKeyCode());
 				
-				if(k != null) status.put(k, 2);
+				if(k != null && status.get(k) == 0) status.put(k, 2);
 			}
 			
 			@Override
@@ -46,15 +46,13 @@ public final class KeyStatus {
 	}
 	
 	public static boolean isKeyPressed (Key key) {
-		return status.get(key) > 0;
+		return isInitialized && status.get(key) > 0;
 	}
 	public static boolean isKeyJustPressed (Key key) {
-		return status.get(key) == 2;
+		return isInitialized && status.get(key) == 2;
 	}
 	
 	public static void setKeyProcessed (Key key) {
-		if(status.get(key) == 0)
-			System.out.println("WTF? " + key + "is not even pressed yet...");
-		else status.put(key, 1);
+		if (isInitialized && status.get(key) != 0) status.put(key, 1);
 	}
 }

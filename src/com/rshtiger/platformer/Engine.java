@@ -30,9 +30,9 @@ public final class Engine extends Thread{
 		    if(!player.getJumped()){
 		    	player.setJumped(true);
 		    	player.setSpeedY(-Player.MAX_SPEED_Y);
+				KeyStatus.setKeyProcessed(Key.SPACE);
             }
-            
-            KeyStatus.setKeyProcessed(Key.SPACE);
+            // double jump?
         } else if (!KeyStatus.isKeyPressed(Key.SPACE) && player.getSpeedY() < 0)
         	player.setSpeedY(0);
         
