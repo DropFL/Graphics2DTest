@@ -1,6 +1,6 @@
 package com.rshtiger.key;
 
-import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -14,16 +14,17 @@ public final class KeyStatus {
 		// none
 	}
 	
-	public static void init (JFrame frame) {
-		
+	public static void init () {
 		if (isInitialized) throw new IllegalStateException("KeyStatus already initialized");
 		
 		isInitialized = true;
 		status = new HashMap<>();
 		for (Key k : Key.values())
 			status.put(k, 0);
-		
-		frame.addKeyListener(new KeyListener() {
+	}
+	
+	public static void register (Component component) {
+		component.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped (KeyEvent e) {
 				//
@@ -33,7 +34,7 @@ public final class KeyStatus {
 			public void keyPressed (KeyEvent e) {
 				Key k = Key.getKey(e.getKeyCode());
 				
-				if(k != null) status.put(k, 2);
+				if(k != null && status.get(k) == 0) status.put(k, 2);
 			}
 			
 			@Override
@@ -46,15 +47,13 @@ public final class KeyStatus {
 	}
 	
 	public static boolean isKeyPressed (Key key) {
-		return status.get(key) > 0;
+		return isInitialized && status.get(key) > 0;
 	}
 	public static boolean isKeyJustPressed (Key key) {
-		return status.get(key) == 2;
+		return isInitialized && status.get(key) == 2;
 	}
 	
 	public static void setKeyProcessed (Key key) {
-		if(status.get(key) == 0)
-			System.out.println("WTF? " + key + "is not even pressed yet...");
-		else status.put(key, 1);
+		if (isInitialized && status.get(key) != 0) status.put(key, 1);
 	}
 }
