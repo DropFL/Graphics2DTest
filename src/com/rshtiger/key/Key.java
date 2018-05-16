@@ -3,7 +3,7 @@ package com.rshtiger.key;
 import java.awt.event.KeyEvent;
 
 public enum Key {
-	LEFT, RIGHT, UP, DOWN, SPACE;
+	LEFT, RIGHT, UP, DOWN, SPACE, S;
 	
 	public static Key getKey (int keyCode) {
 		switch (keyCode) {
@@ -17,6 +17,8 @@ public enum Key {
 				return DOWN;
 			case KeyEvent.VK_SPACE:
 				return SPACE;
+			case KeyEvent.VK_S:
+				return S;
 			default:
 				return null;
 		}

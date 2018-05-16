@@ -41,7 +41,19 @@ public final class Engine extends Thread implements IDrawable {
         	player.setSpeedX(KeyStatus.isKeyPressed(Key.LEFT) ? -8 : 8);
         else
         	player.setSpeedX(0);
-		
+
+        if(KeyStatus.isKeyJustPressed(Key.S)){
+        	player.ShieldOn();
+        	player.SetShieldTime(30);
+		}
+		if(player.GetShieldTime() > 0){
+        	System.out.println(player.GetShieldTime());
+			player.SetShieldTime(player.GetShieldTime() - 1);
+		}
+		else{
+        	player.ShieldOff();
+		}
+
 		player.addPositionX(player.getSpeedX());
 		player.addPositionY(player.getSpeedY());
 		

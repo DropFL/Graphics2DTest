@@ -16,16 +16,24 @@ public final class Player implements IDrawable {
 	private int speedY;
 	private final int size;
 	private int hp;
-	
 	public final static int MAX_SPEED_Y = 15;
 	public final static int MAX_HP = 100;
-	
+
+	private Image ShieldImage;
+	private int ShieldCount;
+	private int ShieldTime;
+	private boolean isShieldOn;
+
 	public Player (int x, int y) {
 		size = 32;
 		image = ImageResource.UNIT_IMAGE.getImageIcon().getImage().getScaledInstance(size, size, Image.SCALE_FAST);
 		enabled = true;
 		position = new Point(x, y);
 		hp = MAX_HP;
+
+		isShieldOn = false;
+		ShieldImage = ImageResource.Shield.getImageIcon().getImage().getScaledInstance((int)(size*1.6), (int)(1.6*size), Image.SCALE_FAST);
+		ShieldCount = 3;
 	}
 	public Player () {
 		this(Main.SCREEN_WIDTH / 2, Main.SCREEN_HEIGHT / 2);
@@ -81,6 +89,10 @@ public final class Player implements IDrawable {
 	}
 	
 	public void		addHp (int deltaHp) {
+		if(isShieldOn && deltaHp < 0){
+			isShieldOn = false;
+			return;
+		}
 		hp += deltaHp;
 		if (hp < 0); // this.die();
 		else if (hp > MAX_HP) hp = MAX_HP;
@@ -98,9 +110,22 @@ public final class Player implements IDrawable {
 	public void		addPositionY (int deltaY) {
 		position.y += deltaY;
 	}
-	
+
+	public void ShieldOn(){
+		if(isShieldOn == false && ShieldCount-- > 0) {
+			isShieldOn = true;
+		}
+	}
+	public void ShieldOff(){
+		if(isShieldOn == false) return;
+		isShieldOn = false;
+	}
+	public void SetShieldTime(int t){ ShieldTime = t; }
+	public int GetShieldTime() { return ShieldTime; }
+	public boolean chkShieldOn() { return isShieldOn; }
 	@Override
 	public void render (Graphics2D g) {
 		g.drawImage(image, position.x, position.y, null);
+		if(isShieldOn) g.drawImage(ShieldImage, position.x - 10, position.y - 10, null);
 	}
 }
