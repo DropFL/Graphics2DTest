@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 public class Block implements IPlayerInteractive {
 	
 	private int x, y, width, height;
+	private int speedX, speedY;
 	private Image blockImg;
 	private boolean enabled;
 	public Block (int x, int y, int width, int height) {
@@ -18,7 +19,17 @@ public class Block implements IPlayerInteractive {
 		enabled = true;
 		blockImg = ImageResource.Block1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
 	}
-	
+
+	public Block (int x, int y, int width, int height, int speedX, int speedY) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.speedX = speedX;
+		this.speedY = speedY;
+		enabled = true;
+		blockImg = ImageResource.Block1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
+	}
 	@Override
 	public void interact (Player p) {
 		int spX = p.getSpeedX(), spY = p.getSpeedY();

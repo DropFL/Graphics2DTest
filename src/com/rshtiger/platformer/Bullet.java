@@ -12,14 +12,11 @@ public class Bullet implements IPlayerInteractive {
     private boolean enabled;
     float opacity;
 
-    Bullet(int type, int width, int height, float opacity){
+    Bullet(int width, int height, float opacity, Image img){
         this.width = width;
         this.height = height;
         this.opacity = opacity;
-        if(type == 1) {
-            enabled = true;
-            image = ImageResource.UNIT_IMAGE.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
-        }
+        image = img;
     }
 
     @Override
@@ -30,8 +27,10 @@ public class Bullet implements IPlayerInteractive {
 
     @Override
     public void render(Graphics2D g) {
-        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
-        g.drawImage(image, x, y, null);
+        if(isEnabled()) {
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+            g.drawImage(image, x, y, null);
+        }
     }
 
     @Override
