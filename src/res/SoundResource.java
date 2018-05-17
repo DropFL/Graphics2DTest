@@ -19,7 +19,18 @@ public enum SoundResource {
 	
 	SoundResource (String name) {
 		file = new File(getClass().getResource("sounds/" + name).getPath());
-		length = -1;
+		
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			Bitstream bitstream = new Bitstream(new FileInputStream(file));
+			Header h = bitstream.readFrame();
+			
+			length = (int)h.total_ms((int)fis.getChannel().size());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			length = -1;
+		}
 	}
 	
 	public Player getPlayer () {
@@ -33,20 +44,6 @@ public enum SoundResource {
 	}
 	
 	public int getLength () {
-		
-		if (length < 0) {
-			try {
-				FileInputStream fis = new FileInputStream(file);
-				Bitstream bitstream = new Bitstream(new FileInputStream(file));
-				Header h = bitstream.readFrame();
-				
-				length = (int)h.total_ms((int) fis.getChannel().size());
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				length = 0;
-			}
-		}
 		return length;
 	}
 }

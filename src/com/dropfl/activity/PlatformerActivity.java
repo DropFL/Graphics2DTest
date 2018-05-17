@@ -15,7 +15,7 @@ public class PlatformerActivity extends Activity {
 	public PlatformerActivity () {
 		title = "Platformer Activity";
 		bgm = new MusicPlayer(SoundResource.THE_GHOST, true);
-		bgImage = ImageResource.Map1.getImageIcon().getImage();
+		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
 		engine = new Engine();
 	}
 	

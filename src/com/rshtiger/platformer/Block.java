@@ -1,37 +1,25 @@
 package com.rshtiger.platformer;
 
+import com.rshtiger.platformer.collision.AABBCollider;
+import com.rshtiger.platformer.collision.Collider;
 import res.ImageResource;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.geom.AffineTransform;
 
-public class Block implements IPlayerInteractive {
+public class Block extends PlayerInteractive {
 	
-	private int x, y, width, height;
-	private int speedX, speedY;
-	private Image blockImg;
-	private boolean enabled;
 	public Block (int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		enabled = true;
-		blockImg = ImageResource.Block1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
+		this.collider = new AABBCollider();
+		this.image = ImageResource.BLOCK_1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
 	}
-
-	public Block (int x, int y, int width, int height, int speedX, int speedY) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.speedX = speedX;
-		this.speedY = speedY;
-		enabled = true;
-		blockImg = ImageResource.Block1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
-	}
+	
 	@Override
-	public void interact (Player p) {
+	public boolean interact (Player p) {
 		int spX = p.getSpeedX(), spY = p.getSpeedY();
 		
 		// If the player is moved only vertically or horizontal area of this block covers the player's one,
@@ -46,7 +34,7 @@ public class Block implements IPlayerInteractive {
 			}
 
 //			System.out.println("X Range");
-			return;
+			return false;
 		}
 		
 		// If the player is moved only horizontally or vertical area of this block covers the player's one,
@@ -56,7 +44,7 @@ public class Block implements IPlayerInteractive {
 			else p.setPositionX(x + width);
 
 //			System.out.println("Y Range");
-			return;
+			return false;
 		}
 		
 		double deltaX = (spX > 0) ? (x - p.getRightX() + spX) : (x + width - p.getLeftX() + spX),
@@ -77,21 +65,15 @@ public class Block implements IPlayerInteractive {
 			p.setSpeedY(0);
 		}
 		
+		return false;
 	}
-	@Override
-	public boolean isTouched (Player p) {
-		int pivotLeft = (p.getLeftX() > x) ? p.getLeftX() : x,
-				pivotRight = (p.getRightX() < x + width) ? p.getRightX() : (x + width),
-				pivotTop = (p.getTopY() > y) ? p.getTopY() : y,
-				pivotBottom = (p.getBottomY() < y + height) ? p.getBottomY() : (y + height);
-		
-		
-		return pivotLeft < pivotRight && pivotTop < pivotBottom;
-	}
+	
 	@Override
 	public void render (Graphics2D g) {
-		g.drawImage(blockImg, x, y, null);
+		
+		AffineTransform t = new AffineTransform();
+		
+		t.translate(x, y);
+		g.drawImage(image, t, null);
 	}
-
-	public boolean isEnabled() { return enabled; }
 }

@@ -12,10 +12,12 @@ public enum MapResource {
 	private Map mapData;
 	
 	MapResource (String name) {
+		
 		String tmpSplit[];
 		mapData = new Map();
+		
 		try {
-			File file = new File(getClass().getResource("maps/" + name).toURI());
+			File file = new File(getClass().getResource("maps/" + name).getPath());
 			FileReader filereader = new FileReader(file);
 			BufferedReader bufReader = new BufferedReader(filereader);
 			String line;
@@ -25,7 +27,7 @@ public enum MapResource {
 				
 				tmpSplit = line.split("::");
 				if (tmpSplit[0].equals("Block"))
-					mapData.AddBlock( new Block( Integer.parseInt(tmpSplit[1]),
+					mapData.addBlock(new Block(Integer.parseInt(tmpSplit[1]),
 												 Integer.parseInt(tmpSplit[2]),
 												 Integer.parseInt(tmpSplit[3]),
 												 Integer.parseInt(tmpSplit[4])));

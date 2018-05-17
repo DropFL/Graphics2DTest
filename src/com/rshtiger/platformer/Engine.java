@@ -43,15 +43,15 @@ public final class Engine extends Thread implements IDrawable {
         	player.setSpeedX(0);
 
         if(KeyStatus.isKeyJustPressed(Key.S)){
-        	player.ShieldOn();
-        	player.SetShieldTime(30);
+			player.shieldOn();
+			player.setShieldTime(30);
 		}
-		if(player.GetShieldTime() > 0){
-        	System.out.println(player.GetShieldTime());
-			player.SetShieldTime(player.GetShieldTime() - 1);
+		if (player.getShieldTime() > 0) {
+			System.out.println(player.getShieldTime());
+			player.setShieldTime(player.getShieldTime() - 1);
 		}
 		else{
-        	player.ShieldOff();
+			player.shieldOff();
 		}
 
 		player.addPositionX(player.getSpeedX());
@@ -67,7 +67,7 @@ public final class Engine extends Thread implements IDrawable {
 	
 	public void	render (Graphics2D g) {
 		for (IPlayerInteractive entity : entities)
-			if(entity.isEnabled()) entity.render(g);
+			entity.render(g);
 		
 		player.render(g);
 	}
