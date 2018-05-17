@@ -3,6 +3,8 @@ package com.rshtiger.platformer;
 import com.dropfl.component.IDrawable;
 import com.rshtiger.key.Key;
 import com.rshtiger.key.KeyStatus;
+import com.rshtiger.platformer.entity.Player;
+import com.rshtiger.platformer.entity.PlayerInteractive;
 import res.MapResource;
 
 import java.awt.*;
@@ -10,10 +12,11 @@ import java.util.ArrayList;
 
 public final class Engine extends Thread implements IDrawable {
 	
-	private int gravity = 1;
+	private double gravity = 1;
 	private Player player;
 	private Map map;
-	private ArrayList<IPlayerInteractive> entities;
+	private ArrayList<PlayerInteractive> entities;
+	private double scale = 0.1;
 	
 	public Engine (MapResource mapResource) {
 		map = mapResource.getMapData();
@@ -47,26 +50,24 @@ public final class Engine extends Thread implements IDrawable {
 			player.setShieldTime(30);
 		}
 		if (player.getShieldTime() > 0) {
-			System.out.println(player.getShieldTime());
 			player.setShieldTime(player.getShieldTime() - 1);
 		}
 		else{
 			player.shieldOff();
 		}
 
-		player.addPositionX(player.getSpeedX());
-		player.addPositionY(player.getSpeedY());
-		
-		player.addSpeedY(gravity);
+		player.addX(scale * player.getSpeedX());
+		player.addY(scale * player.getSpeedY());
+		player.addSpeedY(scale * gravity);
 
-		for (IPlayerInteractive e : entities) {
-			if (e.isTouched(player))
-				e.interact(player);
+		for (PlayerInteractive e : entities) {
+			if (e.isCollided(player) && e.interact(player))
+				entities.remove(e);
 		}
 	}
 	
 	public void	render (Graphics2D g) {
-		for (IPlayerInteractive entity : entities)
+		for (PlayerInteractive entity : entities)
 			entity.render(g);
 		
 		player.render(g);

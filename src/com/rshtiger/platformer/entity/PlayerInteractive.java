@@ -1,14 +1,13 @@
-package com.rshtiger.platformer;
+package com.rshtiger.platformer.entity;
 
 import com.rshtiger.platformer.collision.Collider;
-import com.rshtiger.platformer.collision.Shape;
 
-public abstract class PlayerInteractive extends Shape {
+public abstract class PlayerInteractive extends Entity {
 	protected Collider collider;
 	
 	public abstract boolean interact (Player player);
 	
-	public boolean isTouched (Player player) {
+	public boolean isCollided (Player player) {
 		return collider.isCollided(player, this);
 	}
 }

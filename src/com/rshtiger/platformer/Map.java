@@ -1,5 +1,8 @@
 package com.rshtiger.platformer;
 
+import com.rshtiger.platformer.entity.Block;
+import com.rshtiger.platformer.entity.PlayerInteractive;
+
 import java.util.ArrayList;
 
 public class Map {

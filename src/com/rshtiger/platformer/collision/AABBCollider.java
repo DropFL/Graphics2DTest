@@ -3,13 +3,13 @@ package com.rshtiger.platformer.collision;
 public class AABBCollider extends Collider {
 	@Override
 	public boolean isCollided (Shape s1, Shape s2) {
-		if (s1.rotation != 0 || s2.rotation != 0)
+		if (s1.getRotation() != 0 || s2.getRotation() != 0)
 			throw new IllegalArgumentException("AABB Collider cannot handle rotated shape.");
 		
-		double pivotLeft = (s1.x > s2.x) ? s1.x : s2.x,
-				pivotRight = (s1.x + s1.width < s2.x + s2.width) ? (s1.x + s1.width) : (s2.x + s2.width),
-				pivotTop = (s1.y > s2.y) ? s1.y : s2.y,
-				pivotBottom = (s1.y + s1.height < s2.y + s2.height) ? (s1.y + s1.height) : (s2.y + s2.height);
+		double  pivotLeft = (s1.getLeftX() > s2.getLeftX()) ? s1.getLeftX() : s2.getLeftX(),
+				pivotRight = (s1.getRightX() < s2.getRightX()) ? s1.getRightX() : s2.getRightX(),
+				pivotTop = (s1.getTopY() > s2.getTopY()) ? s1.getTopY() : s2.getTopY(),
+				pivotBottom = (s1.getBottomY() < s2.getBottomY()) ? s1.getBottomY() : s2.getBottomY();
 		
 		return pivotLeft < pivotRight && pivotTop < pivotBottom;
 	}

@@ -15,7 +15,7 @@ Graphics2DTest (가명) 프로젝트 구조
 
 * `com.dropfl.activity` : `Activity`와 이를 상속한 클래스들이 있는 패키지.
 
-* `com.dropfl.component` : 렌더링과 관련된 인터페이스가 있는 패키지. 현재는 `IDrawable` 인터페이스만 속해있다.
+* `com.dropfl.component` : 렌더링과 관련된 인터페이스가 있는 패키지.
 
 * `com.dropfl.music` : 음악 재생과 관련된 클래스가 있는 패키지. 현재는 `MusicPlayer` 클래스만 속해있다.
 
@@ -25,6 +25,8 @@ Graphics2DTest (가명) 프로젝트 구조
 * `com.rshtiger.key` : 키 입력과 관련된 소스들이 있는 패키지.
 
 * `com.rshtiger.platformer` : 게임의 플랫포머 엔진에 관련된 소스들이 있는 패키지.
+    - `com.rshtiger.platformer.collision` : 플랫포머 엔진 내 충돌과 관련된 소스들이 있는 패키지.
+    - `com.rshtiger.platformer.entity` : 플랫포머 엔진에 있는 엔티티들이 정의된 패키지.
 
 ***
 # 2. 핵심 객체
@@ -36,20 +38,30 @@ Graphics2DTest (가명) 프로젝트 구조
 ## 2.2 Activity
 안드로이드의 액티비티 개념과 유사하다. 하나의 화면에 대해 일어나는 모든 작업들을 총괄하는 객체이다. `GameFrame`에서는 `activity` 객체를 치환하는 방식으로 화면의 변화를 구현할 예정이다. 다만 안드로이드에서 이 작업에 필요한 `Intent`의 필요성을 인지하고 있지만, 여기서 어떻게 구현할지는 아직 결정되지 않았다.
 
-### 2.2.1 IDrawable
-화면에 렌더링할 수 있는 객체들은 모두 이 인터페이스를 구현해야한다. 메서드는 단 하나만 정의되어있다.
+## 2.3 IDrawable, ImageComponent
+화면에 렌더링할 수 있는 객체들은 모두 `IDrawable` 인터페이스를 구현해야한다. 메서드는 단 하나만 정의되어있다.
 
 	void render (java.awt.Graphics2D);
-이 인터페이스는 프로젝트 전체에 걸져 범용적으로 쓰이고 있다. 예를 들어, 앞서 설명한 `Activity`와 `com.rshtiger.platformer`에 있는 게임과 관련된 오브젝트들 또한 이를 구현하고 있다. 프로젝트에서 이 메서드가 쓰인 곳을 살펴보면 재귀적으로 구성되어 있음을 알 수 있다.
+이 프로젝트에서 렌더링을 컴포지트 패턴과 유사한 형태로 구현했는데, `IDrawable`은 여기서 컴포넌트의 역할을 한다.
+`ImageComponent`는 자체적인 이미지를 갖고있는 컴포넌트이며, `IDrawable`을 구현하였다. 좌표(`x`, `y`)와 회전 각도(`rotation`)에 따라 갖고 있는 이미지(`image`)를 그리는 `render` 메서드가 구현되어 있다.
 
-## 2.3 Player, IPlayerInteractive
-말 그대로 플레이어, 플레이어와 상호작용하는 다른 객체들에 대한 인터페이스이다. 둘 모두 `IDrawable`을 구현/상속하고 있다. `IPlayerInteractive`에는 다음의 두 메서드가 정의되어 있다.
+## 2.4 Shape, Collider
+이 게임엔진에서 충돌판정 알고리즘을 결정할 때 스트래티지 패턴을 사용하며, 이에 쓰이는 객체가 `Collider`이다.
 
-	boolean isTouched (com.rshtiger.platformer.Player);
-	void interact (com.rshtiger.platformer.Player);
-각각 플레이어와 접촉했는지 확인하는 메서드, 플레이어와 상호작용하는 메서드이다. 지금은 `Block`이나 `Bullet`, `Laser` 등이 이를 구현하는 것으로 계획하고 있으며, `interact` 메서드에 `boolean`형 리턴값을 추가하여 `Bullet`과 같이 플레이어와 상호작용 후 제거가 필요한 객체의 경우 필요에 따라 `true`를 리턴해 제거하게끔 하는 방법도 고려하고 있다. (다만 이 경우 `destroy`와 같은 제거용 메서드가 추가로 필요하다.)
+`Shape`는 플랫포머 엔진 내 도형의 Bounding Box에 대한 데이터를 가져올 수 있는 메서드가 정의된 인터페이스이고, `Collider`는 이 메서드를 이용해 두 `Shape`의 충돌을 판별하는 추상 클래스이다. 이 게임에 쓰이는 엔티티들은 모두 사각형 또는 원이기에 Bounding Box를 저장하는 것으로 각 도형을 충분히 표현할 수 있다. 이들을 이용해 `Collider`에서 적절한 알고리즘으로 충돌을 판정하는 메서드는 다음과 같다.
 
-## 2.4 Key, KeyStatus
+	boolean isCollided (com.rshtiger.platformer.collision.Shape, com.rshtiger.platformer.collision.Shape);
+
+현재 고려하고 있는 충돌판정 알고리즘은 사각형-원 충돌 알고리즘, AABB, OBB로 크게 3가지가 있으며, 각각이 구현된 `SquaretoCircleCollider`, `AABBCollider`, `OBBCollider`를 만들 예정이다. (`AABBCollider`는 이미 완성됨.)
+
+## 2.5 Entity, PlayerInteractive
+`Entity`는 말 그대로 엔티티로, `ImageComponent`를 상속하며 `Shape`를 구현한 추상 클래스이다. `Shape`에 정의된 메서드들의 구현이 담겨있으며, `Player`가 이를 상속한다. `PlayerInteractive`는 `Player`와 상호작용할 수 있는 엔티티로, `Entity`를 상속하며 다음의 두 메서드가 추가로 정의되어 있다.
+
+	boolean isCollided (com.rshtiger.platformer.entity.Player);
+	boolean interact (com.rshtiger.platformer.entity.Player);
+각각 플레이어와 접촉했는지 확인하는 메서드, 플레이어와 상호작용하는 메서드이다. `isCollided` 함수는 온전히 `Collider`에게 위임되어 있지만. `interact` 함수는 구현되어있지 않다. `interact` 메서드의 리턴값은 상호작용 후 해당 엔티티의 삭제가 필요한지를 `Engine`에게 알려주는 역할을 한다. (`true`면 삭제이다.) 이 때 제거용 `destroy` 메서드의 필요성을 검토하고 있지만 아직 확정되진 않았다.
+
+## 2.6 Key, KeyStatus
 `KeyStatus`는 키 입력을 주관하는 클래스로, 아예 인스턴스화할 수 없게끔 되어있다. `KeyStatus.init()`으로 초기화를 진행하고 `KeyStatus.register(java.awt.Component)`로 해당 `Component`에 들어오는 입력을 받을 수 있다. 키 입력을 확인하는 메서드는 다음과 같다.
 
 	boolean isKeyPressed (com.rshtiger.key.Key);
@@ -68,7 +80,7 @@ Graphics2DTest (가명) 프로젝트 구조
 2. 실제 게임 플레이 화면 렌더링 (`Engine`에게 위임)
 3. 게임 플레이 화면보다 **앞에** 와야하는 요소들의 렌더링 (게임 내 이펙트 포함, 현재는 해당 요소가 없음)
 
-`Engine`에서도 `Player` 객체와 `IPlayerInteractive` 객체들을 대상으로 `render`를 호출하는 방식으로 렌더링을 수행한다. `Engine`은 `Thread`를 상속하여 자체적인 `tick()` 함수를 통해 한 프레임씩 게임을 진행시킨다. `PlatformerActivity`에서는 `Engine.start()`를 호출해주면 된다.
+`Engine`에서도 `Player` 객체와 `PlayerInteractive` 객체들을 대상으로 `render`를 호출하는 방식으로 렌더링을 수행한다. `Engine`은 `Thread`를 상속하여 자체적인 `tick()` 함수를 통해 한 프레임씩 게임을 진행시킨다. `PlatformerActivity`에서는 `Engine.start()`를 호출해주면 된다.
 
 ## 3.1 TODO
 1. `Engine`의 시간 진행은 게임 특성상 `MusicPlayer`의 진행과 동기화되어야하기 때문에, `Engine.updateTime(time)` 함수를 만드는 것을 고려하고 있다. (필요에 따라서는 `MusicProgressListener`를 만들 수도 있다.)

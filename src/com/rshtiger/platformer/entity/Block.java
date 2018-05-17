@@ -1,11 +1,9 @@
-package com.rshtiger.platformer;
+package com.rshtiger.platformer.entity;
 
 import com.rshtiger.platformer.collision.AABBCollider;
-import com.rshtiger.platformer.collision.Collider;
 import res.ImageResource;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 public class Block extends PlayerInteractive {
 	
@@ -14,22 +12,23 @@ public class Block extends PlayerInteractive {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.rotation = 0;
 		this.collider = new AABBCollider();
 		this.image = ImageResource.BLOCK_1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
 	}
 	
 	@Override
 	public boolean interact (Player p) {
-		int spX = p.getSpeedX(), spY = p.getSpeedY();
+		double spX = p.getSpeedX(), spY = p.getSpeedY();
 		
 		// If the player is moved only vertically or horizontal area of this block covers the player's one,
 		// it must be top-to-bottom collision.
 		if ((x < p.getLeftX() && p.getRightX() < x + width) || spX == 0) {
 			if (spY > 0) {
-				p.setPositionY(y - p.getSize());
+				p.setY(y - p.getSize());
 				p.setJumped(false);
 			} else {
-				p.setPositionY(y + height);
+				p.setY(y + height);
 				p.setSpeedY(0);
 			}
 
@@ -40,8 +39,8 @@ public class Block extends PlayerInteractive {
 		// If the player is moved only horizontally or vertical area of this block covers the player's one,
 		// it must be left-to-right collision.
 		if ((y < p.getTopY() && p.getBottomY() < y + height) || spY == 0) {
-			if (spX > 0) p.setPositionX(x - p.getSize());
-			else p.setPositionX(x + width);
+			if (spX > 0) p.setX(x - p.getSize());
+			else p.setX(x + width);
 
 //			System.out.println("Y Range");
 			return false;
@@ -52,28 +51,19 @@ public class Block extends PlayerInteractive {
 		
 		if (deltaX / spX > deltaY / spY) {
 			// left-to-right collision.
-			if (spX > 0) p.setPositionX(x - p.getSize());
-			else p.setPositionX(x + width);
+			if (spX > 0) p.setX(x - p.getSize());
+			else p.setX(x + width);
 		} else {
 			// top-to-bottom collision.
 			if (spY > 0) {
-				p.setPositionY(y - p.getSize());
+				p.setY(y - p.getSize());
 				p.setJumped(false);
 			}
-			else p.setPositionY(y + height);
+			else p.setY(y + height);
 			
 			p.setSpeedY(0);
 		}
 		
 		return false;
-	}
-	
-	@Override
-	public void render (Graphics2D g) {
-		
-		AffineTransform t = new AffineTransform();
-		
-		t.translate(x, y);
-		g.drawImage(image, t, null);
 	}
 }

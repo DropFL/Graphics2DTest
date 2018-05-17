@@ -1,6 +1,6 @@
 package res;
 
-import com.rshtiger.platformer.Block;
+import com.rshtiger.platformer.entity.Block;
 import com.rshtiger.platformer.Map;
 
 import java.io.*;

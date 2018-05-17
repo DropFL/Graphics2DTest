@@ -32,6 +32,8 @@ public class GameFrame extends JFrame {
 		BufferedImage screenImage = (BufferedImage) createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		Graphics2D screenGraphics = (Graphics2D) screenImage.getGraphics();
 		
+//		screenGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		
 		activity.render(screenGraphics);
 		
 		g.drawImage(screenImage, 0, 0, null);
