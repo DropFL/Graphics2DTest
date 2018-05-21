@@ -16,7 +16,7 @@ public final class Engine extends Thread implements IDrawable {
 	private Player player;
 	private Map map;
 	private ArrayList<PlayerInteractive> entities;
-	private double scale = 0.1;
+	private double scale = 1;
 	
 	public Engine (MapResource mapResource) {
 		map = mapResource.getMapData();

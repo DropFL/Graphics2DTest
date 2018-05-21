@@ -1,12 +1,13 @@
 package com.dropfl;
 
 import com.dropfl.activity.*;
+import res.FontResource;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame /*implements IScreenEffect*/{
 	
 	private static final long serialVersionUID = -711163588504124217L;
 	
@@ -23,24 +24,22 @@ public class GameFrame extends JFrame {
 		setTitle(activity.getTitle());
 		activity.start();
 		
-		setVisible(true);	// JFrame.paint is called after here.
-							// so it must be called AFTER all members are initialized.
+		setVisible(true);    // JFrame.paint is called after here.
+		// so it must be called AFTER all members are initialized.
 	}
 	
 	@Override
-	public void	paint (Graphics g) {
-		BufferedImage screenImage = (BufferedImage) createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
-		Graphics2D screenGraphics = (Graphics2D) screenImage.getGraphics();
-		
-//		screenGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		
-		activity.render(screenGraphics);
-		
-		g.drawImage(screenImage, 0, 0, null);
+	public void paint (Graphics g) {
+		g.drawImage(activity.getScreen(), 0, 0, null);
 		this.repaint();
 	}
-	
+
 //	public void changeActivity (activity related parameter(s)) {
+//
+//	}
+
+//	public void applyEffect (IScreenEffect effect) {
+//
 //
 //	}
 }

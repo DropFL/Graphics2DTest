@@ -19,6 +19,4 @@ public class ImageComponent implements IDrawable {
 		
 		g.drawImage(image, t, null);
 	}
-	
-	
 }

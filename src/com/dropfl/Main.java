@@ -1,6 +1,7 @@
 package com.dropfl;
 
 import com.rshtiger.key.KeyStatus;
+import res.FontResource;
 
 public class Main {
 	
@@ -12,7 +13,8 @@ public class Main {
 	
 	public static void main (String[] args) {
 		
-		// Initialize KeyStatus
+		// Initialize
+		FontResource.registerFonts();
 		KeyStatus.init();
 		
 		// Create a JFrame
