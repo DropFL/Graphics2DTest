@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class GameFrame extends JFrame /*implements IScreenEffect*/{
+public class GameFrame extends JFrame /*implements ScreenEffect*/{
 	
 	private static final long serialVersionUID = -711163588504124217L;
 	
@@ -20,7 +20,7 @@ public class GameFrame extends JFrame /*implements IScreenEffect*/{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		activity = new PlatformerActivity();
+		activity = new PlatformerActivity(this);
 		setTitle(activity.getTitle());
 		activity.start();
 		
@@ -38,7 +38,7 @@ public class GameFrame extends JFrame /*implements IScreenEffect*/{
 //
 //	}
 
-//	public void applyEffect (IScreenEffect effect) {
+//	public void applyEffect (ScreenEffect effect) {
 //
 //
 //	}

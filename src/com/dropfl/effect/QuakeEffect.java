@@ -1,10 +1,11 @@
 package com.dropfl.effect;
 
-import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.image.VolatileImage;
 
-public class QuakeEffect implements IScreenEffect {
+public class QuakeEffect extends ScreenEffect {
 	@Override
-	public void apply (BufferedImage image) {
+	public void apply (VolatileImage image, RenderingHints hints) {
 	
 	}
 }

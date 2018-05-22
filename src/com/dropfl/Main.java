@@ -1,5 +1,6 @@
 package com.dropfl;
 
+import com.dropfl.effect.ScreenEffect;
 import com.rshtiger.key.KeyStatus;
 import res.FontResource;
 
@@ -13,6 +14,9 @@ public class Main {
 	
 	public static void main (String[] args) {
 		
+		// Hardware Acceleration
+		System.setProperty("sun.java2d.opengl", "true");
+		
 		// Initialize
 		FontResource.registerFonts();
 		KeyStatus.init();
@@ -20,7 +24,7 @@ public class Main {
 		// Create a JFrame
 		GameFrame frame = new GameFrame();
 		
-		// Link KeyStatus to the JFrame object
+		// Register JFrame object
 		KeyStatus.register(frame);
 	}
 }

@@ -24,6 +24,19 @@ public final class Engine extends Thread implements IDrawable {
 		player = new Player();
 	}
 	
+	public double getPlayerLeftX () {
+		return player.getLeftX();
+	}
+	public double getPlayerRightX () {
+		return player.getRightX();
+	}
+	public double getPlayerTopY () {
+		return player.getTopY();
+	}
+	public double getPlayerBottomY () {
+		return player.getBottomY();
+	}
+	
 	public Engine () {
 		this(MapResource.TestMap);
 	}

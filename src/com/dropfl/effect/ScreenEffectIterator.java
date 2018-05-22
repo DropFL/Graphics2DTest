@@ -1,24 +1,25 @@
 package com.dropfl.effect;
 
-import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.image.VolatileImage;
 import java.util.Arrays;
 import java.util.List;
 
-public class ScreenEffectIterator implements IScreenEffect {
+public class ScreenEffectIterator extends ScreenEffect {
 	
-	private List<IScreenEffect> iterator;
+	private List<ScreenEffect> iterator;
 	
-	public ScreenEffectIterator (List<IScreenEffect> effects) {
+	public ScreenEffectIterator (List<ScreenEffect> effects) {
 		iterator = effects;
 	}
 	
-	public ScreenEffectIterator (IScreenEffect... args) {
+	public ScreenEffectIterator (ScreenEffect... args) {
 		this(Arrays.asList(args));
 	}
 	
 	@Override
-	public void apply (BufferedImage image) {
-		for (IScreenEffect elem : iterator)
-			elem.apply(image);
+	public void apply (VolatileImage image, RenderingHints hints) {
+		for (ScreenEffect elem : iterator)
+			elem.apply(image, hints);
 	}
 }

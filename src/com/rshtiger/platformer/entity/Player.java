@@ -50,60 +50,60 @@ public final class Player extends Entity {
 	}
 	
 	// Getters
-	public int getHp () {
+	public int		getHp () {
 		return hp;
 	}
-	public int getSize () {
+	public int		getSize () {
 		return size;
 	}
-	public int getShieldTime () {
+	public int		getShieldTime () {
 		return shieldTime;
 	}
-	public double getSpeedX () {
+	public double	getSpeedX () {
 		return speedX;
 	}
-	public double getSpeedY () {
+	public double	getSpeedY () {
 		return speedY;
 	}
-	public boolean getJumped () {
+	public boolean	getJumped () {
 		return jumped;
 	}
-	public boolean isEnabled () {
+	public boolean	isEnabled () {
 		return enabled;
 	}
-	public boolean isShieldOn () {
+	public boolean	isShieldOn () {
 		return isShieldOn;
 	}
 	
 	// Setters
-	public void setX (double x) {
+	public void		setX (double x) {
 		this.x = x;
 	}
-	public void setY (double y) {
+	public void		setY (double y) {
 		this.y = y;
 	}
-	public void setSpeedX (double speedX) {
+	public void		setSpeedX (double speedX) {
 		this.speedX = speedX;
 	}
-	public void setSpeedY (double speedY) {
+	public void		setSpeedY (double speedY) {
 		if (speedY > MAX_SPEED_Y) this.speedY = MAX_SPEED_Y;
 		else this.speedY = speedY;
 	}
-	public void setJumped (boolean jumped) {
+	public void		setJumped (boolean jumped) {
 		this.jumped = jumped;
 	}
-	public void setShieldTime (int t) {
+	public void		setShieldTime (int t) {
 		shieldTime = t;
 	}
 	
 	// Adders
-	public void addX (double deltaX) {
+	public void		addX (double deltaX) {
 		x += deltaX;
 	}
-	public void addY (double deltaY) {
+	public void		addY (double deltaY) {
 		y += deltaY;
 	}
-	public void addHp (int deltaHp) {
+	public void		addHp (int deltaHp) {
 		if (isShieldOn && deltaHp < 0) {
 			isShieldOn = false;
 			return;
@@ -112,22 +112,22 @@ public final class Player extends Entity {
 		if (hp < 0) ; // this.die();
 		else if (hp > MAX_HP) hp = MAX_HP;
 	}
-	public void addSpeedX (double deltaSpeedX) {
+	public void		addSpeedX (double deltaSpeedX) {
 		this.speedX += deltaSpeedX;
 	}
-	public void addSpeedY (double deltaSpeedY) {
+	public void		addSpeedY (double deltaSpeedY) {
 		speedY += deltaSpeedY;
 		if (speedY > MAX_SPEED_Y) speedY = MAX_SPEED_Y;
 	}
 	
 	// Others
-	public void shieldOn () {
+	public void		shieldOn () {
 		if (!isShieldOn && shieldCount > 0) {
 			shieldCount--;
 			isShieldOn = true;
 		}
 	}
-	public void shieldOff () {
+	public void		shieldOff () {
 		isShieldOn = false;
 	}
 	
