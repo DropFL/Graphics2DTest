@@ -6,6 +6,7 @@ import res.FontResource;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 
 public class GameFrame extends JFrame /*implements ScreenEffect*/{
 	
@@ -30,7 +31,11 @@ public class GameFrame extends JFrame /*implements ScreenEffect*/{
 	
 	@Override
 	public void paint (Graphics g) {
-		g.drawImage(activity.getScreen(), 0, 0, null);
+		VolatileImage img;
+		do {
+			img = activity.getScreen();
+			g.drawImage(img, 0, 0, null);
+		} while (img.contentsLost());
 		this.repaint();
 	}
 

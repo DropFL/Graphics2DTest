@@ -14,7 +14,7 @@ public class Block extends PlayerInteractive {
 		this.height = height;
 		this.rotation = 0;
 		this.collider = new AABBCollider();
-		this.image = ImageResource.BLOCK_1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_FAST);
+		this.image = ImageResource.BLOCK_1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 	}
 	
 	@Override
