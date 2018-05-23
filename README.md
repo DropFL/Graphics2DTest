@@ -17,6 +17,8 @@ Graphics2DTest (가명) 프로젝트 구조
 
 * `com.dropfl.component` : 렌더링과 관련된 인터페이스가 있는 패키지.
 
+* `com.dropfl.effect` : 화면 이펙트와 관련된 클래스가 있는 패키지.
+
 * `com.dropfl.music` : 음악 재생과 관련된 클래스가 있는 패키지. 현재는 `MusicPlayer` 클래스만 속해있다.
 
 ### 1.3.2 com.rshtiger
@@ -36,7 +38,7 @@ Graphics2DTest (가명) 프로젝트 구조
 `main` 함수가 선언된 위치이자, 전역 설정을 담당하는 곳이다. 현재는 프로그램의 해상도가 (1280x720) 지정되어 있으며, 추후 `OptionActivity`에서의 설정 변경을 이 곳에 있는 변수를 변경하고 다른 `Activity`에서 이를 참조하는 방식으로 구현할 예정이다.
 
 ## 2.2 Activity
-안드로이드의 액티비티 개념과 유사하다. 하나의 화면에 대해 일어나는 모든 작업들을 총괄하는 객체이다. `GameFrame`에서는 `activity` 객체를 치환하는 방식으로 화면의 변화를 구현할 예정이다. 다만 안드로이드에서 이 작업에 필요한 `Intent`의 필요성을 인지하고 있지만, 여기서 어떻게 구현할지는 아직 결정되지 않았다.
+안드로이드의 액티비티 개념과 유사하다. 하나의 화면에 대해 일어나는 모든 작업들을 총괄하는 객체이다. `GameFrame`에서는 `activity` 객체를 치환하는 방식으로 화면의 변화를 구현할 예정이다. 다만 안드로이드에서 이 작업에 필요한 `Intent`의 필요성을 인지하고 있으나, 여기서 어떻게 구현할지는 아직 결정되지 않았다.
 
 ## 2.3 IDrawable, ImageComponent
 화면에 렌더링할 수 있는 객체들은 모두 `IDrawable` 인터페이스를 구현해야한다. 메서드는 단 하나만 정의되어있다.
@@ -84,5 +86,7 @@ Graphics2DTest (가명) 프로젝트 구조
 
 ## 3.1 TODO
 1. `Engine`의 시간 진행은 게임 특성상 `MusicPlayer`의 진행과 동기화되어야하기 때문에, `Engine.updateTime(time)` 함수를 만드는 것을 고려하고 있다. (필요에 따라서는 `MusicProgressListener`를 만들 수도 있다.)
-2. 화면 전체에 걸친 효과(확대/축소 등)를 `Engine` 또는 `Activity`의 위치에서도 적용할 수 있지만, `Graphics2D` 로 할 수 있을지 검증되지 않았으며, 경우에 따라서는 `GameFrame`의 `paint`에서 이를 처리해야할 수도 있을 것이다.
-3. 이 모든 작업이 fps 저하 없이 매끄럽게 진행될 수 있을지도 확인해야 한다.
+
+## 3.2 TODO COMPLETION
+1. 화면 전체에 걸친 효과 : `ScreenEffect.apply(VolatileImage)`를 통해 구현함.
+2. fps 문제 : 하드웨어 가속을 구현하였다.

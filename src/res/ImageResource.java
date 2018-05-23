@@ -27,4 +27,13 @@ public enum ImageResource {
 	public ImageIcon getImageIcon () {
 		return imageIcon;
 	}
+	
+	public static ImageResource getImageResource (String id) {
+		switch (id) {
+			case "UNIT":
+				return UNIT_IMAGE;
+		}
+		
+		return null;
+	}
 }
