@@ -45,6 +45,9 @@ public class QuakeEffect extends ScreenEffect {
 	
 	@Override
 	public void apply (VolatileImage image, RenderingHints hints) {
+		
+		if(strengthX < 1 && strengthY < 1) return;
+		
 		updateImage();
 		graphics.drawImage(image, 0, 0, null);
 		

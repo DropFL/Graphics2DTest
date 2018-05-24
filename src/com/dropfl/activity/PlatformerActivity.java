@@ -18,6 +18,8 @@ public class PlatformerActivity extends Activity {
 	private int prev;
 	private JitterEffect effect1;
 	private PixelateEffect effect2;
+	private ImageOverlayEffect effect1_5;
+	private TextOverlayEffect effect3;
 	private ScreenEffectIterator effects;
 	
 	public PlatformerActivity (Component c) {
@@ -31,7 +33,11 @@ public class PlatformerActivity extends Activity {
 		prev = 0;
 		effect1 = new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL);
 		effect2 = new PixelateEffect(1);
-		effects = new ScreenEffectIterator(effect1, effect2);
+		effect1_5 = new ImageOverlayEffect(100, 200, ImageResource.GHOST_1.getImageIcon().getImage(), 0.5);
+		effect3 = new TextOverlayEffect(100, 100, "Test",
+										FontResource.PACIFITO.getFont(Font.PLAIN, 36), Color.WHITE);
+		
+		effects = new ScreenEffectIterator(effect1, effect1_5, effect2, effect3);
 		
 		hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -64,10 +70,6 @@ public class PlatformerActivity extends Activity {
 		engine.render(graphics);
 		
 		// Post-renderer goes here
-		// Font Test
-		graphics.setColor(Color.WHITE);
-		graphics.setFont(FontResource.PACIFITO.getFont(Font.PLAIN, 36));
-		graphics.drawString("Test", 100, 100);
 		
 		graphics.dispose();
 		
@@ -84,9 +86,21 @@ public class PlatformerActivity extends Activity {
 						effect2.setSize(2);
 						break;
 					case 2:
+						effect2.setSize(3);
+						break;
+					case 3:
 						effect2.setSize(4);
 						break;
 					case 4:
+						effect2.setSize(5);
+						break;
+					case 5:
+						effect2.setSize(6);
+						break;
+					case 6:
+						effect2.setSize(7);
+						break;
+					case 7:
 						effect2.setSize(8);
 						break;
 					case 8:
