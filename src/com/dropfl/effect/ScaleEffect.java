@@ -56,7 +56,7 @@ public class ScaleEffect extends ScreenEffect {
 		if(scaleX == 1 && scaleY == 1) return;
 		
 		updateImage();
-		ScreenEffect.graphics.drawImage(image, 0, 0, null);
+		graphics.drawImage(image, 0, 0, null);
 		
 		AffineTransform transform = new AffineTransform();
 		transform.scale(scaleX, scaleY);
