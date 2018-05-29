@@ -11,7 +11,7 @@ public class OBBCollider extends Collider {
 	double C[][];
 
 	double AD[];      //Dot(A_i,D)
-	double R0,R1,R;    //interval radii and distance between centers
+	double R0,R1;    //interval radii and distance between centers
 	double R01;        //=R0+R1
 
 	OBBCollider(Shape player, Shape me){
