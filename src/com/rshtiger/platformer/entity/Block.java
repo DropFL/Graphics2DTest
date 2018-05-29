@@ -16,7 +16,10 @@ public class Block extends PlayerInteractive {
 		this.collider = new AABBCollider();
 		this.image = ImageResource.BLOCK_1.getImageIcon().getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 	}
-	
+
+	@Override
+	public void active(){};
+
 	@Override
 	public boolean interact (Player p) {
 		double spX = p.getSpeedX(), spY = p.getSpeedY();
@@ -63,7 +66,6 @@ public class Block extends PlayerInteractive {
 			
 			p.setSpeedY(0);
 		}
-		
 		return false;
 	}
 }
