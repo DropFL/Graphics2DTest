@@ -5,6 +5,8 @@ import res.FontResource;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 
@@ -21,7 +23,20 @@ public class GameFrame extends JFrame /*implements ScreenEffect*/{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		activity = new PlatformerActivity(this);
+		Activity.init(this);
+		addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained (FocusEvent e) {
+				activity.resume();
+			}
+			
+			@Override
+			public void focusLost (FocusEvent e) {
+				activity.pause();
+			}
+		});
+		
+		activity = new PlatformerActivity();
 		setTitle(activity.getTitle());
 		activity.start();
 		

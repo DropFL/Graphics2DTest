@@ -4,14 +4,18 @@ import com.dropfl.Main;
 
 import java.awt.*;
 import java.awt.image.VolatileImage;
+import java.util.Random;
 
 public abstract class ScreenEffect {
 	protected static VolatileImage image;
 	protected static Graphics2D graphics;
+	protected static Random random;
+	
 	private static GraphicsConfiguration config;
 	
 	public static void init (Component c) {
 		config = c.getGraphicsConfiguration();
+		random = new Random();
 		createImage();
 	}
 	
@@ -23,6 +27,10 @@ public abstract class ScreenEffect {
 		if (image.validate(config) == VolatileImage.IMAGE_INCOMPATIBLE)
 			createImage();
 		graphics = image.createGraphics();
+	}
+	
+	public static void setSeed (int seed) {
+		random = new Random(seed);
 	}
 	
 	public abstract void apply (VolatileImage image, RenderingHints hints);

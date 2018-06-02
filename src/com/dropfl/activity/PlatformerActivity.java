@@ -2,8 +2,9 @@ package com.dropfl.activity;
 
 import com.dropfl.Main;
 import com.dropfl.effect.*;
-import com.dropfl.music.MusicPlayer;
+import com.dropfl.music.AdvancedMusicPlayer;
 import com.rshtiger.platformer.Engine;
+import com.rshtiger.platformer.Synchronizer;
 import res.FontResource;
 import res.ImageResource;
 import res.SoundResource;
@@ -15,29 +16,31 @@ public class PlatformerActivity extends Activity {
 	
 	private Image bgImage;
 	private Engine engine;
+	private Synchronizer sync;
 	private int prev;
-	private JitterEffect effect1;
-	private PixelateEffect effect2;
-	private ImageOverlayEffect effect1_5;
-	private TextOverlayEffect effect3;
+	private JitterEffect jitter;
+	private PixelateEffect pixelate;
+	private ImageOverlayEffect imgOverlay;
+	private TextOverlayEffect txtOverlay;
 	private ScreenEffectIterator effects;
+	private AdvancedMusicPlayer bgm;
 	
-	public PlatformerActivity (Component c) {
-		super(c);
+	public PlatformerActivity () {
 		
 		title = "Platformer Activity";
-		bgm = new MusicPlayer(SoundResource.THE_GHOST, true);
+		bgm = new AdvancedMusicPlayer(SoundResource.THE_FLOOR_IS_LAVA, true);
 		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
 		engine = new Engine();
+		sync = new Synchronizer(engine, bgm);
 		hints = new RenderingHints(null);
 		prev = 0;
-		effect1 = new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL);
-		effect2 = new PixelateEffect(1);
-		effect1_5 = new ImageOverlayEffect(100, 200, ImageResource.GHOST_1.getImageIcon().getImage(), 0.5);
-		effect3 = new TextOverlayEffect(100, 100, "Test",
+		jitter = new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL);
+		pixelate = new PixelateEffect(1);
+		imgOverlay = new ImageOverlayEffect(100, 200, ImageResource.GHOST_1.getImageIcon().getImage(), 0.5);
+		txtOverlay = new TextOverlayEffect(100, 100, "Test",
 										FontResource.PACIFITO.getFont(Font.PLAIN, 36), Color.WHITE);
 		
-		effects = new ScreenEffectIterator(effect1, effect1_5, effect2, effect3);
+		effects = new ScreenEffectIterator(imgOverlay, txtOverlay);
 		
 		hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -47,14 +50,24 @@ public class PlatformerActivity extends Activity {
 	
 	@Override
 	public void start () {
-		engine.start();
-		bgm.start();
+		bgm.play();
+		if(isPaused()) bgm.pause();
 		createImage();
 	}
 	
 	@Override
 	public void close () {
-		engine.interrupt();
+		bgm.stop();
+	}
+	
+	@Override
+	protected void onPause () {
+		bgm.pause();
+	}
+	
+	@Override
+	protected void onResume () {
+		bgm.resume();
 	}
 	
 	@Override
@@ -67,6 +80,9 @@ public class PlatformerActivity extends Activity {
 		graphics.drawImage(bgImage, 0, 0, null);
 		
 		// Engine renders here
+		
+		sync.update();
+//		engine.setScale(Math.sin(sync.getTicks() * Math.PI / 60) * 0.4 + 0.6);
 		engine.render(graphics);
 		
 		// Post-renderer goes here
@@ -77,45 +93,44 @@ public class PlatformerActivity extends Activity {
 		int time = bgm.getTime();
 		int cur = time * 4 % 1875;
 		if (cur < prev) {
-			effect1.setStrength(30);
-			if(effect1.getDirection() == JitterEffect.VERTICAL) {
-				effect1.setDirection(JitterEffect.HORIZONTAL);
-				effect1.setLength(Main.SCREEN_HEIGHT);
-				switch (effect2.getSize()) {
+			jitter.setStrength(30);
+			if(jitter.getDirection() == JitterEffect.VERTICAL) {
+				jitter.setDirection(JitterEffect.HORIZONTAL);
+				jitter.setLength(Main.SCREEN_HEIGHT);
+				switch (pixelate.getSize()) {
 					case 1:
-						effect2.setSize(2);
+						pixelate.setSize(2);
 						break;
 					case 2:
-						effect2.setSize(3);
+						pixelate.setSize(3);
 						break;
 					case 3:
-						effect2.setSize(4);
+						pixelate.setSize(4);
 						break;
 					case 4:
-						effect2.setSize(5);
+						pixelate.setSize(5);
 						break;
 					case 5:
-						effect2.setSize(6);
+						pixelate.setSize(6);
 						break;
 					case 6:
-						effect2.setSize(7);
+						pixelate.setSize(7);
 						break;
 					case 7:
-						effect2.setSize(8);
+						pixelate.setSize(8);
 						break;
 					case 8:
-						effect2.setSize(1);
+						pixelate.setSize(1);
 						break;
 				}
 			} else {
-				effect1.setDirection(JitterEffect.VERTICAL);
-				effect1.setLength(Main.SCREEN_WIDTH);
+				jitter.setDirection(JitterEffect.VERTICAL);
+				jitter.setLength(Main.SCREEN_WIDTH);
 			}
 		} else {
-			double scale = effect1.getStrength() / 1.1;
-			effect1.setStrength(scale);
+			double scale = jitter.getStrength() / 1.1;
+			jitter.setStrength(scale);
 		}
-		effect1.setSeed(time);
 		
 		prev = cur;
 		

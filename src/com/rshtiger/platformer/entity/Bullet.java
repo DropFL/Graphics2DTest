@@ -25,6 +25,7 @@ public class Bullet extends PlayerInteractive {
 		this.x += speedX;
 		this.y += speedY;
 	}
+	
 	public int getSpeedX() { return speedX; }
 	public int getSpeedY() { return speedY; }
 }
