@@ -3,13 +3,15 @@ package com.dropfl.activity;
 import com.dropfl.Main;
 import com.dropfl.effect.ScaleEffect;
 import com.dropfl.effect.TextOverlayEffect;
-import com.dropfl.music.AdvancedMusicPlayer;
 import com.dropfl.music.DefaultMusicPlayer;
 import res.FontResource;
 import res.ImageResource;
 import res.SoundResource;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.VolatileImage;
 
 public final class MainActivity extends Activity{
@@ -18,14 +20,24 @@ public final class MainActivity extends Activity{
 	private int deg;
 	private float scale;
 	private DefaultMusicPlayer bgm;
+	private final JButton button;
+	private final MouseAdapter adapter;
 	
 	public MainActivity () {
-		
 		title = "Main Activity";
 		bgm = new DefaultMusicPlayer(SoundResource.THE_FLOOR_IS_LAVA, true);
 		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
 		scale = 1;
-		hints = new RenderingHints(null);
+		button = new JButton(ImageResource.SAMPLE_BUTTON.getImageIcon(100, 100));
+		adapter = new MouseAdapter() {
+			@Override
+			public void mouseClicked (MouseEvent e) {
+				super.mouseClicked(e);
+				requestActivityChange(PlatformerActivity.class);
+			}
+		};
+		
+		initUI();
 		
 		hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -85,10 +97,23 @@ public final class MainActivity extends Activity{
 	
 	@Override
 	public void close () {
+		button.removeMouseListener(adapter);
+		
 		try {
 			bgm.stop();
 		} catch (IllegalStateException e) {
 			// do nothing
 		}
+	}
+	
+	private void initUI () {
+		button.setBounds(Main.SCREEN_WIDTH / 2 - 50, Main.SCREEN_HEIGHT / 2 - 50, 100, 100);
+		button.setBorderPainted(false);
+		button.setContentAreaFilled(false);
+		button.setFocusPainted(false);
+		button.addMouseListener(adapter);
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
+		components.add(button);
 	}
 }

@@ -18,29 +18,34 @@ public class PlatformerActivity extends Activity {
 	private Engine engine;
 	private Synchronizer sync;
 	private int prev;
-	private JitterEffect jitter;
-	private PixelateEffect pixelate;
-	private ImageOverlayEffect imgOverlay;
-	private TextOverlayEffect txtOverlay;
+	private int beats;
+	private TextOverlayEffect read;
+	private TextOverlayEffect the;
+	private TextOverlayEffect fucking;
+	private TextOverlayEffect manual;
+	private JitterEffect shake;
 	private ScreenEffectIterator effects;
 	private AdvancedMusicPlayer bgm;
 	
 	public PlatformerActivity () {
 		
 		title = "Platformer Activity";
-		bgm = new AdvancedMusicPlayer(SoundResource.THE_FLOOR_IS_LAVA, true);
+		bgm = new AdvancedMusicPlayer(SoundResource.THE_GHOST);
 		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
 		engine = new Engine();
 		sync = new Synchronizer(engine, bgm);
 		hints = new RenderingHints(null);
-		prev = 0;
-		jitter = new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL);
-		pixelate = new PixelateEffect(1);
-		imgOverlay = new ImageOverlayEffect(100, 200, ImageResource.GHOST_1.getImageIcon().getImage(), 0.5);
-		txtOverlay = new TextOverlayEffect(100, 100, "Test",
-										FontResource.PACIFITO.getFont(Font.PLAIN, 36), Color.WHITE);
-		
-		effects = new ScreenEffectIterator(imgOverlay, txtOverlay);
+		prev = beats = 0;
+		read = new TextOverlayEffect(404, 300, "",
+										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 84), Color.BLACK);
+		the = new TextOverlayEffect(687, 300, "",
+										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 84), Color.BLACK);
+		fucking = new TextOverlayEffect(368, 400, "",
+										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 120), Color.RED);
+		manual = new TextOverlayEffect(447, 480, "",
+										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 84), Color.WHITE);
+		shake = new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL);
+		effects = new ScreenEffectIterator(read, the, fucking, manual, shake);
 		
 		hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -50,8 +55,7 @@ public class PlatformerActivity extends Activity {
 	
 	@Override
 	public void start () {
-		bgm.play();
-		if(isPaused()) bgm.pause();
+		bgm.play(()->requestActivityChange(MainActivity.class));
 		createImage();
 	}
 	
@@ -80,9 +84,7 @@ public class PlatformerActivity extends Activity {
 		graphics.drawImage(bgImage, 0, 0, null);
 		
 		// Engine renders here
-		
 		sync.update();
-//		engine.setScale(Math.sin(sync.getTicks() * Math.PI / 60) * 0.4 + 0.6);
 		engine.render(graphics);
 		
 		// Post-renderer goes here
@@ -93,46 +95,45 @@ public class PlatformerActivity extends Activity {
 		int time = bgm.getTime();
 		int cur = time * 4 % 1875;
 		if (cur < prev) {
-			jitter.setStrength(30);
-			if(jitter.getDirection() == JitterEffect.VERTICAL) {
-				jitter.setDirection(JitterEffect.HORIZONTAL);
-				jitter.setLength(Main.SCREEN_HEIGHT);
-				switch (pixelate.getSize()) {
-					case 1:
-						pixelate.setSize(2);
-						break;
-					case 2:
-						pixelate.setSize(3);
-						break;
-					case 3:
-						pixelate.setSize(4);
-						break;
-					case 4:
-						pixelate.setSize(5);
-						break;
-					case 5:
-						pixelate.setSize(6);
-						break;
-					case 6:
-						pixelate.setSize(7);
-						break;
-					case 7:
-						pixelate.setSize(8);
-						break;
-					case 8:
-						pixelate.setSize(1);
-						break;
-				}
-			} else {
-				jitter.setDirection(JitterEffect.VERTICAL);
-				jitter.setLength(Main.SCREEN_WIDTH);
+			beats = (beats + 1) % 8;
+			switch (beats) {
+				case 0:
+					read.setText("");
+					the.setText("");
+					fucking.setText("");
+					manual.setText("");
+					break;
+				case 1:
+					read.setText("READ");
+					break;
+				case 2:
+					the.setText("THE");
+					break;
+				case 3:
+					fucking.setText("FUCKING");
+					break;
+				case 4:
+					manual.setText("MANUAL");
+					break;
+				case 5:
+					fucking.setText("");
+					manual.setText("");
+					break;
+				case 6:
+					manual.setText("MANUAL");
+					break;
+				case 7:
+					fucking.setText("FUCKING");
+					break;
 			}
+			shake.setStrength(150);
 		} else {
-			double scale = jitter.getStrength() / 1.1;
-			jitter.setStrength(scale);
+			double strength = shake.getStrength() / 1.5;
+			shake.setStrength(strength);
 		}
 		
 		prev = cur;
+		ScreenEffect.setSeed(sync.getTicks());
 		
 		effects.apply(image, hints);
 		

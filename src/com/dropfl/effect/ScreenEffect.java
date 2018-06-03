@@ -13,8 +13,8 @@ public abstract class ScreenEffect {
 	
 	private static GraphicsConfiguration config;
 	
-	public static void init (Component c) {
-		config = c.getGraphicsConfiguration();
+	public static void init (GraphicsConfiguration c) {
+		config = c;
 		random = new Random();
 		createImage();
 	}
@@ -31,6 +31,7 @@ public abstract class ScreenEffect {
 	
 	public static void setSeed (int seed) {
 		random = new Random(seed);
+		random.nextDouble();
 	}
 	
 	public abstract void apply (VolatileImage image, RenderingHints hints);

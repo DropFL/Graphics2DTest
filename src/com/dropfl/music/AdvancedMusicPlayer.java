@@ -10,22 +10,29 @@ import res.SoundResource;
 
 public class AdvancedMusicPlayer extends MusicPlayer{
 	
+	private static final int NOT_STARTED = 0;
+	private static final int PLAYING = 1;
+	private static final int PAUSED = 2;
+	private static final int STOPPED = 3;
+	
 	private int pausedFrame;
-	private boolean isPaused;
+	private int state;
 
 	private AdvancedPlayer player;
 	private AudioDevice device;
 	private PlaybackListener listener;
 
 	private Runnable onResume;
+	private MusicPlayerListener playerListener;
 	
 	public AdvancedMusicPlayer (SoundResource resource, boolean isLoop) {
 		super(resource, isLoop);
 		
 		this.pausedFrame = 0;
-		this.isPaused = false;
+		this.state = NOT_STARTED;
 		this.device = null;
 		this.player = null;
+		this.playerListener = null;
 		
 		this.listener = new PlaybackListener() {
 			@Override
@@ -40,7 +47,13 @@ public class AdvancedMusicPlayer extends MusicPlayer{
 			try {
 				do {
 					player = getNewPlayer();
-				} while (player.play(Integer.MAX_VALUE) && this.isLoop);
+					player.play(Integer.MAX_VALUE);
+				} while (state == PLAYING && this.isLoop);
+				
+				if(state == PLAYING && playerListener != null) {
+					state = STOPPED;
+					playerListener.onComplete();
+				}
 			} catch (JavaLayerException e) {
 				// do nothing
 			}
@@ -49,7 +62,13 @@ public class AdvancedMusicPlayer extends MusicPlayer{
 			try {
 				do {
 					player = getNewPlayer();
-				} while (player.play(pausedFrame, Integer.MAX_VALUE) && this.isLoop);
+					player.play(pausedFrame, Integer.MAX_VALUE);
+				} while (state == PLAYING && this.isLoop);
+				
+				if(state == PLAYING && playerListener != null) {
+					state = STOPPED;
+					playerListener.onComplete();
+				}
 			} catch (JavaLayerException e) {
 				// do nothing
 			}
@@ -67,38 +86,47 @@ public class AdvancedMusicPlayer extends MusicPlayer{
 		else return offset;
 	}
 	
-	@Override
-	public void play () {
-		if(!isPaused && thread != null && thread.isAlive())
-			throw new IllegalStateException("player was playing, but tried to pause");
+	public void setPlayerListener (MusicPlayerListener listener) {
+		this.playerListener = listener;
+	}
+	
+	public void play (MusicPlayerListener listener) {
+		if(state == PLAYING)
+			throw new IllegalStateException("player was playing, but tried to play again");
 		
-		isPaused = false;
+		state = PLAYING;
+		playerListener = listener;
 		thread = new Thread(onPlay);
 		
 		thread.start();
 	}
 	
 	@Override
+	public void play () {
+		play(null);
+	}
+	
+	@Override
 	public void stop () {
-		if(isPaused || thread == null || !thread.isAlive())
-			throw new IllegalStateException("player was not playing, but tried to stop");
-		
-		player.stop();
-		isPaused = false;
+		if(state == PLAYING) {
+			state = STOPPED;
+			player.stop();
+			listener = null;
+		}
 	}
 	
 	public void pause () {
-		if(isPaused || thread == null || !thread.isAlive() || thread.isInterrupted())
+		if(state != PLAYING)
 			throw new IllegalStateException("player was not playing, but tried to pause");
 		
+		state = PAUSED;
 		player.stop();
-		isPaused = true;
 	}
-	
 	public void resume () {
-		if(!isPaused) throw new IllegalStateException("player was not paused, but tried to resume");
+		if(state != PAUSED)
+			throw new IllegalStateException("player was not paused, but tried to resume");
 		
-		isPaused = false;
+		state = PLAYING;
 		thread = new Thread(onResume);
 		thread.start();
 	}

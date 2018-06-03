@@ -7,6 +7,7 @@ import res.SoundResource;
 public class DefaultMusicPlayer extends MusicPlayer {
 	
 	private Player player;
+	private boolean isPlaying;
 	
 	public DefaultMusicPlayer (SoundResource resource, boolean isLoop) {
 		super(resource, isLoop);
@@ -16,11 +17,16 @@ public class DefaultMusicPlayer extends MusicPlayer {
 			try {
 				do {
 					player = resource.getPlayer();
-				} while (player.play(Integer.MAX_VALUE) && this.isLoop);
+					isPlaying = true;
+					player.play();
+				} while (isPlaying && this.isLoop);
 			} catch (JavaLayerException e) {
 				// do nothing
+			} finally {
+				isPlaying = false;
 			}
 		};
+		this.isPlaying = false;
 	}
 	
 	public DefaultMusicPlayer (SoundResource resource) {
@@ -29,14 +35,14 @@ public class DefaultMusicPlayer extends MusicPlayer {
 	
 	@Override
 	public int getTime () {
-		if(player != null) return player.getPosition();
+		if(isPlaying) return player.getPosition();
 		else return 0;
 	}
 	
 	@Override
 	public void play () {
-		if(thread != null && thread.isAlive())
-			throw new IllegalStateException("player was playing, but tried to pause");
+		if(isPlaying)
+			throw new IllegalStateException("player was playing, but tried to play again");
 		
 		thread = new Thread(onPlay);
 		thread.start();
@@ -44,9 +50,10 @@ public class DefaultMusicPlayer extends MusicPlayer {
 	
 	@Override
 	public void stop () {
-		if(thread == null || !thread.isAlive())
+		if(!isPlaying)
 			throw new IllegalStateException("player was not playing, but tried to stop");
 		
+		isPlaying = false;
 		player.close();
 	}
 }

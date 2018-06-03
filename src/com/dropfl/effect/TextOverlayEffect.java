@@ -53,6 +53,8 @@ public class TextOverlayEffect extends ScreenEffect {
 	
 	@Override
 	public void apply (VolatileImage image, RenderingHints hints) {
+		if(text.isEmpty()) return;
+		
 		Graphics2D g = (Graphics2D) image.getGraphics();
 		
 		g.setRenderingHints(hints);

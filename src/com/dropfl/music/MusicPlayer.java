@@ -9,7 +9,7 @@ public abstract class MusicPlayer {
 	protected Thread thread;
 	protected Runnable onPlay;
 	
-	public MusicPlayer (SoundResource resource, boolean isLoop) {
+	protected MusicPlayer (SoundResource resource, boolean isLoop) {
 		this.resource = resource;
 		this.isLoop = isLoop;
 	}

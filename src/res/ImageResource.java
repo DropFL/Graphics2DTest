@@ -1,6 +1,7 @@
 package res;
 
 import javax.swing.*;
+import java.awt.*;
 
 public enum ImageResource {
 	
@@ -14,7 +15,8 @@ public enum ImageResource {
 	GHOST_1("Ghost_type1.png"),
 	BULLET_ORB_1("bullet_type1_orb1.png"),
 	BULLET_ORB_2("bullet_type1_orb2.png"),
-	LASER("laser.jpg");
+	LASER("laser.jpg"),
+	SAMPLE_BUTTON("sample_button.png");
 	
 	private ImageIcon imageIcon;
 	
@@ -29,6 +31,9 @@ public enum ImageResource {
 	
 	public ImageIcon getImageIcon () {
 		return imageIcon;
+	}
+	public ImageIcon getImageIcon (int width, int height) {
+		return new ImageIcon(imageIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
 	}
 	
 	public static ImageResource getImageResource (String id) {
