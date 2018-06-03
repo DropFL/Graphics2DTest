@@ -15,14 +15,12 @@ public class JitterEffect extends ScreenEffect {
 	private int start;
 	private int length;
 	private boolean direction;
-	private int seed;
 	
 	public JitterEffect (double strength, int start, int length, boolean direction) {
 		this.strength = strength;
 		this.start = start;
 		this.length = length;
 		this.direction = direction;
-		this.seed = 0;
 	}
 	
 	public double getStrength () {
@@ -37,9 +35,6 @@ public class JitterEffect extends ScreenEffect {
 	public boolean getDirection () {
 		return direction;
 	}
-	public int getSeed () {
-		return seed;
-	}
 	
 	public void setStrength (double strength) {
 		this.strength = strength;
@@ -53,9 +48,6 @@ public class JitterEffect extends ScreenEffect {
 	public void setDirection (boolean direction) {
 		this.direction = direction;
 	}
-	public void setSeed (int seed) {
-		this.seed = seed;
-	}
 	
 	@Override
 	public void apply (VolatileImage image, RenderingHints hints) {
@@ -64,7 +56,6 @@ public class JitterEffect extends ScreenEffect {
 		
 		updateImage();
 		graphics.drawImage(image, 0, 0, null);
-		Random random = new Random(seed);
 		Graphics2D g = (Graphics2D)image.getGraphics();
 		
 		for (int i = 0; i < length && i + start < (direction ? Main.SCREEN_HEIGHT : Main.SCREEN_WIDTH); i ++) {

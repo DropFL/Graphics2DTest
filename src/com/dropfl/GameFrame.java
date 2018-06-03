@@ -5,46 +5,80 @@ import res.FontResource;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
-public class GameFrame extends JFrame /*implements ScreenEffect*/{
+public class GameFrame extends JFrame {
 	
 	private static final long serialVersionUID = -711163588504124217L;
 	
 	private Activity activity;
+	private final Object sync = new Object();
 	
 	public GameFrame () {
-		setTitle("JFrame Test");
+		setUndecorated(true);
 		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
-		setResizable(false);
-		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setFocusable(true);
+		setLayout(null);
+		setBackground(new Color(0, 0, 0, 0));
 		
-		activity = new PlatformerActivity(this);
+		Activity.init(this);
+		addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained (FocusEvent e) {
+				activity.resume();
+			}
+			
+			@Override
+			public void focusLost (FocusEvent e) {
+				activity.pause();
+			}
+		});
+		
+		activity = new MainActivity();
 		setTitle(activity.getTitle());
 		activity.start();
 		
+		for (JComponent comp : activity.getComponents())
+			add(comp);
+		
 		setVisible(true);    // JFrame.paint is called after here.
 		// so it must be called AFTER all members are initialized.
+		
 	}
 	
 	@Override
 	public void paint (Graphics g) {
 		VolatileImage img;
-		do {
-			img = activity.getScreen();
-			g.drawImage(img, 0, 0, null);
-		} while (img.contentsLost());
+		synchronized (sync) {
+			do {
+				img = activity.getScreen();
+				paintComponents(img.getGraphics());
+				g.drawImage(img, 0, 0, null);
+			} while (img.contentsLost());
+		}
 		this.repaint();
 	}
 
-//	public void changeActivity (activity related parameter(s)) {
-//
-//	}
-
-//	public void applyEffect (ScreenEffect effect) {
-//
-//
-//	}
+	public void changeActivity (Activity newActivity) {
+		synchronized (sync) {
+			
+			for (JComponent comp : activity.getComponents())
+				remove(comp);
+			activity.close();
+			
+			activity = newActivity;
+			setTitle(activity.getTitle());
+			for (JComponent comp : activity.getComponents())
+				add(comp);
+			activity.start();
+		}
+	}
 }

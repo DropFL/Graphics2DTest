@@ -7,7 +7,7 @@ Graphics2DTest (가명) 프로젝트 구조
 예를 들어, `ImageResource`는 `res/images` 디렉토리 내의 각 이미지 파일과 일대일로 매칭된 객체들을 갖고 있으며, 각 파일로부터 `ImageIcon`을 가져오는 `getImageIcon()` 메서드를 갖고 있다.
 
 ## 1.2 libs
-게임에 포함된 라이브러리 파일들이 들어있는 디렉토리이다.
+게임에 포함된 라이브러리 파일들이 들어있는 디렉토리이다. 현재는 `JLayer 1.0.1` 밖에 없으며, 현재까지 프로젝트의 진행을 보아 앞으로도 다른 라이브러리가 추가되지 않을 가능성이 높다.
 
 ## 1.3 com
 ### 1.3.1 com.dropfl
@@ -19,7 +19,7 @@ Graphics2DTest (가명) 프로젝트 구조
 
 * `com.dropfl.effect` : 화면 이펙트와 관련된 클래스가 있는 패키지.
 
-* `com.dropfl.music` : 음악 재생과 관련된 클래스가 있는 패키지. 현재는 `MusicPlayer` 클래스만 속해있다.
+* `com.dropfl.music` : 음악 재생과 관련된 클래스가 있는 패키지.
 
 ### 1.3.2 com.rshtiger
 [rshtiger](https://github.com/rshtiger)가 주로 기여한, `Engine`을 비롯하여 게임 그 자체에 관련된 것으로 구성된 패키지.
@@ -85,8 +85,11 @@ Graphics2DTest (가명) 프로젝트 구조
 `Engine`에서도 `Player` 객체와 `PlayerInteractive` 객체들을 대상으로 `render`를 호출하는 방식으로 렌더링을 수행한다. `Engine`은 `Thread`를 상속하여 자체적인 `tick()` 함수를 통해 한 프레임씩 게임을 진행시킨다. `PlatformerActivity`에서는 `Engine.start()`를 호출해주면 된다.
 
 ## 3.1 TODO
-1. `Engine`의 시간 진행은 게임 특성상 `MusicPlayer`의 진행과 동기화되어야하기 때문에, `Engine.updateTime(time)` 함수를 만드는 것을 고려하고 있다. (필요에 따라서는 `MusicProgressListener`를 만들 수도 있다.)
+1. 시간의 흐름에 따른 엔티티들의 이동을 어떤 방식으로 해야할지 정해야 한다. 현재 가장 유력한 것은 `ScriptEngineManager`으로 JS엔진을 불러와 무자열로 된 수식을 계산하는 것이다.
+2. 메인 UI와 더불어 `Activity` 간의 전환을 구현해야 한다. 현재 `Activity.syncState(src, dst)`의 형태를 고안했다.
+3. 패턴을 만들어야한다. (매우 중요)
 
 ## 3.2 TODO COMPLETION
-1. 화면 전체에 걸친 효과 : `ScreenEffect.apply(VolatileImage)`를 통해 구현함.
+1. 화면 전체에 걸친 효과 : `ScreenEffect.apply(VolatileImage)`를 통해 구현하였다.
 2. fps 문제 : 하드웨어 가속을 구현하였다.
+3. `Engine`과 `MusicPlayer`의 동기화 : `Synchronizer`를 통해 동기화를 구현하였다.

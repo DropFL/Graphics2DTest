@@ -10,7 +10,7 @@ import res.MapResource;
 import java.awt.*;
 import java.util.ArrayList;
 
-public final class Engine extends Thread implements IDrawable {
+public final class Engine implements IDrawable {
 	
 	private double gravity = 1;
 	private Player player;
@@ -23,6 +23,21 @@ public final class Engine extends Thread implements IDrawable {
 		entities = map.getBlocks();
 		player = new Player();
 	}
+	
+	public double getGravity () {
+		return gravity;
+	}
+	public double getScale () {
+		return scale;
+	}
+	
+	public void setGravity (double gravity) {
+		this.gravity = gravity;
+	}
+	public void setScale (double scale) {
+		this.scale = scale;
+	}
+	
 	
 	public double getPlayerLeftX () {
 		return player.getLeftX();
@@ -84,17 +99,5 @@ public final class Engine extends Thread implements IDrawable {
 			entity.render(g);
 		
 		player.render(g);
-	}
-	
-	@Override
-	public void	run () {
-		try {
-			while (true) {
-				this.tick();
-				Thread.sleep(16);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

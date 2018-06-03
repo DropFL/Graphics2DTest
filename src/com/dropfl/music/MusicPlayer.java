@@ -1,47 +1,35 @@
 package com.dropfl.music;
 
-import javazoom.jl.player.Player;
 import res.SoundResource;
 
-public class MusicPlayer extends Thread {
-
-	private Player player;
-	private boolean isLoop;
-	private final SoundResource resource;
+public abstract class MusicPlayer {
 	
-	public MusicPlayer (SoundResource resource, boolean isLoop) {
+	protected boolean isLoop;
+	protected final SoundResource resource;
+	protected Thread thread;
+	protected Runnable onPlay;
+	
+	protected MusicPlayer (SoundResource resource, boolean isLoop) {
 		this.resource = resource;
 		this.isLoop = isLoop;
-		this.player = null;
-	}
-	public MusicPlayer (SoundResource resource) {
-		this(resource, false);
 	}
 	
-	public int getTime () {
-		if (player != null) return player.getPosition();
-		else return 0;
-	}
+	public abstract void play();
+	public abstract void stop();
+	
+	public abstract int getTime();
+	
 	public int getLength () {
 		return resource.getLength();
 	}
-	public void finish () {
-		if(isAlive()) {
-			isLoop = false;
-			player.close();
-			this.interrupt();
-		}
+	public boolean getLoop () {
+		return isLoop;
+	}
+	public SoundResource getResource () {
+		return resource;
 	}
 	
-	@Override
-	public void run () {
-		try {
-			do {
-				player = resource.getPlayer();
-				player.play();
-			} while (isLoop);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void setLoop (boolean isLoop) {
+		this.isLoop = isLoop;
 	}
 }

@@ -5,7 +5,9 @@ import java.io.File;
 
 public enum FontResource {
 	
-	PACIFITO(Font.TRUETYPE_FONT, "Pacifico.ttf");
+	PACIFITO(Font.TRUETYPE_FONT, "Pacifico.ttf"),
+	BLACK_HAN_SANS(Font.TRUETYPE_FONT, "BlackHanSans.ttf"),
+	PASSION_ONE(Font.TRUETYPE_FONT, "PassionOne.ttf");
 	
 	private Font font;
 	private static GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -24,7 +26,6 @@ public enum FontResource {
 	}
 	
 	public static void registerFonts () {
-		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		for (FontResource font : FontResource.values())
 			env.registerFont(font.font);
 	}

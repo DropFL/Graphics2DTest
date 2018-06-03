@@ -26,7 +26,7 @@ public final class Player extends Entity {
 	
 	public Player (int x, int y) {
 		width = height = size = 32;
-		image = ImageResource.UNIT_IMAGE
+		image = ImageResource.TEMP_UNIT_100
 					.getImageIcon()
 					.getImage()
 					.getScaledInstance(size, size, Image.SCALE_SMOOTH);

@@ -2,7 +2,9 @@ package res;
 
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
+import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.Player;
+import javazoom.jl.player.advanced.AdvancedPlayer;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -16,6 +18,8 @@ public enum SoundResource {
 	
 	private File file;
 	private int length;
+	private float msPerFrame;
+	private int frames;
 	
 	SoundResource (String name) {
 		file = new File(getClass().getResource("sounds/" + name).getPath());
@@ -26,6 +30,7 @@ public enum SoundResource {
 			Header h = bitstream.readFrame();
 			
 			length = (int)h.total_ms((int)fis.getChannel().size());
+			msPerFrame = h.ms_per_frame();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,8 +47,20 @@ public enum SoundResource {
 		
 		return null;
 	}
+	public AdvancedPlayer getAdvancedPlayer (AudioDevice device) {
+		try {
+			return new AdvancedPlayer(new BufferedInputStream(new FileInputStream(file)), device);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 	public int getLength () {
 		return length;
+	}
+	public float getMsPerFrame () {
+		return msPerFrame;
 	}
 }
