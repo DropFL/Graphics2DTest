@@ -24,7 +24,7 @@ public class Ghost extends PlayerInteractive{
     }
 
     @Override
-    public void active(){
+    public void update(){
         int tmpx;
         tmpx = (int)p.getLeftX() - (int)getLeftX();
         speedX = 10 / ((tmpx*tmpx + 1) * tmpx / abs(tmpx)) ;

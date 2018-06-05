@@ -18,7 +18,7 @@ public class Block extends PlayerInteractive {
 	}
 
 	@Override
-	public void active(){};
+	public void update(){};
 
 	@Override
 	public boolean interact (Player p) {

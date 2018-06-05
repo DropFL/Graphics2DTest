@@ -6,7 +6,7 @@ public abstract class PlayerInteractive extends Entity {
 	protected Collider collider;
 	
 	public abstract boolean interact (Player player);
-	public void active() {
+	public void update() {
 		// null
 	}
 	public boolean isCollided (Player player) {

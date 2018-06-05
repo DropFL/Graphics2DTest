@@ -21,7 +21,7 @@ public class Bullet extends PlayerInteractive {
 	}
 
 	@Override
-	public void active(){
+	public void update(){
 		this.x += speedX;
 		this.y += speedY;
 	}

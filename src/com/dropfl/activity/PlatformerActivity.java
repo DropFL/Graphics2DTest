@@ -45,52 +45,52 @@ public class PlatformerActivity extends Activity {
 		manual = new TextOverlayEffect(447, 480, "",
 										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 84), Color.WHITE);
 		shake = new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL);
-		effects = new ScreenEffectIterator(read, the, fucking, manual, shake);
+		effects = new ScreenEffectIterator(read, shake);
 		
 		hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 	}
-	
+
 	@Override
 	public void start () {
 		bgm.play(()->requestActivityChange(MainActivity.class));
 		createImage();
 	}
-	
+
 	@Override
 	public void close () {
 		bgm.stop();
 	}
-	
+
 	@Override
 	protected void onPause () {
 		bgm.pause();
 	}
-	
+
 	@Override
 	protected void onResume () {
 		bgm.resume();
 	}
-	
+
 	@Override
 	public VolatileImage getScreen () {
 		updateImage();
-		
+
 		graphics.setRenderingHints(hints);
-		
+
 		// Pre-renderer goes here
 		graphics.drawImage(bgImage, 0, 0, null);
-		
+
 		// Engine renders here
 		sync.update();
 		engine.render(graphics);
-		
+
 		// Post-renderer goes here
-		
+
 		graphics.dispose();
-		
+
 		//Effect Test
 		int time = bgm.getTime();
 		int cur = time * 4 % 1875;
