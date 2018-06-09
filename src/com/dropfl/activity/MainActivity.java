@@ -19,24 +19,36 @@ public final class MainActivity extends Activity{
 	private Image bgImage;
 	private int deg;
 	private float scale;
+	private boolean isFullScreen;
 	private DefaultMusicPlayer bgm;
-	private final JButton button;
-	private final MouseAdapter adapter;
-	
+	private final JButton start_btn;
+	private final JButton option_btn;
+	private final JButton exit_btn;
+	private final JButton maxframe_btn;
+	private final MouseAdapter start_adapter;
+	private final MouseAdapter maximize_adapter;
 	public MainActivity () {
 		title = "Main Activity";
 		bgm = new DefaultMusicPlayer(SoundResource.THE_FLOOR_IS_LAVA, true);
-		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
+		bgImage = ImageResource.START_BACKGROUND.getImageIcon().getImage();
 		scale = 1;
-		button = new JButton(ImageResource.SAMPLE_BUTTON.getImageIcon(100, 100));
-		adapter = new MouseAdapter() {
+		start_btn = new JButton(ImageResource.BLANK_BUTTON.getImageIcon(226, 68));
+		option_btn = new JButton(ImageResource.OPTION_BUTTON.getImageIcon(226, 68));
+		exit_btn = new JButton(ImageResource.EXIT_BUTTON.getImageIcon(226, 68));
+		maxframe_btn = new JButton(ImageResource.MAXIMIZE_BUTTON.getImageIcon(30, 30));
+		start_adapter = new MouseAdapter() {
 			@Override
 			public void mouseClicked (MouseEvent e) {
 				super.mouseClicked(e);
 				requestActivityChange(PlatformerActivity.class);
 			}
 		};
-		
+		maximize_adapter = new MouseAdapter() {
+			@Override
+			public void mouseClicked (MouseEvent e) {
+
+			}
+		};
 		initUI();
 		
 		hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -97,7 +109,7 @@ public final class MainActivity extends Activity{
 	
 	@Override
 	public void close () {
-		button.removeMouseListener(adapter);
+		start_btn.removeMouseListener(start_adapter);
 		
 		try {
 			bgm.stop();
@@ -105,15 +117,21 @@ public final class MainActivity extends Activity{
 			// do nothing
 		}
 	}
-	
+
+	private void initBtn(JButton btn, int x, int y, int width, int height, MouseAdapter adptr){
+		btn.setBounds(x, y, width, height);
+		btn.setBorderPainted(false);
+		btn.setContentAreaFilled(false);
+		btn.setFocusPainted(false);
+		btn.addMouseListener(adptr);
+		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+		components.add(btn);
+	}
+
 	private void initUI () {
-		button.setBounds(Main.SCREEN_WIDTH / 2 - 50, Main.SCREEN_HEIGHT / 2 - 50, 100, 100);
-		button.setBorderPainted(false);
-		button.setContentAreaFilled(false);
-		button.setFocusPainted(false);
-		button.addMouseListener(adapter);
-		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		
-		components.add(button);
+		initBtn(start_btn, Main.SCREEN_WIDTH / 2 + 275, Main.SCREEN_HEIGHT / 2 - 65, 226, 68, start_adapter);
+
+		initBtn(maxframe_btn, Main.SCREEN_WIDTH  - 40, Main.SCREEN_HEIGHT - 40, 30, 30, maximize_adapter);
 	}
 }

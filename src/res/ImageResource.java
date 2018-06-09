@@ -22,7 +22,8 @@ public enum ImageResource {
 	START_BUTTON("btn_play.jpg"),
 	EXIT_BUTTON("btn_exit.jpg"),
 	OPTION_BUTTON("btn_option.jpg"),
-
+	MAXIMIZE_BUTTON("maximize.png"),
+	BLANK_BUTTON("blankbtn.png"),
 	SAMPLE_BUTTON("sample_button.png");
 	private ImageIcon imageIcon;
 	

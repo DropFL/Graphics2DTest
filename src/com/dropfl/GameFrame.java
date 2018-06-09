@@ -48,7 +48,7 @@ public class GameFrame extends JFrame {
 		
 		for (JComponent comp : activity.getComponents())
 			add(comp);
-		
+
 		setVisible(true);    // JFrame.paint is called after here.
 		// so it must be called AFTER all members are initialized.
 		
