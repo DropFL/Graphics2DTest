@@ -13,11 +13,17 @@ public enum ImageResource {
 	BLOCK_1("TmpBlock1.jpg"),
 	SHIELD("Shield.png"),
 	GHOST_1("Ghost_type1.png"),
+	GHOST_2("cuty_ghost.gif"),
+	FIRE("fire.gif"),
 	BULLET_ORB_1("bullet_type1_orb1.png"),
 	BULLET_ORB_2("bullet_type1_orb2.png"),
 	LASER("laser.jpg"),
+	START_BACKGROUND("Start_Bground.jpg"),
+	START_BUTTON("btn_play.jpg"),
+	EXIT_BUTTON("btn_exit.jpg"),
+	OPTION_BUTTON("btn_option.jpg"),
+
 	SAMPLE_BUTTON("sample_button.png");
-	
 	private ImageIcon imageIcon;
 	
 	ImageResource (String name) {
