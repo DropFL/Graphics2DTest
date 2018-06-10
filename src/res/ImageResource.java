@@ -25,6 +25,7 @@ public enum ImageResource {
 	MAXIMIZE_BUTTON("maximize.png"),
 	BLANK_BUTTON("blankbtn.png"),
 	GHOSTTMP("cuty_ghost_body.png"),
+	FIREBALL("fireball.gif"),
 	SAMPLE_BUTTON("sample_button.png");
 	private ImageIcon imageIcon;
 	
