@@ -22,7 +22,7 @@ public class PixelateEffect extends ScreenEffect {
 	}
 	
 	@Override
-	public void apply (VolatileImage image, RenderingHints hints) {
+	public void apply (VolatileImage image) {
 		if(size <= 1) return;
 		
 		updateImage();

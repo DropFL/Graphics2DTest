@@ -18,6 +18,7 @@ public abstract class MusicPlayer {
 	public abstract void stop();
 	
 	public abstract int getTime();
+	public abstract boolean isPlaying();
 	
 	public int getLength () {
 		return resource.getLength();

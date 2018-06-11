@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Graphics2DTest:jar">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="Graphics2DTest_jar.jar">
+      <element id="module-output" name="Graphics2DTest" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libs/jl1.0.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

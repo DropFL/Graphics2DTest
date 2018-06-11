@@ -1,18 +1,17 @@
 package com.rshtiger.platformer.entity;
 
-import com.rshtiger.platformer.collision.AABBCollider;
 import com.rshtiger.platformer.collision.SquareToCicleCollider;
 import res.ImageResource;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import static java.lang.Math.abs;
-
 public class Ghost extends PlayerInteractive{
-    private int speedX, speedY;
+    
+    private double speedX, speedY;
     private Image wing;
-    Player p;
+    private Player p;
+    
     public Ghost (Player p) {
         this.width = 50;
         this.height = 50;
@@ -30,19 +29,19 @@ public class Ghost extends PlayerInteractive{
 
     @Override
     public void update(){
-        int tmpx;
-        tmpx = (int)p.getLeftX() - (int)getLeftX();
-        speedX = 10 / ((tmpx*tmpx + 1) * tmpx / abs(tmpx)) ;
-        tmpx = (int)p.getTopY() - (int)getTopY();
-        speedY = 10 / ((tmpx*tmpx + 1) * tmpx / abs(tmpx)) ;
+        int diff;
+        diff = (int)p.getLeftX() - (int)getLeftX();
+        speedX = 10. / ((diff*diff + 1) * (diff > 0 ? 1 : -1)) ;
+        diff = (int)p.getTopY() - (int)getTopY();
+        speedY = 10. / ((diff*diff + 1) * (diff > 0 ? 1 : -1)) ;
         this.x += speedX;
         this.y += speedY;
 
     }
-    public int getSpeedX() {
+    public double getSpeedX() {
         return speedX;
     }
-    public int getpeedY() {
+    public double getpeedY() {
         return speedY;
     }
 

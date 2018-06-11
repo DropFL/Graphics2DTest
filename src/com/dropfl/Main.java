@@ -1,8 +1,10 @@
 package com.dropfl;
 
-import com.dropfl.effect.ScreenEffect;
+import com.dropfl.init.RenderingHintInitializer;
 import com.rshtiger.key.KeyStatus;
 import res.FontResource;
+
+import java.awt.*;
 
 public class Main {
 	
@@ -10,12 +12,15 @@ public class Main {
 	
 	public static final int SCREEN_WIDTH = 1280;
 	public static final int SCREEN_HEIGHT = 720;
-	
+	private static RenderingHints RENDERING_HINT;
 	
 	public static void main (String[] args) {
 		
 		// Hardware Acceleration
 		System.setProperty("sun.java2d.opengl", "true");
+		
+		// Load Rendering Setting
+		RENDERING_HINT = RenderingHintInitializer.loadRenderingHints();
 		
 		// Initialize
 		FontResource.registerFonts();
@@ -26,5 +31,9 @@ public class Main {
 		
 		// Register JFrame object
 		KeyStatus.register(frame);
+	}
+	
+	public static RenderingHints getRenderingHint () {
+		return RENDERING_HINT;
 	}
 }

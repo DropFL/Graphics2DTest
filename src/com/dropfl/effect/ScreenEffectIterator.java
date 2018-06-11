@@ -18,8 +18,8 @@ public class ScreenEffectIterator extends ScreenEffect {
 	}
 	
 	@Override
-	public void apply (VolatileImage image, RenderingHints hints) {
+	public void apply (VolatileImage image) {
 		for (ScreenEffect elem : iterator)
-			elem.apply(image, hints);
+			elem.apply(image);
 	}
 }

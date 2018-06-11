@@ -40,6 +40,11 @@ public class DefaultMusicPlayer extends MusicPlayer {
 	}
 	
 	@Override
+	public boolean isPlaying () {
+		return isPlaying;
+	}
+	
+	@Override
 	public void play () {
 		if(isPlaying)
 			throw new IllegalStateException("player was playing, but tried to play again");

@@ -50,7 +50,7 @@ public class JitterEffect extends ScreenEffect {
 	}
 	
 	@Override
-	public void apply (VolatileImage image, RenderingHints hints) {
+	public void apply (VolatileImage image) {
 		
 		if(strength < 1) return;
 		

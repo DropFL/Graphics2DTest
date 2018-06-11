@@ -1,8 +1,7 @@
 package com.rshtiger.key;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
 public final class KeyStatus {
@@ -23,27 +22,31 @@ public final class KeyStatus {
 			status.put(k, 0);
 	}
 	
-	public static void register (Component component) {
-		component.addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped (KeyEvent e) {
-				//
-			}
+	public static void register (JFrame frame) {
+		
+		JComponent component = frame.getRootPane();
+		
+		for (Key key : Key.values()) {
+			component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+					KeyStroke.getKeyStroke(key.getKeyCode(), 0), key.toString() + " pressed");
 			
-			@Override
-			public void keyPressed (KeyEvent e) {
-				Key k = Key.getKey(e.getKeyCode());
-				
-				if(k != null && status.get(k) == 0) status.put(k, 2);
-			}
+			component.getActionMap().put(key.toString() + " pressed", new AbstractAction() {
+				@Override
+				public void actionPerformed (ActionEvent e) {
+					if (status.get(key) == 0) status.put(key, 2);
+				}
+			});
 			
-			@Override
-			public void keyReleased (KeyEvent e) {
-				Key k = Key.getKey(e.getKeyCode());
-				
-				if(k != null) status.put(k, 0);
-			}
-		});
+			component.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+					KeyStroke.getKeyStroke(key.getKeyCode(), 0, true), key.toString() + " released");
+			
+			component.getActionMap().put(key.toString() + " released", new AbstractAction() {
+				@Override
+				public void actionPerformed (ActionEvent e) {
+					status.put(key, 0);
+				}
+			});
+		}
 	}
 	
 	public static boolean isKeyPressed (Key key) {

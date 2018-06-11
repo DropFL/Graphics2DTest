@@ -1,5 +1,7 @@
 package com.dropfl.effect;
 
+import com.dropfl.Main;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.VolatileImage;
@@ -49,7 +51,7 @@ public class ImageOverlayEffect extends ScreenEffect {
 	}
 	
 	@Override
-	public void apply (VolatileImage image, RenderingHints hints) {
+	public void apply (VolatileImage image) {
 		
 		if(opacity == 0) return;
 		
@@ -58,7 +60,7 @@ public class ImageOverlayEffect extends ScreenEffect {
 		if(opacity != 1)
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)opacity));
 		
-		g.setRenderingHints(hints);
+		g.setRenderingHints(Main.getRenderingHint());
 		g.drawImage(this.image, AffineTransform.getTranslateInstance(x, y), null);
 		
 		g.dispose();

@@ -1,5 +1,7 @@
 package com.dropfl.effect;
 
+import com.dropfl.Main;
+
 import java.awt.*;
 import java.awt.image.VolatileImage;
 
@@ -52,12 +54,12 @@ public class TextOverlayEffect extends ScreenEffect {
 	}
 	
 	@Override
-	public void apply (VolatileImage image, RenderingHints hints) {
+	public void apply (VolatileImage image) {
 		if(text.isEmpty()) return;
 		
 		Graphics2D g = (Graphics2D) image.getGraphics();
 		
-		g.setRenderingHints(hints);
+		g.setRenderingHints(Main.getRenderingHint());
 		g.setColor(color);
 		g.setFont(font);
 		

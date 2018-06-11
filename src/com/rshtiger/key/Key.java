@@ -3,24 +3,29 @@ package com.rshtiger.key;
 import java.awt.event.KeyEvent;
 
 public enum Key {
-	LEFT, RIGHT, UP, DOWN, SPACE, S;
+	LEFT(KeyEvent.VK_LEFT),
+	RIGHT(KeyEvent.VK_RIGHT),
+	UP(KeyEvent.VK_UP),
+	DOWN(KeyEvent.VK_DOWN),
+	SPACE(KeyEvent.VK_SPACE),
+	S(KeyEvent.VK_S),
+	ESCAPE(KeyEvent.VK_ESCAPE);
+	
+	
+	private final int keyCode;
+	
+	Key (int keyCode) {
+		this.keyCode = keyCode;
+	}
 	
 	public static Key getKey (int keyCode) {
-		switch (keyCode) {
-			case KeyEvent.VK_LEFT:
-				return LEFT;
-			case KeyEvent.VK_RIGHT:
-				return RIGHT;
-			case KeyEvent.VK_UP:
-				return UP;
-			case KeyEvent.VK_DOWN:
-				return DOWN;
-			case KeyEvent.VK_SPACE:
-				return SPACE;
-			case KeyEvent.VK_S:
-				return S;
-			default:
-				return null;
-		}
+		for (Key key : Key.values())
+			if (key.keyCode == keyCode) return key;
+		
+		return null;
+	}
+	
+	public int getKeyCode () {
+		return keyCode;
 	}
 }

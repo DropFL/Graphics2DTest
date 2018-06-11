@@ -14,7 +14,7 @@ public enum FontResource {
 	
 	FontResource (int type, String name) {
 		try {
-			font = Font.createFont(type, new File(getClass().getResource("fonts/" + name).getPath()));
+			font = Font.createFont(type, new File(getClass().getResource("fonts/" + name).getFile()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			font = null;

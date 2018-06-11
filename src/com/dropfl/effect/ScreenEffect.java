@@ -34,5 +34,5 @@ public abstract class ScreenEffect {
 		random.nextDouble();
 	}
 	
-	public abstract void apply (VolatileImage image, RenderingHints hints);
+	public abstract void apply (VolatileImage image);
 }

@@ -36,7 +36,7 @@ public class QuakeEffect extends ScreenEffect {
 	}
 	
 	@Override
-	public void apply (VolatileImage image, RenderingHints hints) {
+	public void apply (VolatileImage image) {
 		
 		if(strengthX < 1 && strengthY < 1) return;
 		
@@ -48,7 +48,7 @@ public class QuakeEffect extends ScreenEffect {
 		
 		Graphics2D g = (Graphics2D)image.getGraphics();
 		
-		g.setRenderingHints(hints);
+		g.setRenderingHints(Main.getRenderingHint());
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 		

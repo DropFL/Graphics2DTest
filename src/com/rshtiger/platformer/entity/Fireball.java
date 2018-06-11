@@ -8,9 +8,11 @@ import java.awt.*;
 import static java.lang.Math.abs;
 
 public class Fireball extends PlayerInteractive{
-    private int speedX, speedY;
-    Player p;
+    private double speedX, speedY;
+    private Player p;
+    
     public Fireball (Player p) {
+    	this.speedX = this.speedY = 0;
         this.width = 50;
         this.height = 50;
         this.collider = new SquareToCicleCollider();
@@ -28,8 +30,8 @@ public class Fireball extends PlayerInteractive{
     public void update() {
         //not implemented
     }
-    public int getSpeedX() {
+    public double getSpeedX() {
         return speedX;
     }
-    public int getpeedY() { return speedY; }
+    public double getpeedY() { return speedY; }
 }

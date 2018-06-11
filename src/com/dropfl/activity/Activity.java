@@ -19,7 +19,6 @@ public abstract class Activity {
 	protected static GraphicsConfiguration config;
 	
 	protected String title;
-	protected RenderingHints hints = new RenderingHints(null);
 	protected VolatileImage image;
 	protected Graphics2D graphics;
 	protected final ArrayList<JComponent> components = new ArrayList<>();

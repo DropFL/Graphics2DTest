@@ -86,6 +86,11 @@ public class AdvancedMusicPlayer extends MusicPlayer{
 		else return offset;
 	}
 	
+	@Override
+	public boolean isPlaying () {
+		return state == PLAYING;
+	}
+	
 	public void setPlayerListener (MusicPlayerListener listener) {
 		this.playerListener = listener;
 	}
