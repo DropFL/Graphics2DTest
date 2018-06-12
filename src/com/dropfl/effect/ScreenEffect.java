@@ -35,4 +35,6 @@ public abstract class ScreenEffect {
 	}
 	
 	public abstract void apply (VolatileImage image);
+	
+	public abstract void updateProperties (Double[] value);
 }

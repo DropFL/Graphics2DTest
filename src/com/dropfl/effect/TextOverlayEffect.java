@@ -67,4 +67,13 @@ public class TextOverlayEffect extends ScreenEffect {
 		
 		g.dispose();
 	}
+	
+	@Override
+	public void updateProperties (Double[] values) {
+		x = values[0];
+		y = values[1];
+		
+		if (values.length > 2)
+			color = new Color(values[2].intValue(), true);
+	}
 }

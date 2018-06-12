@@ -75,4 +75,15 @@ public class ScaleEffect extends ScreenEffect {
 		
 		g.dispose();
 	}
+	
+	@Override
+	public void updateProperties (Double[] values) {
+		scaleX = values[0];
+		scaleY = values[(values.length > 1) ? 1 : 0];
+		
+		if(values.length > 2) {
+			pivotX = values[2];
+			pivotY = values[3];
+		}
+	}
 }

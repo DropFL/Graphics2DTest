@@ -7,10 +7,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class Ghost extends PlayerInteractive{
-    
-    private double speedX, speedY;
+
     private Image wing;
-    private Player p;
     
     public Ghost (int x, int y, int width, int height) {
         this.x = x;
@@ -26,24 +24,6 @@ public class Ghost extends PlayerInteractive{
     public boolean interact (Player p) {
         p.addHp(-10);
         return true;
-    }
-
-    @Override
-    public void update(){
-        int diff;
-        diff = (int)p.getLeftX() - (int)getLeftX();
-        speedX = 10. / ((diff*diff + 1) * (diff > 0 ? 1 : -1)) ;
-        diff = (int)p.getTopY() - (int)getTopY();
-        speedY = 10. / ((diff*diff + 1) * (diff > 0 ? 1 : -1)) ;
-        this.x += speedX;
-        this.y += speedY;
-
-    }
-    public double getSpeedX() {
-        return speedX;
-    }
-    public double getpeedY() {
-        return speedY;
     }
 
     @Override

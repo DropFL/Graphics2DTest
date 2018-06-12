@@ -18,9 +18,6 @@ public class Block extends PlayerInteractive {
 	}
 
 	@Override
-	public void update(){};
-
-	@Override
 	public boolean interact (Player p) {
 		double spX = p.getSpeedX(), spY = p.getSpeedY();
 		

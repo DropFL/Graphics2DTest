@@ -93,6 +93,7 @@ public final class MainActivity extends Activity{
 	@Override
 	public void close () {
 		start_btn.removeMouseListener(start_adapter);
+		exit_btn.removeMouseListener(exit_adapter);
 		
 		try {
 			bgm.stop();

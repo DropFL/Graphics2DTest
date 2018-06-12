@@ -19,10 +19,12 @@ import java.awt.image.VolatileImage;
 public class PlatformerActivity extends Activity {
 	
 	private Image bgImage;
+	
 	private Engine engine;
+	private AdvancedMusicPlayer bgm;
+	private ScreenEffectIterator effects;
 	private Synchronizer sync;
 	
-	private AdvancedMusicPlayer bgm;
 	private ImageOverlayEffect pauseEffect;
 	private ScaleRotateEffect scaleRotateEffect;
 	
@@ -41,7 +43,8 @@ public class PlatformerActivity extends Activity {
 		bgm = new AdvancedMusicPlayer(SoundResource.THE_GHOST);
 		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
 		engine = new Engine();
-		sync = new Synchronizer(engine, bgm);
+		effects = new ScreenEffectIterator();
+		sync = new Synchronizer(engine, bgm, effects);
 		
 		pauseEffect = new ImageOverlayEffect(0, 0, ImageResource.PAUSE_OVERLAY.getImageIcon().getImage(), 0);
 		
@@ -93,6 +96,10 @@ public class PlatformerActivity extends Activity {
 	@Override
 	public void close () {
 		bgm.stop();
+		
+		resume.removeMouseListener(resumeAdapter);
+		restart.removeMouseListener(restartAdapter);
+		stop.removeMouseListener(stopAdapter);
 	}
 	
 	@Override
@@ -135,10 +142,11 @@ public class PlatformerActivity extends Activity {
 		//Effect Test
 		scaleRotateEffect.setPivotX((engine.getPlayerLeftX() + engine.getPlayerRightX()) / 2);
 		scaleRotateEffect.setPivotY((engine.getPlayerTopY() + engine.getPlayerBottomY()) / 2);
-		scaleRotateEffect.setScale(Math.sin(sync.getTicks() / 30. * Math.PI) * 0.1 + 1);
-		scaleRotateEffect.setRotation(Math.sin(sync.getTicks() / 60. * Math.PI) * 5);
+		scaleRotateEffect.setScale(Math.sin(sync.getTicks() / 30. * Math.PI) * 0.05 + 1);
+		scaleRotateEffect.setRotation(Math.sin(sync.getTicks() / 60. * Math.PI) * 2);
 		
 		scaleRotateEffect.apply(image);
+		effects.apply(image);
 		pauseEffect.apply(image);
 		
 		return image;
