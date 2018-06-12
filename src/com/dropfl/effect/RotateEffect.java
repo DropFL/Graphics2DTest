@@ -65,4 +65,14 @@ public class RotateEffect extends ScreenEffect {
 		
 		g.dispose();
 	}
+	
+	@Override
+	public void updateProperties (Double[] values) {
+		rotation = values[0];
+		
+		if(values.length > 1) {
+			pivotX = values[1];
+			pivotY = values[2];
+		}
+	}
 }

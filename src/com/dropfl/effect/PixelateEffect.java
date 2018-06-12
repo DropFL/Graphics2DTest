@@ -39,4 +39,9 @@ public class PixelateEffect extends ScreenEffect {
 				0, 0, Main.SCREEN_WIDTH / size, Main.SCREEN_HEIGHT / size, null);
 		g.dispose();
 	}
+	
+	@Override
+	public void updateProperties (Double[] values) {
+		size = values[0].intValue();
+	}
 }

@@ -81,4 +81,11 @@ public class JitterEffect extends ScreenEffect {
 		g.dispose();
 		g.setClip(0, 0, Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
 	}
+	
+	@Override
+	public void updateProperties (Double[] values) {
+		strength = values[0];
+		start = values[1].intValue();
+		length = values[2].intValue();
+	}
 }

@@ -56,4 +56,10 @@ public class QuakeEffect extends ScreenEffect {
 		
 		g.dispose();
 	}
+	
+	@Override
+	public void updateProperties (Double[] values) {
+		strengthX = values[0];
+		strengthY = values[values.length - 1];
+	}
 }

@@ -7,10 +7,8 @@ import res.ImageResource;
 import java.awt.*;
 
 public class Bullet extends PlayerInteractive {
-	private double speedX, speedY;
 	
 	public Bullet (int x, int y, int width, int height) {
-		this.speedX = this.speedY = 0;
 		this.x = x;
 		this.y = y;
 		this.rotation = 0;
@@ -25,13 +23,4 @@ public class Bullet extends PlayerInteractive {
 		p.addHp(-10);
 		return true;
 	}
-
-	@Override
-	public void update(){
-		this.x += speedX;
-		this.y += speedY;
-	}
-	
-	public double getSpeedX() { return speedX; }
-	public double getSpeedY() { return speedY; }
 }

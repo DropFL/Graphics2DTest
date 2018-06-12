@@ -1,12 +1,11 @@
 package com.rshtiger.platformer;
 
 import com.rshtiger.platformer.entity.Block;
-import com.rshtiger.platformer.entity.PlayerInteractive;
 
 import java.util.ArrayList;
 
 public class Map {
-	private ArrayList<PlayerInteractive> blocks;
+	private ArrayList<Block> blocks;
 	
 	public Map () {
 		blocks = new ArrayList<>();
@@ -16,7 +15,7 @@ public class Map {
 		blocks.add(newBlock);
 	}
 	
-	public ArrayList<PlayerInteractive> getBlocks () {
+	public ArrayList<Block> getBlocks () {
 		return blocks;
 	}
 }

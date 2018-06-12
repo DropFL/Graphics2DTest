@@ -12,16 +12,26 @@ public class ImageOverlayEffect extends ScreenEffect {
 	private double y;
 	private Image image;
 	private double opacity;
+	private double rotation;
 	
-	public ImageOverlayEffect (double x, double y, Image image, double opacity) {
+	public ImageOverlayEffect (double x, double y, double rotation, Image image, double opacity) {
 		this.x = x;
 		this.y = y;
 		this.image = image;
 		this.opacity = opacity;
+		this.rotation = rotation;
+	}
+	
+	public ImageOverlayEffect (double x, double y, double rotation, Image image) {
+		this(x, y, rotation, image, 1);
 	}
 	
 	public ImageOverlayEffect (double x, double y, Image image) {
-		this(x, y, image, 1);
+		this(x, y, 0, image, 1);
+	}
+	
+	public ImageOverlayEffect (double x, double y, Image image, double opacity) {
+		this(x, y, 0, image, opacity);
 	}
 	
 	public double getX () {
@@ -61,8 +71,22 @@ public class ImageOverlayEffect extends ScreenEffect {
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)opacity));
 		
 		g.setRenderingHints(Main.getRenderingHint());
-		g.drawImage(this.image, AffineTransform.getTranslateInstance(x, y), null);
+		
+		AffineTransform transform = new AffineTransform();
+		
+		transform.rotate(rotation / 180 * Math.PI);
+		transform.translate(x, y);
+		
+		g.drawImage(this.image, transform, null);
 		
 		g.dispose();
+	}
+	
+	@Override
+	public void updateProperties (Double[] values) {
+		x = values[0];
+		y = values[1];
+		if(values.length > 2) rotation = values[2];
+		if(values.length > 3) opacity = values[3];
 	}
 }

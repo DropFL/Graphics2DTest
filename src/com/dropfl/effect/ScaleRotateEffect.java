@@ -94,4 +94,27 @@ public class ScaleRotateEffect extends ScreenEffect{
 		if(factorX > 1) xScale.apply(image);
 		if(factorY > 1) yScale.apply(image);
 	}
+	
+	@Override
+	public void updateProperties (Double[] values) {
+		xScale.setScaleX(values[0]);
+		yScale.setScaleY(values[1]);
+		rotate.setRotation(values[2]);
+		
+		if(values.length == 3) return;
+		
+		xScale.setPivotX(values[3]);
+		yScale.setPivotX(values[3]);
+		
+		xScale.setPivotY(values[4]);
+		yScale.setPivotY(values[4]);
+		
+		if(values.length > 5) {
+			rotate.setPivotX(values[5]);
+			rotate.setPivotY(values[6]);
+		} else {
+			rotate.setPivotX(values[3]);
+			rotate.setPivotY(values[4]);
+		}
+	}
 }
