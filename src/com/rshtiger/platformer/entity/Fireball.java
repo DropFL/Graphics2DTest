@@ -9,15 +9,16 @@ import static java.lang.Math.abs;
 
 public class Fireball extends PlayerInteractive{
     private double speedX, speedY;
-    private Player p;
-    
-    public Fireball (Player p) {
-    	this.speedX = this.speedY = 0;
-        this.width = 50;
-        this.height = 50;
+
+    public Fireball (int x, int y, int width, int height) {
+        this.speedX = this.speedY = 0;
+        this.x = x;
+        this.y = y;
+        this.rotation = 0;
+        this.width = 100;
+        this.height = 100;
         this.collider = new SquareToCicleCollider();
-        this.image = ImageResource.FIREBALL.getImageIcon().getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
-        this.p = p;
+        this.image = ImageResource.FIREBALL.getImageIcon().getImage().getScaledInstance(100,100, Image.SCALE_FAST);
     }
 
     @Override

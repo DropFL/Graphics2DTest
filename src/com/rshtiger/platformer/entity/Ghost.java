@@ -16,7 +16,7 @@ public class Ghost extends PlayerInteractive{
         this.width = 50;
         this.height = 50;
         this.collider = new SquareToCicleCollider();
-        this.wing = ImageResource.GHOST_2.getImageIcon().getImage().getScaledInstance(100, 50,Image.SCALE_SMOOTH);
+        this.wing = ImageResource.GHOST_2.getImageIcon().getImage().getScaledInstance(100, 50,Image.SCALE_FAST);
         this.image = ImageResource.GHOSTTMP.getImageIcon().getImage().getScaledInstance(45,45,Image.SCALE_SMOOTH);
         this.p = p;
     }

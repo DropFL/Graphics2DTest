@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 public final class Player extends Entity {
 	
 	private boolean enabled;
-	private boolean jumped;
+	private int jumped;
 	private double speedX;
 	private double speedY;
 	private int hp;
@@ -59,14 +59,14 @@ public final class Player extends Entity {
 	public int		getShieldTime () {
 		return shieldTime;
 	}
+	public int		getJumped () {
+		return jumped;
+	}
 	public double	getSpeedX () {
 		return speedX;
 	}
 	public double	getSpeedY () {
 		return speedY;
-	}
-	public boolean	getJumped () {
-		return jumped;
 	}
 	public boolean	isEnabled () {
 		return enabled;
@@ -89,7 +89,7 @@ public final class Player extends Entity {
 		if (speedY > MAX_SPEED_Y) this.speedY = MAX_SPEED_Y;
 		else this.speedY = speedY;
 	}
-	public void		setJumped (boolean jumped) {
+	public void		setJumped (int jumped) {
 		this.jumped = jumped;
 	}
 	public void		setShieldTime (int t) {

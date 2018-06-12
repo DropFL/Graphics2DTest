@@ -29,7 +29,7 @@ public class Block extends PlayerInteractive {
 		if ((x < p.getLeftX() && p.getRightX() < x + width) || spX == 0) {
 			if (spY > 0) {
 				p.setY(y - p.getSize());
-				p.setJumped(false);
+				p.setJumped(0);
 			} else {
 				p.setY(y + height);
 				p.setSpeedY(0);
@@ -60,7 +60,7 @@ public class Block extends PlayerInteractive {
 			// top-to-bottom collision.
 			if (spY > 0) {
 				p.setY(y - p.getSize());
-				p.setJumped(false);
+				p.setJumped(0);
 			}
 			else p.setY(y + height);
 			

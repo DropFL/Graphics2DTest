@@ -4,6 +4,7 @@ import com.dropfl.component.IDrawable;
 import com.rshtiger.key.Key;
 import com.rshtiger.key.KeyStatus;
 import com.rshtiger.platformer.entity.Bullet;
+import com.rshtiger.platformer.entity.Fireball;
 import com.rshtiger.platformer.entity.Player;
 import com.rshtiger.platformer.entity.PlayerInteractive;
 import res.MapResource;
@@ -20,14 +21,14 @@ public final class Engine implements IDrawable {
 	private ArrayList<PlayerInteractive> bullets = new ArrayList<PlayerInteractive>();
 	private ArrayList<PlayerInteractive> upbullets = new ArrayList<PlayerInteractive>();;
 	private double scale = 1;
-	private Bullet tmpb;
+	private Fireball tmpb;
 	private int tmpd = 1;
 	public Engine (MapResource mapResource) {
 		map = mapResource.getMapData();
 		entities = map.getBlocks();
 		player = new Player();
-		tmpb = new Bullet(100, 600, 100,100);
-		bullets.add(tmpb);
+		bullets.add(new Fireball(200, 600, 100,100));
+		bullets.add(new Bullet(100, 600, 100,100));
 	}
 	
 	public double getGravity () {
@@ -65,8 +66,8 @@ public final class Engine implements IDrawable {
 	public void	tick () {
 		
 		if (KeyStatus.isKeyJustPressed(Key.SPACE)) {
-		    if(!player.getJumped()){
-		    	player.setJumped(true);
+		    if(player.getJumped() != 2){
+		    	player.setJumped(player.getJumped() + 1);
 		    	player.setSpeedY(-Player.MAX_SPEED_Y);
 				KeyStatus.setKeyProcessed(Key.SPACE);
             }

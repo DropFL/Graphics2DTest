@@ -19,7 +19,6 @@ public class SquareToCicleCollider extends Collider {
 			chkY = getCenterY(player) + getLengthY(player)/2.0f;
 		else
 			chkY =  getCenterY(s);
-
 		if(sqrt((chkY - getCenterY(s))*(chkY - getCenterY(s)) + (chkX - getCenterX(s))*(chkX - getCenterX(s))) < getLengthX(s)) return true;
 		return false;
 	}
