@@ -53,4 +53,5 @@ public class Ghost extends PlayerInteractive{
             t.translate(x - 55, y - 10);
             g.drawImage(wing, t, null);
     }
+
 }

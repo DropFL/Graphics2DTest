@@ -16,7 +16,7 @@ public class Bullet extends PlayerInteractive {
 		this.rotation = 0;
 		this.width = width;
 		this.height = height;
-		this.collider = new AABBCollider();
+		this.collider = new OBBCollider();
 		this.image = ImageResource.FIRE.getImageIcon().getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
 	}
 

@@ -142,4 +142,5 @@ public final class Player extends Entity {
 			g.drawImage(shieldImage, t, null);
 		}
 	}
+
 }
