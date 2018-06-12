@@ -6,6 +6,7 @@ import com.dropfl.effect.ScreenEffect;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.image.VolatileImage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public abstract class Activity {
 		ScreenEffect.init(config);
 	}
 	public void syncState (Activity target) {
-		// null
+		// nothing
 	}
 	
 	public String getTitle () {
@@ -85,5 +86,16 @@ public abstract class Activity {
 		}
 		
 		frame.changeActivity(newActivity);
+	}
+	
+	protected void addButton (JButton btn, int x, int y, int width, int height, MouseAdapter adapter){
+		btn.setBounds(x, y, width, height);
+		btn.setBorderPainted(false);
+		btn.setContentAreaFilled(false);
+		btn.setFocusPainted(false);
+		btn.addMouseListener(adapter);
+		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
+		components.add(btn);
 	}
 }

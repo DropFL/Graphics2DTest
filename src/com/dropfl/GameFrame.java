@@ -64,10 +64,14 @@ public class GameFrame extends JFrame {
 				g.drawImage(img, 0, 0, null);
 			} while (img.contentsLost());
 		}
-		this.repaint();
+		
+		repaint();
 	}
 
 	public void changeActivity (Activity newActivity) {
+		
+		requestFocus();
+		
 		synchronized (sync) {
 			
 			for (JComponent comp : activity.getComponents())
@@ -76,9 +80,9 @@ public class GameFrame extends JFrame {
 			
 			activity = newActivity;
 			setTitle(activity.getTitle());
+			activity.start();
 			for (JComponent comp : activity.getComponents())
 				add(comp);
-			activity.start();
 		}
 	}
 }

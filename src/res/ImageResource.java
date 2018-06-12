@@ -18,18 +18,27 @@ public enum ImageResource {
 	BULLET_ORB_1("bullet_type1_orb1.png"),
 	BULLET_ORB_2("bullet_type1_orb2.png"),
 	LASER("laser.jpg"),
+	
+	// Backgrounds
 	START_BACKGROUND("Start_Bground.jpg"),
 	START_BACKGROUND_EMPHASIZE("Start_Bground_emphasize.jpg"),
+	PAUSE_OVERLAY("pause_overlay.png"),
+	MAIN_BACKGROUND("main_background.jpg"),
+	
+	// Buttons
 	START_BUTTON("btn_play.jpg"),
 	EXIT_BUTTON("btn_exit.jpg"),
 	OPTION_BUTTON("btn_option.jpg"),
-	MAXIMIZE_BUTTON("maximize.png"),
 	BLANK_BUTTON("blankbtn.png"),
+	SAMPLE_BUTTON("sample_button.png"),
+	RESUME_BUTTON("resume_button.png"),
+	RESTART_BUTTON("restart_button.png"),
+	STOP_BUTTON("stop_button.png"),
+	
+	
 	GHOSTTMP("cute_ghost_body.png"),
 	FIREBALL("fireball.gif"),
-	SAMPLE_BUTTON("sample_button.png"),
-	LASER_R("laser_red.png"),
-	MAIN_BACKGROUND("main_background.jpg");
+	LASER_R("laser_red.png");
 	
 	private ImageIcon imageIcon;
 	

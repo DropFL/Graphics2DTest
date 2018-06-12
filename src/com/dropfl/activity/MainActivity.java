@@ -25,6 +25,7 @@ public final class MainActivity extends Activity{
 	private final JButton exit_btn;
 	private final MouseAdapter start_adapter;
 	private final MouseAdapter exit_adapter;
+	
 	public MainActivity () {
 		title = "Main Activity";
 		bgm = new DefaultMusicPlayer(SoundResource.THE_FLOOR_IS_LAVA, true);
@@ -51,8 +52,6 @@ public final class MainActivity extends Activity{
 				System.exit(0);
 			}
 		};
-		
-		initUI();
 	}
 	
 	@Override
@@ -86,6 +85,9 @@ public final class MainActivity extends Activity{
 	public void start () {
 		bgm.play();
 		createImage();
+		
+		addButton(start_btn, Main.SCREEN_WIDTH / 2 + 275, Main.SCREEN_HEIGHT / 2 - 65, 226, 68, start_adapter);
+		addButton(exit_btn, Main.SCREEN_WIDTH / 2 + 275, Main.SCREEN_HEIGHT / 2 + 110, 226, 68, exit_adapter);
 	}
 	
 	@Override
@@ -97,21 +99,5 @@ public final class MainActivity extends Activity{
 		} catch (IllegalStateException e) {
 			// do nothing
 		}
-	}
-
-	private void initButton (JButton btn, int x, int y, int width, int height, MouseAdapter adapter){
-		btn.setBounds(x, y, width, height);
-		btn.setBorderPainted(false);
-		btn.setContentAreaFilled(false);
-		btn.setFocusPainted(false);
-		btn.addMouseListener(adapter);
-		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-		components.add(btn);
-	}
-
-	private void initUI () {
-		initButton(start_btn, Main.SCREEN_WIDTH / 2 + 275, Main.SCREEN_HEIGHT / 2 - 65, 226, 68, start_adapter);
-		initButton(exit_btn, Main.SCREEN_WIDTH / 2 + 275, Main.SCREEN_HEIGHT / 2 + 110, 226, 68, exit_adapter);
 	}
 }
