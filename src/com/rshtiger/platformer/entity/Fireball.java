@@ -1,6 +1,6 @@
 package com.rshtiger.platformer.entity;
 
-import com.rshtiger.platformer.collision.SquareToCicleCollider;
+import com.rshtiger.platformer.collision.SquareToCircleCollider;
 import res.ImageResource;
 
 import java.awt.*;
@@ -17,7 +17,7 @@ public class Fireball extends PlayerInteractive{
         this.rotation = 0;
         this.width = 100;
         this.height = 100;
-        this.collider = new SquareToCicleCollider();
+        this.collider = new SquareToCircleCollider();
         this.image = ImageResource.FIREBALL.getImageIcon().getImage().getScaledInstance(100,100, Image.SCALE_FAST);
     }
 

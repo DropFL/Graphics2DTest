@@ -3,10 +3,7 @@ package com.rshtiger.platformer;
 import com.dropfl.component.IDrawable;
 import com.rshtiger.key.Key;
 import com.rshtiger.key.KeyStatus;
-import com.rshtiger.platformer.entity.Bullet;
-import com.rshtiger.platformer.entity.Fireball;
-import com.rshtiger.platformer.entity.Player;
-import com.rshtiger.platformer.entity.PlayerInteractive;
+import com.rshtiger.platformer.entity.*;
 import res.MapResource;
 
 import java.awt.*;
@@ -28,7 +25,7 @@ public final class Engine implements IDrawable {
 		entities = map.getBlocks();
 		player = new Player();
 		bullets.add(new Fireball(200, 600, 100,100));
-		bullets.add(new Bullet(100, 600, 100,100));
+		bullets.add(new Ghost(100, 600, 50,50));
 	}
 	
 	public double getGravity () {

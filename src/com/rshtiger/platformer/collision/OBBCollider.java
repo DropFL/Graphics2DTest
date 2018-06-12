@@ -18,18 +18,19 @@ public class OBBCollider extends Collider {
 		// Not implemented yet
 		double D[] = {getCenterX(s2) - getCenterX(player), getCenterY(s2) - getCenterY(player)};
 
-		savedAxis[0] = getAxis(s2.getLeftX(), s2.getBottomY(), s2.getRightX(), s2.getTopY());
-		savedAxis[1] = getAxis(s2.getLeftX(), s2.getBottomY(), s2.getRightX(), s2.getTopY());
+		savedAxis[0] = getAxis(s2.getLeftX(), 0, s2.getRightX(), 0);
+		savedAxis[1] = getAxis(0, s2.getBottomY(), 0, s2.getTopY());
 		savedExtends = getExtend(s2.getRightX(), s2.getBottomY(), getCenterX(s2) , getCenterY(s2));
 		playerExtends = getExtend(player.getRightX(), player.getBottomY(), getCenterX(player), getCenterY(player));
 
+		System.out.println(0);
 		C[0][0]= abs(dotProduct(playerAxis[0],savedAxis[0]));
 		C[0][1]= abs(dotProduct(playerAxis[0],savedAxis[1]));
 		AD[0] = abs(dotProduct(playerAxis[0], D));
 		R1 = savedExtends[0]*C[0][0]+savedExtends[1]*C[0][1];
 		R01 = playerExtends[0]+R1;
-		if(AD[0] > R01) return false;
 
+		if(AD[0] > R01) return false;
 		C[1][0]= abs(dotProduct(playerAxis[1],savedAxis[0]));
 		C[1][1]= abs(dotProduct(playerAxis[1],savedAxis[1]));
 		AD[1] = abs(dotProduct(playerAxis[1], D));
@@ -41,9 +42,11 @@ public class OBBCollider extends Collider {
 		R01 = R0 + savedExtends[0];
 		if(dotProduct(savedAxis[0], D) > R01) return false;
 
+		System.out.println(3);
 		R0 = playerExtends[0]*C[0][1]+savedExtends[1]*C[1][1];
 		R01 = R0 + savedExtends[1];
 		if(dotProduct(savedAxis[1], D) > R01) return false;
+		System.out.println(4);
 		return true;
 	}
 

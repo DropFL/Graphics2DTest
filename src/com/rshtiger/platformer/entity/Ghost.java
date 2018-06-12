@@ -1,6 +1,6 @@
 package com.rshtiger.platformer.entity;
 
-import com.rshtiger.platformer.collision.SquareToCicleCollider;
+import com.rshtiger.platformer.collision.SquareToCircleCollider;
 import res.ImageResource;
 
 import java.awt.*;
@@ -12,13 +12,14 @@ public class Ghost extends PlayerInteractive{
     private Image wing;
     private Player p;
     
-    public Ghost (Player p) {
-        this.width = 50;
-        this.height = 50;
-        this.collider = new SquareToCicleCollider();
-        this.wing = ImageResource.GHOST_2.getImageIcon().getImage().getScaledInstance(100, 50,Image.SCALE_FAST);
-        this.image = ImageResource.GHOSTTMP.getImageIcon().getImage().getScaledInstance(45,45,Image.SCALE_SMOOTH);
-        this.p = p;
+    public Ghost (int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.collider = new SquareToCircleCollider();
+        this.wing = ImageResource.GHOST_2.getImageIcon().getImage().getScaledInstance(3*(width - 5), 3*(height - 5),Image.SCALE_FAST);
+        //this.image = ImageResource.GHOSTTMP.getImageIcon().getImage().getScaledInstance(width ,height,Image.SCALE_SMOOTH);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class Ghost extends PlayerInteractive{
         super.render(g);
 
             AffineTransform t = new AffineTransform();
-            t.translate(x - 55, y - 10);
+            t.translate(x - width , y - height);
             g.drawImage(wing, t, null);
     }
 
