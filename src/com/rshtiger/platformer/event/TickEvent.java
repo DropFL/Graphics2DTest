@@ -23,6 +23,10 @@ abstract class TickEvent {
 		
 		return elapsed >= duration;
 	}
+	
+	public void start() {
+		// nothing
+	}
 	public void finish () {
 		// null
 	}

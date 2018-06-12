@@ -17,18 +17,16 @@ public final class Engine implements IDrawable {
 
 	// Entities
 	private Player player;
-	private Map map;
 
 	private ArrayList<Block> blocks;
-	private ArrayList<PlayerInteractive> entities = new ArrayList<>();
-	private ArrayList<PlayerInteractive> removeEntities = new ArrayList<>();
+	private ArrayList<PlayerInteractive> entities;
+	private ArrayList<PlayerInteractive> removeEntities;
 
 	public Engine (MapResource mapResource) {
-		map = mapResource.getMapData();
-		blocks = map.getBlocks();
+		blocks = new ArrayList<>();
+		entities = new ArrayList<>();
+		removeEntities = new ArrayList<>();
 		player = new Player();
-		entities.add(new Fireball(200, 600, 100,100));
-		entities.add(new Ghost(100, 600, 100,100));
 	}
 	
 	public double getGravity () {

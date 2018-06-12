@@ -26,7 +26,6 @@ public class PlatformerActivity extends Activity {
 	private Synchronizer sync;
 	
 	private ImageOverlayEffect pauseEffect;
-	private ScaleRotateEffect scaleRotateEffect;
 	
 	private JButton resume;
 	private JButton restart;
@@ -44,15 +43,12 @@ public class PlatformerActivity extends Activity {
 		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
 		engine = new Engine();
 		effects = new ScreenEffectIterator();
-		sync = new Synchronizer(engine, bgm, effects);
 		
 		pauseEffect = new ImageOverlayEffect(0, 0, ImageResource.PAUSE_OVERLAY.getImageIcon().getImage(), 0);
 		
 		resume = new JButton(ImageResource.RESUME_BUTTON.getImageIcon(160, 160));
 		restart = new JButton(ImageResource.RESTART_BUTTON.getImageIcon(160, 160));
 		stop = new JButton(ImageResource.STOP_BUTTON.getImageIcon(160, 160));
-		
-		scaleRotateEffect = new ScaleRotateEffect(1, 1, 0);
 		
 		resumeAdapter = new MouseAdapter() {
 			@Override
@@ -81,6 +77,7 @@ public class PlatformerActivity extends Activity {
 	
 	@Override
 	public void start () {
+		sync = new Synchronizer(engine, bgm, effects);
 		bgm.play(()->requestActivityChange(MainActivity.class));
 		createImage();
 		
@@ -139,13 +136,6 @@ public class PlatformerActivity extends Activity {
 		
 		graphics.dispose();
 		
-		//Effect Test
-		scaleRotateEffect.setPivotX((engine.getPlayerLeftX() + engine.getPlayerRightX()) / 2);
-		scaleRotateEffect.setPivotY((engine.getPlayerTopY() + engine.getPlayerBottomY()) / 2);
-		scaleRotateEffect.setScale(Math.sin(sync.getTicks() / 30. * Math.PI) * 0.05 + 1);
-		scaleRotateEffect.setRotation(Math.sin(sync.getTicks() / 60. * Math.PI) * 2);
-		
-		scaleRotateEffect.apply(image);
 		effects.apply(image);
 		pauseEffect.apply(image);
 		

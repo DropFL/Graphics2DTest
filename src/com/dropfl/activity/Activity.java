@@ -30,7 +30,6 @@ public abstract class Activity {
 		ScreenEffect.init(config);
 	}
 	public void syncState (Activity target) {
-		// nothing
 	}
 	
 	public String getTitle () {

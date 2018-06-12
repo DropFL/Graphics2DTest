@@ -24,6 +24,7 @@ public enum ImageResource {
 	START_BACKGROUND_EMPHASIZE("Start_Bground_emphasize.jpg"),
 	PAUSE_OVERLAY("pause_overlay.png"),
 	MAIN_BACKGROUND("main_background.jpg"),
+	HIT("hit.png"),
 	
 	// Buttons
 	START_BUTTON("btn_play.jpg"),
@@ -57,14 +58,5 @@ public enum ImageResource {
 	}
 	public ImageIcon getImageIcon (int width, int height) {
 		return new ImageIcon(imageIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-	}
-	
-	public static ImageResource getImageResource (String id) {
-		switch (id) {
-			case "UNIT":
-				return UNIT_IMAGE;
-		}
-		
-		return null;
 	}
 }

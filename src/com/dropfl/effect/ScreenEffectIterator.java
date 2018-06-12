@@ -1,22 +1,22 @@
 package com.dropfl.effect;
 
 import java.awt.image.VolatileImage;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ScreenEffectIterator extends ScreenEffect {
 	
 	public static final boolean AT_FIRST = false;
 	public static final boolean AT_LAST = true;
 	
-	private List<ScreenEffect> iterator;
+	private ArrayList<ScreenEffect> iterator;
 	
-	public ScreenEffectIterator (List<ScreenEffect> effects) {
+	public ScreenEffectIterator (ArrayList<ScreenEffect> effects) {
 		iterator = effects;
 	}
 	
 	public ScreenEffectIterator (ScreenEffect... args) {
-		this(Arrays.asList(args));
+		this(new ArrayList<>(Arrays.asList(args)));
 	}
 	
 	@Override

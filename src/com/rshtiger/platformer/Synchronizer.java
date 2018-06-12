@@ -3,6 +3,8 @@ package com.rshtiger.platformer;
 import com.dropfl.effect.ScreenEffect;
 import com.dropfl.effect.ScreenEffectIterator;
 import com.dropfl.music.MusicPlayer;
+import com.rshtiger.key.Key;
+import com.rshtiger.key.KeyStatus;
 import com.rshtiger.platformer.event.EventManager;
 
 public class Synchronizer {
@@ -28,6 +30,12 @@ public class Synchronizer {
 			eventManager.update(ticks);
 			engine.tick();
 			ScreenEffect.setSeed(ticks);
+		}
+		
+		
+		if(KeyStatus.isKeyJustPressed(Key.DOWN)) {
+			KeyStatus.setKeyProcessed(Key.DOWN);
+			System.out.println(ticks);
 		}
 	}
 	
