@@ -14,17 +14,16 @@ public class OBBCollider extends Collider {
 	double R0,R1;    //interval radii and distance between centers
 	double R01;        //=R0+R1
 
-	OBBCollider(Shape player, Shape me){
-			savedAxis[0] = getAxis(me.getLeftX(), me.getBottomY(), me.getRightX(), me.getBottomY());
-			savedAxis[1] = getAxis(me.getRightX(), me.getBottomY(), me.getRightX(), me.getTopY());
-			savedExtends = getExtend(me.getRightX(), me.getTopY(), getCenterX(me) , getCenterY(me));
-			playerExtends = getExtend(player.getRightX(), player.getLeftX(), getCenterX(player), getCenterY(player));
-	}
-
 	@Override
 	public boolean isCollided (Shape player, Shape s2) {
 		// Not implemented yet
 		double D[] = {getCenterX(s2) - getCenterX(player), getCenterY(s2) - getCenterY(player)};
+
+		savedAxis[0] = getAxis(s2.getLeftX(), s2.getBottomY(), s2.getRightX(), s2.getBottomY());
+		savedAxis[1] = getAxis(s2.getRightX(), s2.getBottomY(), s2.getRightX(), s2.getTopY());
+		savedExtends = getExtend(s2.getRightX(), s2.getTopY(), getCenterX(s2) , getCenterY(s2));
+		playerExtends = getExtend(player.getRightX(), player.getLeftX(), getCenterX(player), getCenterY(player));
+
 		C[0][0]= abs(dotProduct(playerAxis[0],savedAxis[0]));
 		C[0][1]= abs(dotProduct(playerAxis[0],savedAxis[1]));
 		AD[0] = abs(dotProduct(playerAxis[0], D));

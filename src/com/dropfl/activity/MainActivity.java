@@ -32,8 +32,8 @@ public final class MainActivity extends Activity{
 		bgImage = ImageResource.START_BACKGROUND.getImageIcon().getImage();
 		alpha = 0;
 		start_btn = new JButton(ImageResource.BLANK_BUTTON.getImageIcon(226, 68));
-		option_btn = new JButton(ImageResource.OPTION_BUTTON.getImageIcon(226, 68));
-		exit_btn = new JButton(ImageResource.EXIT_BUTTON.getImageIcon(226, 68));
+		option_btn = new JButton(ImageResource.BLANK_BUTTON.getImageIcon(226, 68));
+		exit_btn = new JButton(ImageResource.BLANK_BUTTON.getImageIcon(226, 68));
 		
 		start_adapter = new MouseAdapter() {
 			@Override

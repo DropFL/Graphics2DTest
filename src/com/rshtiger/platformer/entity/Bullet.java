@@ -1,6 +1,7 @@
 package com.rshtiger.platformer.entity;
 
 import com.rshtiger.platformer.collision.AABBCollider;
+import com.rshtiger.platformer.collision.OBBCollider;
 import res.ImageResource;
 
 import java.awt.*;
@@ -8,8 +9,11 @@ import java.awt.*;
 public class Bullet extends PlayerInteractive {
 	private double speedX, speedY;
 	
-	public Bullet (int width, int height) {
+	public Bullet (int x, int y, int width, int height) {
 		this.speedX = this.speedY = 0;
+		this.x = x;
+		this.y = y;
+		this.rotation = 0;
 		this.width = width;
 		this.height = height;
 		this.collider = new AABBCollider();

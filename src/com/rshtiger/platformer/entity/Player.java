@@ -25,7 +25,7 @@ public final class Player extends Entity {
 	public final static int MAX_HP = 100;
 	
 	public Player (int x, int y) {
-		width = height = size = 32;
+		width = height = size = 80;
 		image = ImageResource.UNIT_IMAGE
 					.getImageIcon()
 					.getImage()

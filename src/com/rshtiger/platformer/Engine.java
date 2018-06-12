@@ -3,6 +3,7 @@ package com.rshtiger.platformer;
 import com.dropfl.component.IDrawable;
 import com.rshtiger.key.Key;
 import com.rshtiger.key.KeyStatus;
+import com.rshtiger.platformer.entity.Bullet;
 import com.rshtiger.platformer.entity.Player;
 import com.rshtiger.platformer.entity.PlayerInteractive;
 import res.MapResource;
@@ -16,12 +17,17 @@ public final class Engine implements IDrawable {
 	private Player player;
 	private Map map;
 	private ArrayList<PlayerInteractive> entities;
+	private ArrayList<PlayerInteractive> bullets = new ArrayList<PlayerInteractive>();
+	private ArrayList<PlayerInteractive> upbullets = new ArrayList<PlayerInteractive>();;
 	private double scale = 1;
-	
+	private Bullet tmpb;
+	private int tmpd = 1;
 	public Engine (MapResource mapResource) {
 		map = mapResource.getMapData();
 		entities = map.getBlocks();
 		player = new Player();
+		tmpb = new Bullet(100, 600, 100,100);
+		bullets.add(tmpb);
 	}
 	
 	public double getGravity () {
@@ -92,12 +98,24 @@ public final class Engine implements IDrawable {
 			if (e.isCollided(player) && e.interact(player))
 				entities.remove(e);
 		}
+		for (PlayerInteractive e : bullets) {
+			if (!(e.isCollided(player) && e.interact(player))) upbullets.add(e);
+
+		}
+		bullets.clear();
+		for (PlayerInteractive e : upbullets) {
+			bullets.add(e);
+		}
+		upbullets.clear();
 	}
 	
 	public void	render (Graphics2D g) {
 		for (PlayerInteractive entity : entities)
 			entity.render(g);
-		
+
+		for (PlayerInteractive entity : bullets)
+			entity.render(g);
+
 		player.render(g);
 	}
 }
