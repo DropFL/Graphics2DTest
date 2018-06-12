@@ -17,6 +17,9 @@ public final class Player extends Entity {
 	private int size;
 	
 	private Image shieldImage;
+	private Image hpBar;
+	private Image hpb;
+	private Image shieldIco;
 	private int shieldCount;
 	private int shieldTime;
 	private boolean isShieldOn;
@@ -43,6 +46,21 @@ public final class Player extends Entity {
 						.getScaledInstance((int)(size * 1.6), (int)(size * 1.6), Image.SCALE_FAST);
 		isShieldOn = false;
 		shieldCount = 3;
+
+		hpBar= ImageResource.HPBAR
+				.getImageIcon()
+				.getImage()
+				.getScaledInstance(30, 404, Image.SCALE_FAST);
+
+
+		hpb = ImageResource.HP
+				.getImageIcon()
+				.getImage()
+				.getScaledInstance(26, 4 * hp, Image.SCALE_FAST);
+		shieldIco = ImageResource.SHIELDICO
+				.getImageIcon()
+				.getImage()
+				.getScaledInstance(30, 30 , Image.SCALE_FAST);
 	}
 	
 	public Player () {
@@ -103,6 +121,11 @@ public final class Player extends Entity {
 			return;
 		}
 		hp += deltaHp;
+		hpb = ImageResource.HP
+				.getImageIcon()
+				.getImage()
+				.getScaledInstance(26, 4 * hp, Image.SCALE_FAST);
+		System.out.println(hp);
 		if (hp < 0) ; // this.die();
 		else if (hp > MAX_HP) hp = MAX_HP;
 	}
@@ -129,10 +152,22 @@ public final class Player extends Entity {
 	@Override
 	public void render (Graphics2D g) {
 		super.render(g);
-		
+		AffineTransform hb = new AffineTransform();
+		hb.translate(1235, 200);
+		g.drawImage(hpBar, hb,null);
+
+		AffineTransform h = new AffineTransform();
+		h.translate(1237, 202 + 4 * (100 - hp));
+		g.drawImage(hpb, h,null);
+
+		for(int i = 0; i < shieldCount; i++){
+			AffineTransform sd = new AffineTransform();
+			sd.translate(10 + 30 * i, 10);
+			g.drawImage(shieldIco, sd,null);
+		}
 		if (isShieldOn) {
 			AffineTransform t = new AffineTransform();
-			t.translate(x - 10, y - 10);
+			t.translate(x - width / 4, y - height / 4);
 			g.drawImage(shieldImage, t, null);
 		}
 	}

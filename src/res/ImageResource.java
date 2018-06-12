@@ -34,12 +34,13 @@ public enum ImageResource {
 	RESUME_BUTTON("resume_button.png"),
 	RESTART_BUTTON("restart_button.png"),
 	STOP_BUTTON("stop_button.png"),
-	
-	
+
+	SHIELDICO("shieldil.png"),
 	GHOSTTMP("cute_ghost_body.png"),
 	FIREBALL("fireball.gif"),
+	HPBAR("hpbar.png"),
+	HP("hp.png"),
 	LASER_R("laser_red.png");
-	
 	private ImageIcon imageIcon;
 	
 	ImageResource (String name) {
