@@ -7,7 +7,6 @@ import com.rshtiger.key.Key;
 import com.rshtiger.key.KeyStatus;
 import com.rshtiger.platformer.Engine;
 import com.rshtiger.platformer.Synchronizer;
-import res.FontResource;
 import res.ImageResource;
 import res.SoundResource;
 
@@ -23,17 +22,9 @@ public class PlatformerActivity extends Activity {
 	private Engine engine;
 	private Synchronizer sync;
 	
-	private int prev;
-	private int beats;
-	
-	private TextOverlayEffect read;
-	private TextOverlayEffect the;
-	private TextOverlayEffect fucking;
-	private TextOverlayEffect manual;
-	private JitterEffect shake;
-	private ScreenEffectIterator effects;
 	private AdvancedMusicPlayer bgm;
 	private ImageOverlayEffect pauseEffect;
+	private ScaleRotateEffect scaleRotateEffect;
 	
 	private JButton resume;
 	private JButton restart;
@@ -51,23 +42,14 @@ public class PlatformerActivity extends Activity {
 		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
 		engine = new Engine();
 		sync = new Synchronizer(engine, bgm);
-		prev = beats = 0;
-		read = new TextOverlayEffect(404, 300, "",
-										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 84), Color.BLACK);
-		the = new TextOverlayEffect(687, 300, "",
-										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 84), Color.BLACK);
-		fucking = new TextOverlayEffect(368, 400, "",
-										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 120), Color.RED);
-		manual = new TextOverlayEffect(447, 480, "",
-										FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 84), Color.WHITE);
-		shake = new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL);
-		effects = new ScreenEffectIterator(read, the, fucking, manual, shake);
 		
 		pauseEffect = new ImageOverlayEffect(0, 0, ImageResource.PAUSE_OVERLAY.getImageIcon().getImage(), 0);
 		
 		resume = new JButton(ImageResource.RESUME_BUTTON.getImageIcon(160, 160));
 		restart = new JButton(ImageResource.RESTART_BUTTON.getImageIcon(160, 160));
 		stop = new JButton(ImageResource.STOP_BUTTON.getImageIcon(160, 160));
+		
+		scaleRotateEffect = new ScaleRotateEffect(1, 1, 0);
 		
 		resumeAdapter = new MouseAdapter() {
 			@Override
@@ -143,7 +125,6 @@ public class PlatformerActivity extends Activity {
 		engine.render(graphics);
 		
 		// Post-renderer goes here
-		
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(0, 0, Main.SCREEN_WIDTH * bgm.getTime() / bgm.getLength(), 3);
 		graphics.setColor(Color.BLACK);
@@ -152,51 +133,12 @@ public class PlatformerActivity extends Activity {
 		graphics.dispose();
 		
 		//Effect Test
-		int time = bgm.getTime();
-		int cur = time * 4 % 1875;
-		if (cur < prev) {
-			beats = (beats + 1) % 8;
-			switch (beats) {
-				case 0:
-					read.setText("");
-					the.setText("");
-					fucking.setText("");
-					manual.setText("");
-					break;
-				case 1:
-					read.setText("READ");
-					break;
-				case 2:
-					the.setText("THE");
-					break;
-				case 3:
-					fucking.setText("FUCKING");
-					break;
-				case 4:
-					manual.setText("MANUAL");
-					break;
-				case 5:
-					fucking.setText("");
-					manual.setText("");
-					break;
-				case 6:
-					fucking.setText("FUCKING");
-					break;
-				case 7:
-					manual.setText("MANUAL");
-					break;
-			}
-			shake.setStrength(10);
-		} else if (!isPaused()) {
-			double strength = shake.getStrength() / 1.1;
-			shake.setStrength(strength);
-		}
+		scaleRotateEffect.setPivotX((engine.getPlayerLeftX() + engine.getPlayerRightX()) / 2);
+		scaleRotateEffect.setPivotY((engine.getPlayerTopY() + engine.getPlayerBottomY()) / 2);
+		scaleRotateEffect.setScale(Math.sin(sync.getTicks() / 30. * Math.PI) * 0.1 + 1);
+		scaleRotateEffect.setRotation(Math.sin(sync.getTicks() / 60. * Math.PI) * 5);
 		
-		prev = cur;
-		ScreenEffect.setSeed(sync.getTicks());
-		
-		effects.apply(image);
-		
+		scaleRotateEffect.apply(image);
 		pauseEffect.apply(image);
 		
 		return image;

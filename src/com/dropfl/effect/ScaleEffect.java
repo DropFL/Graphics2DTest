@@ -43,6 +43,9 @@ public class ScaleEffect extends ScreenEffect {
 	public void setScaleY (double scaleY) {
 		this.scaleY = scaleY;
 	}
+	public void setScale (double scale) {
+		this.scaleX = this.scaleY = scale;
+	}
 	public void setPivotX (double pivotX) {
 		this.pivotX = pivotX;
 	}
