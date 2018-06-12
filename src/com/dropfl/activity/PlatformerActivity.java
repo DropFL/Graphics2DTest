@@ -26,6 +26,8 @@ public class PlatformerActivity extends Activity {
 	private Synchronizer sync;
 	
 	private ImageOverlayEffect pauseEffect;
+	private ImageOverlayEffect gameoverEffect;
+	private ScaleRotateEffect scaleRotateEffect;
 	
 	private JButton resume;
 	private JButton restart;
@@ -43,13 +45,14 @@ public class PlatformerActivity extends Activity {
 		bgImage = ImageResource.MAP_1.getImageIcon().getImage();
 		engine = new Engine();
 		effects = new ScreenEffectIterator();
-		
+
 		pauseEffect = new ImageOverlayEffect(0, 0, ImageResource.PAUSE_OVERLAY.getImageIcon().getImage(), 0);
-		
+		gameoverEffect = new ImageOverlayEffect(0, 0, ImageResource.GAMEOVER.getImageIcon().getImage(), 0);
+
 		resume = new JButton(ImageResource.RESUME_BUTTON.getImageIcon(160, 160));
 		restart = new JButton(ImageResource.RESTART_BUTTON.getImageIcon(160, 160));
 		stop = new JButton(ImageResource.STOP_BUTTON.getImageIcon(160, 160));
-		
+
 		resumeAdapter = new MouseAdapter() {
 			@Override
 			public void mouseClicked (MouseEvent e) {
@@ -85,9 +88,9 @@ public class PlatformerActivity extends Activity {
 		restart.setVisible(false);
 		stop.setVisible(false);
 		
-		addButton(resume, Main.SCREEN_WIDTH / 2 - 80,Main.SCREEN_HEIGHT / 2 - 80, 160, 160, resumeAdapter);
-		addButton(restart, Main.SCREEN_WIDTH / 2 - 320,Main.SCREEN_HEIGHT / 2 - 80, 160, 160, restartAdapter);
-		addButton(stop, Main.SCREEN_WIDTH / 2 + 160,Main.SCREEN_HEIGHT / 2 - 80, 160, 160, stopAdapter);
+		addButton(resume, Main.SCREEN_WIDTH / 2 - 80,Main.SCREEN_HEIGHT / 2 + 180, 160, 160, resumeAdapter);
+		addButton(restart, Main.SCREEN_WIDTH / 2 - 320,Main.SCREEN_HEIGHT / 2 + 180, 160, 160, restartAdapter);
+		addButton(stop, Main.SCREEN_WIDTH / 2 + 160,Main.SCREEN_HEIGHT / 2 + 180, 160, 160, stopAdapter);
 	}
 	
 	@Override
@@ -116,7 +119,11 @@ public class PlatformerActivity extends Activity {
 			if(paused) resumeGame();
 			else pauseGame();
 		}
-		
+
+		if(engine.getplayerHP() <= 0){
+			gameover();
+		}
+
 		updateImage();
 		
 		graphics.setRenderingHints(Main.getRenderingHint());
@@ -135,13 +142,22 @@ public class PlatformerActivity extends Activity {
 		graphics.fillRect(0, 3, Main.SCREEN_WIDTH * bgm.getTime() / bgm.getLength(), 1);
 		
 		graphics.dispose();
-		
+
 		effects.apply(image);
 		pauseEffect.apply(image);
+		gameoverEffect.apply(image);
 		
 		return image;
 	}
-	
+	public void gameover(){
+		bgm.stop();
+		paused = true;
+
+		restart.setVisible(true);
+		stop.setVisible(true);
+
+		gameoverEffect.setOpacity(1);
+	}
 	private void pauseGame () {
 		bgm.pause();
 		paused = true;

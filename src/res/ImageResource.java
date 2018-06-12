@@ -24,8 +24,9 @@ public enum ImageResource {
 	START_BACKGROUND_EMPHASIZE("Start_Bground_emphasize.jpg"),
 	PAUSE_OVERLAY("pause_overlay.png"),
 	MAIN_BACKGROUND("main_background.jpg"),
+	GAMEOVER("gameover.png"),
 	HIT("hit.png"),
-	
+
 	// Buttons
 	START_BUTTON("btn_play.jpg"),
 	EXIT_BUTTON("btn_exit.jpg"),

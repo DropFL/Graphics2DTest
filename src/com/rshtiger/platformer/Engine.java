@@ -61,7 +61,7 @@ public final class Engine implements IDrawable {
 	public boolean isInputAvailable () {
 		return inputAvailable;
 	}
-
+    public int getplayerHP() { return player.getHp(); }
 	public ArrayList<Block> getBlocks () {
 		return blocks;
 	}
@@ -74,7 +74,6 @@ public final class Engine implements IDrawable {
 	}
 	
 	public void	tick () {
-		
 		if(isInputAvailable())
 			handleInput();
 

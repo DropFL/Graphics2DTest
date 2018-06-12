@@ -70,7 +70,7 @@ public class EventManager {
 			active.add(event);
 			event.start();
 		}
-		
+
 		for (TickEvent event : active)
 			if (event.update(ticks)) remove.add(event);
 		

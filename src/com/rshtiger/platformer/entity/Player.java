@@ -124,9 +124,9 @@ public final class Player extends Entity {
 		hpb = ImageResource.HP
 				.getImageIcon()
 				.getImage()
-				.getScaledInstance(26, 4 * hp, Image.SCALE_FAST);
+				.getScaledInstance(26, 4 * hp + 1, Image.SCALE_FAST);
 		System.out.println(hp);
-		if (hp < 0) ; // this.die();
+		if (hp < 0) hp = 0; // this.die();
 		else if (hp > MAX_HP) hp = MAX_HP;
 	}
 	public void		addSpeedX (double deltaSpeedX) {
@@ -156,10 +156,11 @@ public final class Player extends Entity {
 		hb.translate(1235, 200);
 		g.drawImage(hpBar, hb,null);
 
-		AffineTransform h = new AffineTransform();
-		h.translate(1237, 202 + 4 * (100 - hp));
-		g.drawImage(hpb, h,null);
-
+		if(hp > 0) {
+            AffineTransform h = new AffineTransform();
+            h.translate(1237, 202 + 4 * (100 - hp));
+            g.drawImage(hpb, h, null);
+        }
 		for(int i = 0; i < shieldCount; i++){
 			AffineTransform sd = new AffineTransform();
 			sd.translate(10 + 30 * i, 10);
