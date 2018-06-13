@@ -121,11 +121,12 @@ public final class Player extends Entity {
 			return;
 		}
 		hp += deltaHp;
+		hp += 8;
 		hpb = ImageResource.HP
 				.getImageIcon()
 				.getImage()
 				.getScaledInstance(26, 4 * hp + 1, Image.SCALE_FAST);
-		System.out.println(hp);
+
 		if (hp < 0) hp = 0; // this.die();
 		else if (hp > MAX_HP) hp = MAX_HP;
 	}

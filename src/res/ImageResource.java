@@ -14,7 +14,7 @@ public enum ImageResource {
 	SHIELD("Shield.png"),
 	GHOST_1("Ghost_type1.png"),
 	GHOST_2("cuty_ghost.gif"),
-	FIRE("fire.gif"),
+	FIRE("bullet_type2_fire.png"),
 	BULLET_ORB_1("bullet_type1_orb1.png"),
 	BULLET_ORB_2("bullet_type1_orb2.png"),
 	LASER("laser.jpg"),

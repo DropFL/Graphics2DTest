@@ -7,7 +7,7 @@ import res.ImageResource;
 import java.awt.*;
 
 public class Bullet extends PlayerInteractive {
-	
+
 	public Bullet (int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;

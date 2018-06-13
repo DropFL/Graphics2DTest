@@ -3,6 +3,8 @@ package com.rshtiger.platformer.entity;
 import com.dropfl.component.ImageComponent;
 import com.rshtiger.platformer.collision.Shape;
 
+import java.util.function.Function;
+
 public abstract class Entity extends ImageComponent implements Shape {
 	
 	protected double width;
@@ -32,7 +34,7 @@ public abstract class Entity extends ImageComponent implements Shape {
 	public double getRotation () {
 		return rotation;
 	}
-	
+
 	public void setX (double x) {
 		this.x = x;
 	}

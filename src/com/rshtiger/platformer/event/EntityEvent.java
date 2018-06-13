@@ -15,7 +15,6 @@ public class EntityEvent extends TickEvent {
 		super(since, duration, formula);
 		this.entity = entity;
 		this.list = list;
-		list.add(entity);
 	}
 	
 	@Override
@@ -23,6 +22,11 @@ public class EntityEvent extends TickEvent {
 		entity.setX(value[0]);
 		entity.setY(value[1]);
 		entity.setRotation(value[2]);
+	}
+
+	@Override
+	public void start () {
+		list.add(entity);
 	}
 	
 	@Override
