@@ -25,7 +25,7 @@ public class EventManager {
 		events = new ArrayList<>();
 		active = new ArrayList<>();
 		remove = new ArrayList<>();
-		int startTerm = 0, bit = 56;
+		int startTerm = 0, bit = 56, basetime = 0;
 		// Block initialize
 		addEvent(new BlockEvent(0, Integer.MAX_VALUE,
 				(Integer integer) -> {return null;}, engine.getBlocks(), new Block(-1, 0, 1, 719)));
@@ -197,72 +197,73 @@ public class EventManager {
 
 		bit = 58;
 		startTerm = 0;
-		addEvent(new EntityEvent(1900 + bit * startTerm, 100, (Integer integer) -> {
+		basetime = 1904;
+		addEvent(new EntityEvent(basetime + bit * startTerm, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 600.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 10, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 10, 100, (Integer integer) -> {
 			Double[] res = {1300 -10.0 * integer, 500.0 , 90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 13, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 13, 100, (Integer integer) -> {
 			Double[] res = {600.0, 10.0 *integer , 0.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 18, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 18, 100, (Integer integer) -> {
 			Double[] res = {700.0, 820 - 10.0 *integer , 180.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm++ + 28, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm++ + 28, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 600.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
 
-		addEvent(new EntityEvent(1900 + bit * startTerm, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 300.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 10, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 10, 100, (Integer integer) -> {
 			Double[] res = {1300 -10.0 * integer, 800.0 , 90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 13, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 13, 100, (Integer integer) -> {
 			Double[] res = {800.0, 10.0 *integer , 0.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 18, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 18, 100, (Integer integer) -> {
 			Double[] res = {900.0, 820 - 10.0 *integer , 180.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm++ + 28, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm++ + 28, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 800.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
 
-		addEvent(new EntityEvent(1900 + bit * startTerm, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 300.0 + 5.0 * integer , getRadian(10.0, 5.0)};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 10, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 10, 100, (Integer integer) -> {
 			Double[] res = {1300 -10.0 * integer, 800.0 - 7.0 * integer , getRadian(-10.0, -7.0)};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 13, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 13, 100, (Integer integer) -> {
 			Double[] res = {800.0 - 5.0 * integer, 10.0 *integer , getRadian(-5.0, 10.0)};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 18, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 18, 100, (Integer integer) -> {
 			Double[] res = {900.0 - 2.0 * integer, 820 - 10.0 *integer , getRadian(-2.0, -10.0)};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm++ + 28, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm++ + 28, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 800.0 , 0.0};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
 
 		for(int i = 0; i < 8; i++) {
 			final int final_i = i;
-			addEvent(new EntityEvent(1900 + bit * startTerm, 300, (Integer integer) -> {
+			addEvent(new EntityEvent(basetime + bit * startTerm, 300, (Integer integer) -> {
 				Double[] res = {10.0 * integer, 50.0 + 100 * final_i , -90.0};
 				return res;
 			}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
@@ -270,7 +271,7 @@ public class EventManager {
 
 		for(int i = 0; i < 12; i++){
 			final int final_i = i;
-			addEvent(new EntityEvent(1900 + bit * startTerm + 9, 300, (Integer integer) -> {
+			addEvent(new EntityEvent(basetime + bit * startTerm + 9, 300, (Integer integer) -> {
 				Double[] res = {100.0 * final_i, 10.0 *integer , 0.0};
 				return res;
 			}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
@@ -278,7 +279,7 @@ public class EventManager {
 
 		for(int i = 0; i < 8; i++){
 			final int final_i = i;
-			addEvent(new EntityEvent(1900 + bit * startTerm + 18, 300, (Integer integer) -> {
+			addEvent(new EntityEvent(basetime + bit * startTerm + 18, 300, (Integer integer) -> {
 				Double[] res = {1300 - 10.0 * integer, 100.0 * final_i , 90.0};
 				return res;
 			}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
@@ -286,84 +287,92 @@ public class EventManager {
 
 		for(int i = 0; i < 12; i++){
 			final int final_i = i;
-			addEvent(new EntityEvent(1900 + bit * startTerm + 27, 300, (Integer integer) -> {
+			addEvent(new EntityEvent(basetime + bit * startTerm + 27, 300, (Integer integer) -> {
 				Double[] res = {50 + 100.0 * final_i, 800 - 10.0 *integer , 180.0};
 				return res;
 			}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
 		}
 
-		addEvent(new EntityEvent(1900 + bit * ++startTerm, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * ++startTerm, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 600.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 10, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 10, 100, (Integer integer) -> {
 			Double[] res = {1300 -10.0 * integer, 500.0 , 90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 13, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 13, 100, (Integer integer) -> {
 			Double[] res = {600.0, 10.0 *integer , 0.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 18, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 18, 100, (Integer integer) -> {
 			Double[] res = {700.0, 820 - 10.0 *integer , 180.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm++ + 28, 100, (Integer integer) -> {
-			Double[] res = {0.0, 650.0 , -90.0};
+		addEvent(new EntityEvent(basetime + bit * startTerm++ + 28, 100, (Integer integer) -> {
+			Double[] res = {0.0, 600.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Laser(-100, -100, 150, 1300)));
 
-		addEvent(new EntityEvent(1900 + bit * startTerm, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 300.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 10, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 10, 100, (Integer integer) -> {
 			Double[] res = {1300 -10.0 * integer, 800.0 , 90.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 13, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 13, 100, (Integer integer) -> {
 			Double[] res = {800.0, 10.0 *integer , 0.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 18, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 18, 100, (Integer integer) -> {
 			Double[] res = {900.0, 820 - 10.0 *integer , 180.0};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm++ + 28, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm++ + 28, 100, (Integer integer) -> {
 			Double[] res = {0.0, 200.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Laser(-100, -100, 150, 1300)));
 
-		addEvent(new EntityEvent(1900 + bit * startTerm, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm, 100, (Integer integer) -> {
 			Double[] res = {10.0 * integer, 300.0 + 5.0 * integer , getRadian(10.0, 5.0)};
 			return res;
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 10, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 10, 100, (Integer integer) -> {
 			Double[] res = {1300 -10.0 * integer, 800.0 - 7.0 * integer , getRadian(-10.0, -7.0)};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 13, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 13, 100, (Integer integer) -> {
 			Double[] res = {800.0 - 5.0 * integer, 10.0 *integer , getRadian(-5.0, 10.0)};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
-		addEvent(new EntityEvent(1900 + bit * startTerm++ + 18, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm++ + 18, 100, (Integer integer) -> {
 			Double[] res = {900.0 - 2.0 * integer, 820 - 10.0 *integer , getRadian(-2.0, -10.0)};
 			return res;
 		}, engine.getEntities(), new Bullet(100, -100, 50, 100)));
+		addEvent(new EntityEvent(basetime + bit * startTerm++ + 28, 100, (Integer integer) -> {
+			Double[] res = {0.0, 400.0 , -90.0};
+			return res;
+		}, engine.getEntities(), new Laser(-100, -100, 150, 1300)));
 
-		addEvent(new EntityEvent(1900 + bit * startTerm, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm, 100, (Integer integer) -> {
 			Double[] res = {100.0, 0.0 , 0.0};
 			return res;
 		}, engine.getEntities(), new Laser(-100, -100, 150, 1300)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 9, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 9, 100, (Integer integer) -> {
 			Double[] res = {1200.0, 0.0 , 0.0};
 			return res;
 		}, engine.getEntities(), new Laser(-100, -100, 150, 1300)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 18, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 18, 100, (Integer integer) -> {
 			Double[] res = {0.0, 600.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Laser(-100, -100, 150, 1300)));
-		addEvent(new EntityEvent(1900 + bit * startTerm + 27, 100, (Integer integer) -> {
+		addEvent(new EntityEvent(basetime + bit * startTerm + 27, 100, (Integer integer) -> {
+			Double[] res = {0.0, 300.0 , -90.0};
+			return res;
+		}, engine.getEntities(), new Laser(-100, -100, 150, 1300)));
+		addEvent(new EntityEvent(basetime + bit * startTerm + 27, 100, (Integer integer) -> {
 			Double[] res = {0.0, 300.0 , -90.0};
 			return res;
 		}, engine.getEntities(), new Laser(-100, -100, 150, 1300)));

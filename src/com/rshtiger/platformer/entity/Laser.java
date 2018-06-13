@@ -4,9 +4,10 @@ import com.rshtiger.platformer.collision.OBBCollider;
 import res.ImageResource;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class Laser extends PlayerInteractive{
-    private int damage = 10;
+    private boolean used = true;
     public Laser(int x, int y, int width, int height){
         this.x = x;
         this.y = y;
@@ -18,9 +19,19 @@ public class Laser extends PlayerInteractive{
 
     @Override
     public boolean interact(Player player) {
-
-        player.addHp(-1 * damage);
-        damage = 0;
+        if(used) {
+            System.out.println("Laser!!!!!!!");
+            player.addHp(-10);
+            used = false;
+        }
         return false;
+    }
+
+    @Override
+    public void render(Graphics2D g){
+        AffineTransform t = new AffineTransform();
+        t.translate(x - 2*width , y);
+        t.rotate(Math.toRadians(rotation));
+        g.drawImage(image, t, null);
     }
 }

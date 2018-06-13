@@ -121,7 +121,7 @@ public final class Player extends Entity {
 			return;
 		}
 		hp += deltaHp;
-		hp += 8;
+		hp += 10;
 		hpb = ImageResource.HP
 				.getImageIcon()
 				.getImage()
