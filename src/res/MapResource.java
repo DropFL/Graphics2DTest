@@ -1,7 +1,7 @@
 package res;
 
-import com.rshtiger.platformer.entity.Block;
-import com.rshtiger.platformer.Map;
+import com.unseed.platformer.entity.Block;
+import com.unseed.platformer.Map;
 
 import java.io.*;
 

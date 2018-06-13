@@ -1,7 +1,7 @@
 package com.dropfl;
 
 import com.dropfl.init.RenderingHintInitializer;
-import com.rshtiger.key.KeyStatus;
+import com.unseed.key.KeyStatus;
 import res.FontResource;
 
 import java.awt.*;

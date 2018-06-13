@@ -3,8 +3,8 @@ package com.dropfl.activity;
 import com.dropfl.Main;
 import com.dropfl.effect.ImageOverlayEffect;
 import com.dropfl.music.DefaultMusicPlayer;
-import com.rshtiger.key.Key;
-import com.rshtiger.key.KeyStatus;
+import com.unseed.key.Key;
+import com.unseed.key.KeyStatus;
 import res.ImageResource;
 import res.SoundResource;
 

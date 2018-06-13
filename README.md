@@ -21,15 +21,15 @@ The Trioz 프로젝트 구조
 
 * `com.dropfl.music` : 음악 재생과 관련된 클래스가 있는 패키지.
 
-### 1.3.2 com.rshtiger
-[rshtiger](https://github.com/rshtiger)가 주로 기여한, `Engine`을 비롯하여 게임 그 자체에 관련된 것으로 구성된 패키지.
+### 1.3.2 com.unseed
+[UnSeed](https://github.com/rshtiger)가 주로 기여한, `Engine`을 비롯하여 게임 그 자체에 관련된 것으로 구성된 패키지.
 
-* `com.rshtiger.key` : 키 입력과 관련된 소스들이 있는 패키지.
+* `com.unseed.key` : 키 입력과 관련된 소스들이 있는 패키지.
 
-* `com.rshtiger.platformer` : 게임의 플랫포머 엔진에 관련된 소스들이 있는 패키지.
-    - `com.rshtiger.platformer.collision` : 플랫포머 엔진 내 충돌과 관련된 소스들이 있는 패키지.
-    - `com.rshtiger.platformer.entity` : 플랫포머 엔진에 있는 엔티티들이 정의된 패키지.
-    - `com.rshtiger.platformet.event` : 시간에 따라 발생하는 게임 내 이벤트가 정의된 패키지. 
+* `com.unseed.platformer` : 게임의 플랫포머 엔진에 관련된 소스들이 있는 패키지.
+    - `com.unseed.platformer.collision` : 플랫포머 엔진 내 충돌과 관련된 소스들이 있는 패키지.
+    - `com.unseed.platformer.entity` : 플랫포머 엔진에 있는 엔티티들이 정의된 패키지.
+    - `com.unseed.platformet.event` : 시간에 따라 발생하는 게임 내 이벤트가 정의된 패키지. 
 ***
 # 2. 핵심 객체
 프로그램의 구조를 이해하는 데에 필요한 객체들은 다음과 같다.
@@ -52,25 +52,25 @@ The Trioz 프로젝트 구조
 
 `Shape`는 플랫포머 엔진 내 도형의 Bounding Box에 대한 데이터를 가져올 수 있는 메서드가 정의된 인터페이스이고, `Collider`는 이 메서드를 이용해 두 `Shape`의 충돌을 판별하는 추상 클래스이다. 이 게임에 쓰이는 엔티티들은 모두 사각형 또는 원이기에 Bounding Box를 저장하는 것으로 각 도형을 충분히 표현할 수 있다. 이들을 이용해 `Collider`에서 적절한 알고리즘으로 충돌을 판정하는 메서드는 다음과 같다.
 
-	boolean isCollided (com.rshtiger.platformer.collision.Shape, com.rshtiger.platformer.collision.Shape);
+	boolean isCollided (com.unseed.platformer.collision.Shape, com.unseed.platformer.collision.Shape);
 
 현재 고려하고 있는 충돌판정 알고리즘은 사각형-원 충돌 알고리즘, AABB, OBB로 크게 3가지가 있으며, 각각이 구현된 `SquaretoCircleCollider`, `AABBCollider`, `OBBCollider`가 정의되어있다.
 
 ## 2.5 Entity, PlayerInteractive
 `Entity`는 말 그대로 엔티티로, `ImageComponent`를 상속하며 `Shape`를 구현한 추상 클래스이다. `Shape`에 정의된 메서드들의 구현이 담겨있으며, `Player`가 이를 상속한다. `PlayerInteractive`는 `Player`와 상호작용할 수 있는 엔티티로, `Entity`를 상속하며 다음의 두 메서드가 추가로 정의되어 있다.
 
-	boolean isCollided (com.rshtiger.platformer.entity.Player);
-	boolean interact (com.rshtiger.platformer.entity.Player);
+	boolean isCollided (com.unseed.platformer.entity.Player);
+	boolean interact (com.unseed.platformer.entity.Player);
 각각 플레이어와 접촉했는지 확인하는 메서드, 플레이어와 상호작용하는 메서드이다. `isCollided` 함수는 온전히 `Collider`에게 위임되어 있지만. `interact` 함수는 구현되어있지 않다. `interact` 메서드의 리턴값은 상호작용 후 해당 엔티티의 삭제가 필요한지를 `Engine`에게 알려주는 역할을 한다. (`true`면 삭제이다.) 이 때 제거용 `destroy` 메서드의 필요성을 검토하고 있지만 아직 확정되진 않았다.
 
 ## 2.6 Key, KeyStatus
 `KeyStatus`는 키 입력을 주관하는 클래스로, 아예 인스턴스화할 수 없게끔 되어있다. `KeyStatus.init()`으로 초기화를 진행하고 `KeyStatus.register(java.awt.Component)`로 해당 `Component`에 들어오는 입력을 받을 수 있다. 키 입력을 확인하는 메서드는 다음과 같다.
 
-	boolean isKeyPressed (com.rshtiger.key.Key);
-	boolean isKeyJustPressed (com.rshtiger.key.Key);
+	boolean isKeyPressed (com.unseed.key.Key);
+	boolean isKeyJustPressed (com.unseed.key.Key);
 전자는 키가 단순히 눌려있는지를 조사하며, 후자는 키 입력이 아직 처리되지 않았는지를 추가로 조사한다. `KeyStatus`에게 키 입력이 처리되었음을 알려주는 메서드는 다음과 같다.
 
-	void setKeyProcessed (com.rshtiger.key.Key);
+	void setKeyProcessed (com.unseed.key.Key);
 멀티쓰레딩 환경에서는 다소 위험성이 있는 방식이지만, 이 프로젝트에서는 최대 1개의 객체가 키 입력에 반응하기 때문에 큰 무리가 없다고 판단하였다.
 
 - `KeyListener`를 통한 구현에서 문제가 발생하여 `KeyBinding`으로 구현 방식을 바꾸었다. 사용 방법은 이전과 동일하다.

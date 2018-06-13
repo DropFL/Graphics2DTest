@@ -3,10 +3,10 @@ package com.dropfl.activity;
 import com.dropfl.Main;
 import com.dropfl.effect.*;
 import com.dropfl.music.AdvancedMusicPlayer;
-import com.rshtiger.key.Key;
-import com.rshtiger.key.KeyStatus;
-import com.rshtiger.platformer.Engine;
-import com.rshtiger.platformer.Synchronizer;
+import com.unseed.key.Key;
+import com.unseed.key.KeyStatus;
+import com.unseed.platformer.Engine;
+import com.unseed.platformer.Synchronizer;
 import res.ImageResource;
 import res.SoundResource;
 
