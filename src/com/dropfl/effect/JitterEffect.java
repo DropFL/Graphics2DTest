@@ -85,7 +85,10 @@ public class JitterEffect extends ScreenEffect {
 	@Override
 	public void updateProperties (Double[] values) {
 		strength = values[0];
-		start = values[1].intValue();
-		length = values[2].intValue();
+		
+		if (values.length > 1) {
+			start = values[1].intValue();
+			length = values[2].intValue();
+		}
 	}
 }
