@@ -10,49 +10,60 @@ public class OBBCollider extends Collider {
 		double rad = Math.toRadians(s2.getRotation());
 		double sin = Math.sin(rad), cos =  Math.cos(rad);
 		double w = s2.getRightX() - s2.getLeftX(), h = s2.getBottomY() - s2.getTopY();
+		double size = ((Player) player).getSize();
+		double relativeX = s2.getLeftX() - player.getLeftX(), relativeY = s2.getTopY() - player.getTopY();
 		double[][] points = {
-								{s2.getLeftX(), s2.getTopY()},
-								{s2.getLeftX() + w * cos, s2.getTopY() + w * sin},
-								{s2.getLeftX() - h * sin, s2.getTopY() + h * cos},
-								{s2.getLeftX() + w * cos - h * sin, s2.getTopY() + w * sin + h * cos}
+								{relativeX, relativeY},
+								{relativeX + w * cos, relativeY + w * sin},
+								{relativeX - h * sin, relativeY + h * cos},
+								{relativeX + w * cos - h * sin, relativeY + w * sin + h * cos}
 							};
 		
-		double min[] = points[0], max[] = points[0];
+		double minX = points[0][0], minY = points[0][1], maxX = points[0][0], maxY = points[0][1];
 		
 		for (double[] point : points) {
-			if(min[0] > point[0]) min[0] = point[0];
-			if(min[1] > point[1]) min[1] = point[1];
-			if(max[0] < point[0]) max[0] = point[0];
-			if(max[1] < point[1]) max[1] = point[1];
+			if(minX > point[0]) minX = point[0];
+			if(minY > point[1]) minY = point[1];
+			if(maxX < point[0]) maxX = point[0];
+			if(maxY < point[1]) maxY = point[1];
 		}
 		
-		if ((player.getLeftX() > min[0] ? player.getLeftX() : min[0]) > (player.getRightX() > max[0] ? player.getRightX() : max[0]) ||
-			(player.getTopY() > min[1] ? player.getTopY() : min[1]) > (player.getBottomY() > max[1] ? player.getBottomY() : max[1]))
+		if ((minX < 0 ? 0 : minX) > (size < maxX ? size : maxX) ||
+			(minY < 0 ? 0 : minY) > (size < maxY ? size : maxY))
 			return false;
 		
 		sin = -sin;
-		w = h = ((Player) player).getSize();
+		relativeX = -relativeX;
+		relativeY = -relativeY;
 		
-		points[0][0] = player.getLeftX();
-		points[0][1] = player.getTopY();
-		points[1][0] = player.getLeftX() + w * cos;
-		points[1][1] = player.getTopY() + w * sin;
-		points[2][0] = player.getLeftX() - h * sin;
-		points[2][1] = player.getTopY() + h * cos;
-		points[3][0] = player.getLeftX() + w * cos - h * sin;
-		points[3][1] = player.getTopY() + w * sin + h * cos;
+		points[0][0] = relativeX * cos - relativeY * sin;
+		points[0][1] = relativeX * sin + relativeY * cos;
 		
-		min = max = points[0];
+		relativeX += size;
+		
+		points[1][0] = relativeX * cos - relativeY * sin;
+		points[1][1] = relativeX * sin + relativeY * cos;
+		
+		relativeX -= size;
+		relativeY += size;
+		
+		points[2][0] = relativeX * cos - relativeY * sin;
+		points[2][1] = relativeX * sin + relativeY * cos;
+		
+		relativeX += size;
+		
+		points[3][0] = relativeX * cos - relativeY * sin;
+		points[3][1] = relativeX * sin + relativeY * cos;
 		
 		for (double[] point : points) {
-			if(min[0] > point[0]) min[0] = point[0];
-			if(min[1] > point[1]) min[1] = point[1];
-			if(max[0] < point[0]) max[0] = point[0];
-			if(max[1] < point[1]) max[1] = point[1];
+			if(minX > point[0]) minX = point[0];
+			if(minY > point[1]) minY = point[1];
+			if(maxX < point[0]) maxX = point[0];
+			if(maxY < point[1]) maxY = point[1];
 		}
 		
-		if ((s2.getLeftX() > min[0] ? s2.getLeftX() : min[0]) > (s2.getRightX() > max[0] ? s2.getRightX() : max[0]) ||
-			(s2.getTopY() > min[1] ? s2.getTopY() : min[1]) > (s2.getBottomY() > max[1] ? s2.getBottomY() : max[1]))
+		if ((minX < 0 ? 0 : minX) > (w < maxX ? w : maxX) ||
+			(minY < 0 ? 0 : minY) > (h < maxY ? h : maxY))
 			return false;
 		
 		return true;
