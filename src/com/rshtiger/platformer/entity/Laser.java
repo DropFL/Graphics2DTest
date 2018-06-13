@@ -29,9 +29,11 @@ public class Laser extends PlayerInteractive{
 
     @Override
     public void render(Graphics2D g){
-        AffineTransform t = new AffineTransform();
-        t.translate(x - 2*width , y);
-        t.rotate(Math.toRadians(rotation));
-        g.drawImage(image, t, null);
+        double sin = Math.sin(Math.toRadians(rotation)), cos = Math.cos(Math.toRadians(rotation));
+        x -= width * 2 * cos;
+        y -= width * 2 * sin;
+        super.render(g);
+        x += width * 2 * cos;
+        y += width * 2 * sin;
     }
 }
