@@ -42,7 +42,15 @@ public enum ImageResource {
 	FIREBALL("fireball.gif"),
 	HPBAR("hpbar.png"),
 	HP("hp.png"),
-	LASER_R("laser_red.png");
+	LASER_R("laser_red.png"),
+	
+	// Other game effects
+	GIGGLE_1("giggle_1.png"),
+	GIGGLE_2("giggle_2.png"),
+	GIGGLE_3("giggle_3.png"),
+	GIGGLE_4("giggle_4.png"),
+	LIGHT_OFF("LightOff.png");
+	
 	private ImageIcon imageIcon;
 	
 	ImageResource (String name) {
@@ -59,5 +67,8 @@ public enum ImageResource {
 	}
 	public ImageIcon getImageIcon (int width, int height) {
 		return new ImageIcon(imageIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+	}
+	public ImageIcon getImageIcon (int width, int height, int hint) {
+		return new ImageIcon(imageIcon.getImage().getScaledInstance(width, height, hint));
 	}
 }

@@ -15,11 +15,9 @@ public final class Player extends Entity {
 	private double speedY;
 	private int hp;
 	private int size;
+	private int hitDelay = 0;
 	
 	private Image shieldImage;
-	private Image hpBar;
-	private Image hpb;
-	private Image shieldIco;
 	private int shieldCount;
 	private int shieldTime;
 	private boolean isShieldOn;
@@ -46,21 +44,6 @@ public final class Player extends Entity {
 						.getScaledInstance((int)(size * 1.6), (int)(size * 1.6), Image.SCALE_FAST);
 		isShieldOn = false;
 		shieldCount = 3;
-
-		hpBar= ImageResource.HPBAR
-				.getImageIcon()
-				.getImage()
-				.getScaledInstance(30, 404, Image.SCALE_FAST);
-
-
-		hpb = ImageResource.HP
-				.getImageIcon()
-				.getImage()
-				.getScaledInstance(26, 4 * hp, Image.SCALE_FAST);
-		shieldIco = ImageResource.SHIELDICO
-				.getImageIcon()
-				.getImage()
-				.getScaledInstance(30, 30 , Image.SCALE_FAST);
 	}
 	
 	public Player () {
@@ -79,6 +62,12 @@ public final class Player extends Entity {
 	}
 	public int		getJumped () {
 		return jumped;
+	}
+	public int		getHitDelay () {
+		return hitDelay;
+	}
+	public int		getShieldCount () {
+		return shieldCount;
 	}
 	public double	getSpeedX () {
 		return speedX;
@@ -107,6 +96,9 @@ public final class Player extends Entity {
 	public void		setShieldTime (int t) {
 		shieldTime = t;
 	}
+	public void		setHitDelay (int delay) {
+		this.hitDelay = delay;
+	}
 	
 	// Adders
 	public void		addX (double deltaX) {
@@ -116,18 +108,19 @@ public final class Player extends Entity {
 		y += deltaY;
 	}
 	public void		addHp (int deltaHp) {
+		if(hitDelay > 0) return;
+		
+		hitDelay = 60;
+		
 		if (isShieldOn && deltaHp < 0) {
 			isShieldOn = false;
 			return;
 		}
+		
 		hp += deltaHp;
-		hp += 10;
-		hpb = ImageResource.HP
-				.getImageIcon()
-				.getImage()
-				.getScaledInstance(26, 4 * hp + 1, Image.SCALE_FAST);
+//		hp += 10;
 
-		if (hp < 0) hp = 0; // this.die();
+		if (hp < 0) hp = 0;
 		else if (hp > MAX_HP) hp = MAX_HP;
 	}
 	public void		addSpeedX (double deltaSpeedX) {
@@ -153,24 +146,16 @@ public final class Player extends Entity {
 	@Override
 	public void render (Graphics2D g) {
 		super.render(g);
-		AffineTransform hb = new AffineTransform();
-		hb.translate(1235, 200);
-		g.drawImage(hpBar, hb,null);
-
-		if(hp > 0) {
-            AffineTransform h = new AffineTransform();
-            h.translate(1237, 202 + 4 * (100 - hp));
-            g.drawImage(hpb, h, null);
-        }
-		for(int i = 0; i < shieldCount; i++){
-			AffineTransform sd = new AffineTransform();
-			sd.translate(10 + 30 * i, 10);
-			g.drawImage(shieldIco, sd,null);
-		}
+		
 		if (isShieldOn) {
 			AffineTransform t = new AffineTransform();
 			t.translate(x - width / 4, y - height / 4);
 			g.drawImage(shieldImage, t, null);
+		}
+		if(hitDelay > 0) {
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, hitDelay / 120f));
+			g.drawImage(ImageResource.HIT.getImageIcon().getImage(), 0, 0, null);
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 		}
 	}
 

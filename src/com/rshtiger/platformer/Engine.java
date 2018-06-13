@@ -61,7 +61,11 @@ public final class Engine implements IDrawable {
 	public boolean isInputAvailable () {
 		return inputAvailable;
 	}
-    public int getplayerHP() { return player.getHp(); }
+    public int getPlayerHp () { return player.getHp(); }
+    public int getPlayerSheilds () {
+		return player.getShieldCount();
+	}
+	
 	public ArrayList<Block> getBlocks () {
 		return blocks;
 	}
@@ -87,6 +91,9 @@ public final class Engine implements IDrawable {
 		player.addX(speed * player.getSpeedX());
 		player.addY(speed * player.getSpeedY());
 		player.addSpeedY(speed * gravity);
+		
+		if (player.getHitDelay() > 0)
+			player.setHitDelay(player.getHitDelay() - 1);
 
 		for (PlayerInteractive e : blocks) {
 			if (e.isCollided(player))

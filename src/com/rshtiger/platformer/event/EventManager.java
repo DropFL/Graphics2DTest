@@ -1,9 +1,7 @@
 package com.rshtiger.platformer.event;
 
-import com.dropfl.effect.ImageOverlayEffect;
-import com.dropfl.effect.ScaleEffect;
-import com.dropfl.effect.ScreenEffectIterator;
-import com.dropfl.effect.TextOverlayEffect;
+import com.dropfl.Main;
+import com.dropfl.effect.*;
 import com.rshtiger.platformer.Engine;
 import com.rshtiger.platformer.entity.*;
 import res.FontResource;
@@ -11,13 +9,16 @@ import res.ImageResource;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class EventManager {
 
 	private ArrayList<TickEvent> events;
 	private ArrayList<TickEvent> active;
 	private ArrayList<TickEvent> remove;
-
+	
+	private static final int offset = 3;
+	
 	public EventManager (Engine engine, ScreenEffectIterator effects) {
 		double beat = 2;
 		final Ghost ghost = new Ghost(300, 600, 32, 32);
@@ -25,6 +26,7 @@ public class EventManager {
 		events = new ArrayList<>();
 		active = new ArrayList<>();
 		remove = new ArrayList<>();
+		
 		// Block initialize
 		addEvent(new BlockEvent(0, Integer.MAX_VALUE,
 				(Integer integer) -> {return null;}, engine.getBlocks(), new Block(-1, 0, 1, 719)));
@@ -602,19 +604,298 @@ public class EventManager {
 				return res;
 			}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
 		}
-		// BEHIND...
-		addEvent(new SpeedEvent(508, 54, (Integer integer) -> {
-			Double[] res = {0.1};
+		
+		// BEGINNING
+		addEvent(new ScreenEffectEvent(getTickByBeat(4), 30, (Integer integer) -> {
+			Double[] res = {0., 0., 0., (30 - integer) / 30.};
 			return res;
-		}, engine));
-		addEvent(new ScreenEffectEvent(499, 54, (Integer integer) -> {
-			Double[] res = {0., 720., (double)((54 - integer) * 128 / 54)};
+		}, effects,
+				new ImageOverlayEffect(0, 0, 0, ImageResource.HIT.getImageIcon().getImage(), 1), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(4), 1796, (Integer integer) -> {
+			double scale = (integer < 1682) ? (1 + integer / 16820.) : 1.1;
+			Double[] res = {scale, scale, (integer < 895) ? 0. : (integer >= 1682) ? 3. : ((integer - 895.) / 788 * 3),
+					(engine.getPlayerLeftX() + engine.getPlayerRightX()) / 2,
+					(engine.getPlayerTopY() + engine.getPlayerBottomY()) / 2};
+			return res;
+		}, effects, new ScaleRotateEffect(1, 1, 0), ScreenEffectIterator.AT_LAST));
+		
+		
+		// BEHIND...
+		addEvent(new ScreenEffectEvent(getTickByBeat(18), 54, (Integer integer) -> {
+			Double[] res = {0., 480., (double)(((54 - integer) * 96 / 54) << 24)};
 			return res;
 		}, effects,
 				new TextOverlayEffect(0, 0, "BEHIND",
-						FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 108), Color.BLACK),
-				ScreenEffectIterator.AT_FIRST));
+						FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 300), Color.WHITE),
+				ScreenEffectIterator.AT_LAST));
+		
+		// MIND...
+		addEvent(new ScreenEffectEvent(getTickByBeat(34), 54, (Integer integer) -> {
+			Double[] res = {220., 480., (double)(((54 - integer) * 96 / 54) << 24)};
+			return res;
+		}, effects,
+				new TextOverlayEffect(0, 0, "MIND",
+						FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 300), Color.WHITE),
+				ScreenEffectIterator.AT_LAST));
+		
+		// GO...
+		addEvent(new ScreenEffectEvent(getTickByBeat(50), 54, (Integer integer) -> {
+			Double[] res = {400., 480., (double)(((54 - integer) * 96 / 54) << 24)};
+			return res;
+		}, effects,
+				new TextOverlayEffect(0, 0, "GO",
+						FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 300), Color.WHITE),
+				ScreenEffectIterator.AT_LAST));
+		
+		// KNOW...
+		addEvent(new ScreenEffectEvent(getTickByBeat(64), 108, (Integer integer) -> {
+			Double[] res = {1.05 - 0.05 * Math.sin(integer * Math.PI / 216)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new SpeedEvent(getTickByBeat(64), 116, (Integer integer) -> {
+			Double[] res = {(integer > 81) ? 0. : (1 - Math.cos((81. - integer) * Math.PI / 162)) / 2};
+			return res;
+		}, engine));
+		addEvent(new ScreenEffectEvent(getTickByBeat(68) - 24, 24, (Integer integer) -> {
+			Double[] res = {(1 - Math.cos(integer * Math.PI / 48)) * 50};
+			return res;
+		}, effects, new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(68), 24, (Integer integer) -> {
+			Double[] res = {1.05 - 0.05 * Math.sin(integer * Math.PI / 48)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		// DOOM...
+		addEvent(new ScreenEffectEvent(getTickByBeat(100), 108, (Integer integer) -> {
+			Double[] res = {1.05 - 0.05 * Math.sin(integer * Math.PI / 216)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		
+		
+		// DU DU DU DU DU!
+		addEvent(new ScreenEffectEvent(getTickByBeat(116), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(116.25), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(116.5), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(116.75), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(117), 12, (Integer integer) -> {
+			Double[] res = {1.05 - 0.05 * Math.sin(integer * Math.PI / 24)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(117.5), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(117.75), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(118), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(118.25), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(118.5), 12, (Integer integer) -> {
+			Double[] res = {1.05 - 0.05 * Math.sin(integer * Math.PI / 24)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(120), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(120.25), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(120.5), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(120.75), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(121), 12, (Integer integer) -> {
+			Double[] res = {1.05 - 0.05 * Math.sin(integer * Math.PI / 24)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(121.5), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(121.75), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(122), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(122.25), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(122.5), 12, (Integer integer) -> {
+			Double[] res = {1.05 - 0.05 * Math.sin(integer * Math.PI / 24)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(124), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(124.25), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(124.5), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(124.75), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(125), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(125.25), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(125.5), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(125.75), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(126), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(126.25), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(126.5), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(126.75), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(127), 28, (Integer integer) -> {
+			Double[] res = {integer * 2.};
+			return res;
+		}, effects, new JitterEffect(0, 0, Main.SCREEN_HEIGHT, JitterEffect.HORIZONTAL), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(127), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_FIRST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(127.25), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_FIRST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(127.5), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_FIRST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(127.75), 6, (Integer integer) -> {
+			Double[] res = {1.02 - 0.02 * Math.sin(integer * Math.PI / 12)};
+			return res;
+		}, effects, new ScaleEffect(1, 1), ScreenEffectIterator.AT_FIRST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(128), getTickByBeat(132) - getTickByBeat(128), (Integer integer) -> {
+			Double[] res = {0., 0., 0., 0.5};
+			return res;
+		},
+				effects, new ImageOverlayEffect(0, 0, ImageResource.LIGHT_OFF.getImageIcon(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT).getImage()), ScreenEffectIterator.AT_FIRST));
+		addEvent(new SpeedEvent(getTickByBeat(128), getTickByBeat(132) - getTickByBeat(128), (Integer integer) -> {
+			Double[] res = {0.};
+			return res;
+		}, engine));
+		addEvent(new InputEvent(getTickByBeat(128), getTickByBeat(132) - getTickByBeat(128), (Integer integer) -> {
+			Double[] res = {0.};
+			return res;
+		}, engine));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(128.5), getTickByBeat(132) - getTickByBeat(128.5), (Integer integer) -> {
+			Double[] res = {400., 320., (double)0xFFFFFFFF};
+			return res;
+		},
+				effects, new TextOverlayEffect(0, 0, "I", FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 200), Color.white), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(129), getTickByBeat(132) - getTickByBeat(129), (Integer integer) -> {
+			Double[] res = {520., 320., (double)0xFFFFFFFF};
+			return res;
+		},
+				effects, new TextOverlayEffect(0, 0, "AM", FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 200), Color.white), ScreenEffectIterator.AT_LAST));
+		addEvent(new ScreenEffectEvent(getTickByBeat(129.5), getTickByBeat(132) - getTickByBeat(129.5), (Integer integer) -> {
+			Double[] res = {410., 520., (double)0xFFFF0000};
+			return res;
+		},
+				effects, new TextOverlayEffect(0, 0, "YOU", FontResource.BLACK_HAN_SANS.getFont(Font.PLAIN, 200), Color.white), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(131), 3, (Integer integer) -> {
+			Double[] res = {0., 0., 0., 0.7};
+			return res;
+		},
+				effects, new ImageOverlayEffect(0, 0, ImageResource.GIGGLE_1.getImageIcon().getImage()), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(131.2), 3, (Integer integer) -> {
+			Double[] res = {0., 0., 0., 0.7};
+			return res;
+		},
+				effects, new ImageOverlayEffect(0, 0, ImageResource.GIGGLE_2.getImageIcon().getImage()), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(131.4), 3, (Integer integer) -> {
+			Double[] res = {0., 0., 0., 0.7};
+			return res;
+		},
+				effects, new ImageOverlayEffect(0, 0, ImageResource.GIGGLE_3.getImageIcon().getImage()), ScreenEffectIterator.AT_LAST));
+		
+		addEvent(new ScreenEffectEvent(getTickByBeat(131.6), 3, (Integer integer) -> {
+			Double[] res = {0., 0., 0., 0.7};
+			return res;
+		},
+				effects, new ImageOverlayEffect(0, 0, ImageResource.GIGGLE_4.getImageIcon().getImage()), ScreenEffectIterator.AT_LAST));
+		
+		
+		// end of events, now sort by time (since)
+		events.sort(new Comparator<TickEvent>() {
+			@Override
+			public int compare (TickEvent o1, TickEvent o2) {
+				return o1.getSince() - o2.getSince();
+			}
+		});
 	}
+	
 	public void update (int ticks) {
 		while (!events.isEmpty() && events.get(0).getSince() <= ticks) {
 			TickEvent event = events.remove(0);
@@ -678,8 +959,8 @@ public class EventManager {
 			}
 		}, engine.getEntities(), new Bullet(-100, -100, 50, 100)));
 	}
-
-	private int getTickByBeat (double beat){
-		return (int)(3600 * beat / 128);
+	
+	private int getTickByBeat (double beat) {
+		return (int)(3600 * beat / 128) + offset;
 	}
 }

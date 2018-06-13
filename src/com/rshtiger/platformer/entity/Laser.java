@@ -4,7 +4,6 @@ import com.rshtiger.platformer.collision.OBBCollider;
 import res.ImageResource;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 public class Laser extends PlayerInteractive{
     private boolean used = true;
@@ -20,20 +19,19 @@ public class Laser extends PlayerInteractive{
     @Override
     public boolean interact(Player player) {
         if(used) {
-            System.out.println("Laser!!!!!!!");
             player.addHp(-10);
             used = false;
         }
         return false;
     }
-
+    
     @Override
-    public void render(Graphics2D g){
-        double sin = Math.sin(Math.toRadians(rotation)), cos = Math.cos(Math.toRadians(rotation));
-        x -= width * 2 * cos;
-        y -= width * 2 * sin;
+    public void render (Graphics2D g) {
+    	double sin = Math.sin(Math.toRadians(rotation)), cos = Math.cos(Math.toRadians(rotation));
+		x -= width * 2 * cos;
+		y -= width * 2 * sin;
         super.render(g);
         x += width * 2 * cos;
-        y += width * 2 * sin;
+		y += width * 2 * sin;
     }
 }

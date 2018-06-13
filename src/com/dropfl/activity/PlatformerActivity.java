@@ -14,11 +14,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.image.VolatileImage;
 
 public class PlatformerActivity extends Activity {
 	
 	private Image bgImage;
+	private Image hpBar;
+	private Image shieldIco;
 	
 	private Engine engine;
 	private AdvancedMusicPlayer bgm;
@@ -27,7 +30,6 @@ public class PlatformerActivity extends Activity {
 	
 	private ImageOverlayEffect pauseEffect;
 	private ImageOverlayEffect gameoverEffect;
-	private ScaleRotateEffect scaleRotateEffect;
 	
 	private JButton resume;
 	private JButton restart;
@@ -52,6 +54,15 @@ public class PlatformerActivity extends Activity {
 		resume = new JButton(ImageResource.RESUME_BUTTON.getImageIcon(160, 160));
 		restart = new JButton(ImageResource.RESTART_BUTTON.getImageIcon(160, 160));
 		stop = new JButton(ImageResource.STOP_BUTTON.getImageIcon(160, 160));
+		
+		hpBar = ImageResource.HPBAR
+				.getImageIcon()
+				.getImage()
+				.getScaledInstance(26, 400, Image.SCALE_FAST);
+		shieldIco = ImageResource.SHIELDICO
+				.getImageIcon()
+				.getImage()
+				.getScaledInstance(30, 30 , Image.SCALE_FAST);
 
 		resumeAdapter = new MouseAdapter() {
 			@Override
@@ -120,7 +131,7 @@ public class PlatformerActivity extends Activity {
 			else pauseGame();
 		}
 
-		if(engine.getplayerHP() <= 0){
+		if(engine.getPlayerHp() <= 0){
 			gameover();
 		}
 
@@ -140,12 +151,25 @@ public class PlatformerActivity extends Activity {
 		graphics.fillRect(0, 0, Main.SCREEN_WIDTH * bgm.getTime() / bgm.getLength(), 3);
 		graphics.setColor(Color.BLACK);
 		graphics.fillRect(0, 3, Main.SCREEN_WIDTH * bgm.getTime() / bgm.getLength(), 1);
-		
-		graphics.dispose();
 
 		effects.apply(image);
+		
+		AffineTransform hb = new AffineTransform();
+		hb.translate(1235, 200);
+		
+		graphics.drawImage(ImageResource.HP.getImageIcon().getImage(), 1237, 199 + 4 * (100 - engine.getPlayerHp()), 24, engine.getPlayerHp() * 4 + 1, null);
+		graphics.drawImage(hpBar, hb,null);
+		
+		for(int i = 0; i < engine.getPlayerSheilds(); i++){
+			AffineTransform sd = new AffineTransform();
+			sd.translate(10 + 30 * i, 10);
+			graphics.drawImage(shieldIco, sd,null);
+		}
+		
 		pauseEffect.apply(image);
 		gameoverEffect.apply(image);
+		
+		graphics.dispose();
 		
 		return image;
 	}
