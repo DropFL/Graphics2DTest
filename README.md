@@ -1,4 +1,4 @@
-Graphics2DTest (가명) 프로젝트 구조
+The Trioz 프로젝트 구조
 =================================
 # 1. 패키지 분류
 
@@ -29,7 +29,7 @@ Graphics2DTest (가명) 프로젝트 구조
 * `com.rshtiger.platformer` : 게임의 플랫포머 엔진에 관련된 소스들이 있는 패키지.
     - `com.rshtiger.platformer.collision` : 플랫포머 엔진 내 충돌과 관련된 소스들이 있는 패키지.
     - `com.rshtiger.platformer.entity` : 플랫포머 엔진에 있는 엔티티들이 정의된 패키지.
-
+    - `com.rshtiger.platformet.event` : 시간에 따라 발생하는 게임 내 이벤트가 정의된 패키지. 
 ***
 # 2. 핵심 객체
 프로그램의 구조를 이해하는 데에 필요한 객체들은 다음과 같다.
@@ -54,7 +54,7 @@ Graphics2DTest (가명) 프로젝트 구조
 
 	boolean isCollided (com.rshtiger.platformer.collision.Shape, com.rshtiger.platformer.collision.Shape);
 
-현재 고려하고 있는 충돌판정 알고리즘은 사각형-원 충돌 알고리즘, AABB, OBB로 크게 3가지가 있으며, 각각이 구현된 `SquaretoCircleCollider`, `AABBCollider`, `OBBCollider`를 만들 예정이다. (`AABBCollider`는 이미 완성됨.)
+현재 고려하고 있는 충돌판정 알고리즘은 사각형-원 충돌 알고리즘, AABB, OBB로 크게 3가지가 있으며, 각각이 구현된 `SquaretoCircleCollider`, `AABBCollider`, `OBBCollider`가 정의되어있다.
 
 ## 2.5 Entity, PlayerInteractive
 `Entity`는 말 그대로 엔티티로, `ImageComponent`를 상속하며 `Shape`를 구현한 추상 클래스이다. `Shape`에 정의된 메서드들의 구현이 담겨있으며, `Player`가 이를 상속한다. `PlayerInteractive`는 `Player`와 상호작용할 수 있는 엔티티로, `Entity`를 상속하며 다음의 두 메서드가 추가로 정의되어 있다.
@@ -73,6 +73,19 @@ Graphics2DTest (가명) 프로젝트 구조
 	void setKeyProcessed (com.rshtiger.key.Key);
 멀티쓰레딩 환경에서는 다소 위험성이 있는 방식이지만, 이 프로젝트에서는 최대 1개의 객체가 키 입력에 반응하기 때문에 큰 무리가 없다고 판단하였다.
 
+- `KeyListener`를 통한 구현에서 문제가 발생하여 `KeyBinding`으로 구현 방식을 바꾸었다. 사용 방법은 이전과 동일하다.
+
+## 2.7 TickEvent
+`TickEvent`는 게임 내 시간 단위인 `tick`에 따라 발생하는 게임 내 이벤트를 대표하는 클래스이다. `TickEvent`는 언제부터 (`since`) 얼마동안 (`duration`) 어떻게 (`formula`) 제어할 것인지 정의되어야 한다.
+
+`formula`는 `Integer -> Double[]`의 함수 (`Function<Integer, Double[]>`) 로 정의된다. 인자로 들어가는 `Integer`는 `since`로부터 흘러간 시간이며, `Double[]`은 해당 이벤트가 제어하는 대상에 대한 속성이 정의되어야 한다. 가령, `SpeedEvent`는 `Engine` 내에 있는 `speed` 변수로 설정할 값을 리턴한다.
+
+`formula`가 `Function` 인터페이스이기에 선언할 때 다소 번거롭지만, 매우 높은 자유도를 통해 더욱 다양한 형태로 제어할 수 있다. 추가적으로 `Formula`라는 추상클래스를 만들어 인터페이스가 갖는 한계를 해소할 수 있다.
+
+## 2.8 EventManager
+`EventManager`는 게임에 사용될 모든 `TickEvent`의 목록이 정의되고 그것을 제어하는 클래스이다. 현재는 `TickEvent`가 이 안에 하드코딩되어 있으나, 파일로 입력을 받게 되면 초기화할 때의 과부하 문제와 경직성을 해결할 수 있다.
+
+
 ***
 # 3. 프로그램 구조
 `Main`에서 `KeyStatus`를 초기화하고 `GameFrame` 인스턴스를 생성하여 이를 `KeyStatus`에 등록한다. `GameFrame`은 `JFrame`을 상속하는 클래스로 실제로는 여기의 `paint` 메서드를 통해 렌더링이 일어난다. 이 때 사용하는 Double Buffering 기법에서 첫번째 렌더링을 `Activity` 에게 온전히 위임하고 두번째 렌더링으로써 실제 화면에 표시하는 작업을 수행한다.
@@ -82,14 +95,15 @@ Graphics2DTest (가명) 프로젝트 구조
 2. 실제 게임 플레이 화면 렌더링 (`Engine`에게 위임)
 3. 게임 플레이 화면보다 **앞에** 와야하는 요소들의 렌더링 (게임 내 이펙트 포함, 현재는 해당 요소가 없음)
 
-`Engine`에서도 `Player` 객체와 `PlayerInteractive` 객체들을 대상으로 `render`를 호출하는 방식으로 렌더링을 수행한다. `Engine`은 `Thread`를 상속하여 자체적인 `tick()` 함수를 통해 한 프레임씩 게임을 진행시킨다. `PlatformerActivity`에서는 `Engine.start()`를 호출해주면 된다.
+`Engine`에서도 `Player` 객체와 `PlayerInteractive` 객체들을 대상으로 `render`를 호출하는 방식으로 렌더링을 수행한다. `Engine`은 자체적인 `tick()` 함수를 통해 한 프레임씩 게임을 진행시킨다. `MusicPlayer`의 진행과 `Engine`, `EventManager` 등의 동기화는 `Synchronizer`를 통해 이루어진다.
 
 ## 3.1 TODO
-1. 시간의 흐름에 따른 엔티티들의 이동을 어떤 방식으로 해야할지 정해야 한다. 현재 가장 유력한 것은 `ScriptEngineManager`으로 JS엔진을 불러와 무자열로 된 수식을 계산하는 것이다.
-2. 메인 UI와 더불어 `Activity` 간의 전환을 구현해야 한다. 현재 `Activity.syncState(src, dst)`의 형태를 고안했다.
-3. 패턴을 만들어야한다. (매우 중요)
+1. 하드코딩된 `TickEvent`들을 파일로 옮겨야한다.
+2. `OptionActivity`, `SongSelectActivity` 등을 구현해야 한다.
 
 ## 3.2 TODO COMPLETION
 1. 화면 전체에 걸친 효과 : `ScreenEffect.apply(VolatileImage)`를 통해 구현하였다.
 2. fps 문제 : 하드웨어 가속을 구현하였다.
 3. `Engine`과 `MusicPlayer`의 동기화 : `Synchronizer`를 통해 동기화를 구현하였다.
+4. 시간의 흐름에 따른 게임의 진행, 패턴 입력 : `TickEvent`로 구현하였다.
+5. `Activity` 간 전환 : `Activity.syncState(target)`으로 고안하였으나, 베타버전 기준으로는 사용되지 않고 있다.
